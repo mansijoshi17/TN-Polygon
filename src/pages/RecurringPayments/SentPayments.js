@@ -21,10 +21,9 @@ import Iconify from "src/components/Iconify";
 
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import Page from "../components/Page";
-import CreateCustomerModal from "src/modal/CreateCustomer";
-
-import { firebaseDataContext } from "src/context/FirebaseDataContext";
+import Page from "../../components/Page";
+import CreateRecurringPayments from "src/modal/CreateRecurringPayments";
+import { collection, addDoc, getDocs, db } from "../../firebase";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,7 +64,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
   },
 }));
 
-function Customers() {
+function SentPayments() {
   const [status, setStatus] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -73,13 +72,6 @@ function Customers() {
   const [value, setValue] = React.useState(0);
 
   const [isUpdated, setIsUpdated] = useState(false);
-
-  const firebaseContext = React.useContext(firebaseDataContext);
-  const { getCustomers, customers } = firebaseContext;
-
-  useEffect(async () => {
-    getCustomers();
-  }, [isUpdated, customers]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -95,7 +87,7 @@ function Customers() {
 
   return (
     <Page title="Customer |  TrustifiedNetwork">
-      <CreateCustomerModal
+      <CreateRecurringPayments
         open={handleClickOpen}
         close={handleClose}
         op={open}
@@ -110,7 +102,7 @@ function Customers() {
           mb={2}
         >
           <Typography variant="h4" gutterBottom>
-            Customers
+            Payments
           </Typography>
           <Button
             variant="contained"
@@ -118,7 +110,7 @@ function Customers() {
             to="#"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            Create Customer
+            Create Recurring Payments
           </Button>
         </Stack>
         <Stack>
@@ -127,34 +119,20 @@ function Customers() {
               <Table aria-label="collapsible table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Wallet Address</TableCell>
-                    <TableCell>Email</TableCell>
+                    <TableCell>Customer</TableCell>
+                    <TableCell>Amount</TableCell>
+                    <TableCell>Payment Method</TableCell>
+                    <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {isLoaded && (
                     <TableRow>
-                      <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                      <TableCell colSpan={4} sx={{ textAlign: "center" }}>
                         <CircularProgress />
                       </TableCell>
                     </TableRow>
                   )}
-                  {customers && customers.length == 0 && (
-                    <TableRow>
-                      <TableCell colSpan={6} sx={{ textAlign: "center" }}>
-                        <h5>No customers are added yet!</h5>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {customers &&
-                    customers.map((customer) => (
-                      <TableRow>
-                        <TableCell>{customer.name}</TableCell>
-                        <TableCell>{customer.address}</TableCell>
-                        <TableCell>{customer.email}</TableCell>
-                      </TableRow>
-                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -165,4 +143,4 @@ function Customers() {
   );
 }
 
-export default Customers;
+export default SentPayments;

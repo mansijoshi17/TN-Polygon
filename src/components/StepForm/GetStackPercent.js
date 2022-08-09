@@ -1,10 +1,10 @@
 import { Box, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react'
 import { toast } from 'react-toastify';
-import { AgreementContext } from 'src/context/AgreementContext';
+import { MoneyStreamingContext } from 'src/context/CreateMoneyStreamContext';
 
 function GetStackPercent(props) {
-    const value = useContext(AgreementContext);
+    const value = useContext(MoneyStreamingContext);
     const formdata = value.labelInfo.formData;
     const [creator, setCreator] = useState("buyer");
     const [buyer, setBuyer] = useState("");

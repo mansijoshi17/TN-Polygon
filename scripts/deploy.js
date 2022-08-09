@@ -4,11 +4,11 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
 
-  const AgreementContract = await hre.ethers.getContractFactory("AgreementContract");
-  const agree = await AgreementContract.deploy();
+  const StreamFactoryContract = await hre.ethers.getContractFactory("StreamFactory");
+  const stream = await StreamFactoryContract.deploy();
 
-  await agree.deployed();
-  console.log("Contract address is: ", agree.address); 
+  await stream.deployed();
+  console.log("Stream Factory Contract address is: ", stream.address); 
 }
 
 main().catch((error) => {

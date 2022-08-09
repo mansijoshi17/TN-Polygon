@@ -15,12 +15,12 @@ const sidebarConfig = [
   //   title: "Crypto Payment",
   //   path: "/dashboard/send-request",
   //   icon: getIcon("fluent:wallet-credit-card-24-filled"),
-  // }, 
+  // },
   // {
   //   title: "product & Services",
   //   path: "/dashboard/products",
   //   icon: getIcon("eva:shopping-bag-fill"),
-  // }, 
+  // },
   {
     title: "Customers",
     path: "/dashboard/customers",
@@ -31,11 +31,23 @@ const sidebarConfig = [
     path: "/dashboard/invoice",
     icon: getIcon("uil:invoice"),
   },
+  {
+    title: "Recurring Payments",
+    path: "/dashboard/payments",
+    icon: getIcon("fluent:wallet-credit-card-24-filled"),
+    children: [
+      {
+        title: "Sent Payments",
+        path: "/dashboard/payments/sent",
+        icon: getIcon("uil:send"),
+      },
+    ],
+  },
   // {
   //   title: "Messages",
   //   path: "/dashboard/chat",
   //   icon: getIcon("ph:chat-text-fill"),
-  // }, 
+  // },
   // {
   //   title: "Analytics",
   //   path: "/dashboard/app",
@@ -45,7 +57,7 @@ const sidebarConfig = [
   //   title: "Product Integration",
   //   path: "/dashboard/product-integration",
   //   icon: getIcon("eva:shopping-bag-fill"),
-  // },  
-]; 
+  // },
+];
 
 export default sidebarConfig;

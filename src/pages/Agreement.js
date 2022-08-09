@@ -139,7 +139,7 @@ function Agreement() {
           >
             Create Agreement
           </Button> */}
-          <HorizontalLinearStepper/>
+          {/* <HorizontalLinearStepper/> */}
         </Stack> 
 
         <Stack sx={{ marginTop: '30px' }}>

@@ -8,11 +8,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Dialog, DialogContent } from '@mui/material';
 import GetChain from 'src/components/StepForm/GetChain';
-import GetAgreementDetails from 'src/components/StepForm/GetAgreementDetails';
+// import GetAgreementDetails from 'src/components/StepForm/GetPaymentDetails';
 import GetStackPercent from 'src/components/StepForm/GetStackPercent';
 import { AgreementAvaxAddress, AgreementBscAddress, AgreementMumbaiAddress, AgreementRopestenAddress } from 'src/contracts/contract';
 import { AgreementAddress } from 'src/contracts/config';
-import { AgreementContext } from 'src/context/AgreementContext';
+import { MoneyStreamingContext } from 'src/context/CreateMoneyStreamContext';
 
 const steps = ['Select Chain', 'Escrow Details', 'Create Agreement'];
  
@@ -21,7 +21,7 @@ export default function HorizontalLinearStepper() {
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set()); 
 
-    const formdatavalue = React.useContext(AgreementContext);
+    const formdatavalue = React.useContext(MoneyStreamingContext);
     const formdata = formdatavalue.labelInfo.formData; 
     const btnDisbaled =
     formdata.title.length > 0 &&
@@ -107,11 +107,11 @@ export default function HorizontalLinearStepper() {
                                 <GetChain />
                             )
                         }
-                        {
+                        {/* {
                             activeStep === 1 && (
                                 <GetAgreementDetails />
                             )
-                        }
+                        } */}
                         {
                             activeStep === 2 && (
                                 <GetStackPercent />
