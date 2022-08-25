@@ -51,7 +51,7 @@ function GetPaymentDetails() {
               })}
           </Select>
         </FormControl>
-        <Grid container>
+        {/* <Grid container>
           <Grid item md={6} xs={6}>
             <label style={{ color: "grey" }}>Start Date :</label>
 
@@ -83,7 +83,7 @@ function GetPaymentDetails() {
               onChange={value.setFormdata("edate")}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Stack>
     </div>
   );

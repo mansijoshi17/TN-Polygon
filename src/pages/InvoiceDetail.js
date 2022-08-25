@@ -15,9 +15,13 @@ import pic from "./invoice.png";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
+import { toast } from "react-toastify";
+
 import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
 import { useMoralisCloudFunction } from "react-moralis";
+
+import { collection, addDoc, getDocs, db, updateDoc, doc } from "../firebase";
 
 // import PDFButton from "./PDFButton";
 
@@ -27,31 +31,31 @@ export default function InvoiceDetail() {
   let docToPrint = React.createRef();
   const [gst, setGst] = useState(0);
   const [invoice, setInvoice] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const { fetch, data, error, isLoading } = useMoralisCloudFunction(
-    "getInvoices",
-    { autoFetch: true }
-  );
-  useEffect(() => {
-    setInvoiceDetails();
-  }, [data]);
+  useEffect(async () => {
+    const invoices = collection(db, "invoices");
+    const invoiceSnapshot = await getDocs(invoices);
+    invoiceSnapshot.docs.map((doc) => {
+      if (doc.id == params.id) {
+        setInvoice(doc.data());
+      }
+    });
+  }, [params.id]);
 
-  useEffect(() => {
-    fetch();
-  }, []);
+  async function updateInvoice() {
+    const invoiceRef = doc(db, "invoices", params.id.toString());
 
-  async function setInvoiceDetails() {
-    const invoices = await JSON.parse(JSON.stringify(data));
-    const invoice =
-      data && invoices.filter((inv) => inv.objectId == params?.id);
-    invoice && setInvoice(invoice[0]);
+    await updateDoc(invoiceRef, {
+      paid: true,
+    });
   }
 
   async function storeFiles() {
     const input = docToPrint.current;
     // const token = process.env.API_TOKEN;
     // const client = new Web3Storage({ token });
-
+    //
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
@@ -67,9 +71,10 @@ export default function InvoiceDetail() {
   }
 
   const handlePayNow = async (invc) => {
+    setLoading(true);
     const amt = invc && invc.price * invc.quantity + gst;
 
-    const address = invc?.address;
+    const address = invc?.to;
     await Moralis.enableWeb3();
     const options = {
       type: "native",
@@ -78,6 +83,10 @@ export default function InvoiceDetail() {
       contractAddress: "0x0000000000000000000000000000000000001010",
     };
     let result = await Moralis.transfer(options);
+    if (result) {
+      updateInvoice();
+    }
+    setLoading(false);
     toast.success("Payment success!");
   };
 
@@ -107,11 +116,27 @@ export default function InvoiceDetail() {
                     <br />
                     Invoice by: {user?.attributes.username}
                   </div>
-                  <div className="col-sm-4"> Created: {invoice?.created}</div>
+                  {invoice && (
+                    <div className="col-sm-4">
+                      {" "}
+                      Created:{" "}
+                      {new Date(invoice?.created?.seconds * 1000).getDate() +
+                        "-" +
+                        parseInt(
+                          new Date(
+                            invoice?.created?.seconds * 1000
+                          ).getMonth() + 1
+                        ) +
+                        "-" +
+                        new Date(
+                          invoice?.created?.seconds * 1000
+                        ).getFullYear()}
+                    </div>
+                  )}
                 </div>
                 <div className="row">
                   <div className="col-sm-8"> </div>
-                  <div className="col-sm-4"> Due: {invoice?.dueDate} </div>
+                  <div className="col-sm-4"></div>
                 </div>
                 <div className="row"></div>
               </div>
@@ -126,7 +151,7 @@ export default function InvoiceDetail() {
                         {invoice?.name}
                         <br />
                         <strong>Wallet: </strong>
-                        {invoice?.address}
+                        {invoice?.to}
                       </address>
                     </div>
                   </div>
@@ -202,7 +227,26 @@ export default function InvoiceDetail() {
                 <div className="col-md-6 col-md-offset-3">
                   <div className="col-md-6">Client Signature :</div>
                 </div>
-                <div className="paynowLink">
+                {/* {user?.attributes.ethAddress == invoice?.to.toLowerCase() ? (
+                  <div className="paynowLink">
+                    <Button
+                      style={{
+                        color: "blue",
+                        fontSize: "0.875rem",
+                        float: "right",
+                        padding: "5px 15px",
+                        border: "blue 1px solid",
+                      }}
+                      onClick={() => handlePayNow(invoice)}
+                    >
+                      Pay Now
+                    </Button>
+                  </div>
+                ) : (
+                  ""
+                )} */}
+
+                {invoice?.paid ? (
                   <Button
                     style={{
                       color: "blue",
@@ -211,11 +255,29 @@ export default function InvoiceDetail() {
                       padding: "5px 15px",
                       border: "blue 1px solid",
                     }}
-                    onClick={() => handlePayNow(invoice)}
+                    disabled
                   >
-                    Pay Now
+                    Paid
                   </Button>
-                </div>
+                ) : user?.attributes.ethAddress == invoice?.to.toLowerCase() ? (
+                  <div className="paynowLink">
+                    <Button
+                      style={{
+                        color: "blue",
+                        fontSize: "0.875rem",
+                        float: "right",
+                        padding: "5px 15px",
+                        border: "blue 1px solid",
+                      }}
+                      onClick={() => handlePayNow(invoice)}
+                      disabled={loading}
+                    >
+                      {loading ? "Paying..." : "Pay Now"}
+                    </Button>
+                  </div>
+                ) : (
+                  ""
+                )}
 
                 <div className="downloadbtn" style={{ marginTop: "25px" }}>
                   <Button variant="outlined" onClick={() => storeFiles()}>

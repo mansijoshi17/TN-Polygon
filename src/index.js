@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { makeStore } from "./redux/store";
 import { Provider } from "react-redux";
 import { FirebaseDataContextProvider } from "./context/FirebaseDataContext";
+import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
@@ -33,17 +34,19 @@ ReactDOM.render(
         >
           <NotificationContextProvider>
             <MoneyStreamingContextProvider>
-              <Web3ModalContextProvider>
-                <Web3ContextProvider>
-                  <SuperfluidWeb3ContextProvider>
-                    <TransakWeb3ContextWeb3ContextProvider>
-                      <FirebaseDataContextProvider>
-                        <App />
-                      </FirebaseDataContextProvider>
-                    </TransakWeb3ContextWeb3ContextProvider>
-                  </SuperfluidWeb3ContextProvider>
-                </Web3ContextProvider>
-              </Web3ModalContextProvider>
+              <FirebaseDataContextProvider>
+                <InvoiceContextProvider>
+                  <Web3ModalContextProvider>
+                    <Web3ContextProvider>
+                      <SuperfluidWeb3ContextProvider>
+                        <TransakWeb3ContextWeb3ContextProvider>
+                          <App />
+                        </TransakWeb3ContextWeb3ContextProvider>
+                      </SuperfluidWeb3ContextProvider>
+                    </Web3ContextProvider>
+                  </Web3ModalContextProvider>
+                </InvoiceContextProvider>
+              </FirebaseDataContextProvider>
             </MoneyStreamingContextProvider>
           </NotificationContextProvider>
         </MoralisProvider>

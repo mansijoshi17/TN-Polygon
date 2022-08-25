@@ -1,7 +1,7 @@
 export const contracts = {
-  mumbai: "",
-  ropsten: "",
-  avalanche: "",
+  mumbai: "0x28e30e17FD7287b1e570365faD0D8571c78E29d5",
+  ropsten: "0x04AD9751d5A6399f398C30660112fb58D6B64b33",
+  avalanche: "0x7ef9dC2a27C9e4F491037161d1e9e29b8cCa2D5A",
 };
 
 export const networkDirectory = {
@@ -10,7 +10,7 @@ export const networkDirectory = {
     host: "0xF2B4E81ba39F5215Db2e05B2F66f482BB8e87FD2",
     superTokens: {
       ETHx: "0x6fC99F5591b51583ba15A8C2572408257A1D2797",
-      fDAI: "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7",
+      fDAIx: "0xBF6201a6c48B56d8577eDD079b84716BB4918E8A",
       fUSDC: "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2",
     },
   },
@@ -19,7 +19,7 @@ export const networkDirectory = {
     host: "0xEB796bdb90fFA0f28255275e16936D25d3418603",
     superTokens: {
       MATICx: "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4",
-      fDAI: "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7",
+      fDAIx: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
       fUSDC: "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2",
     },
   },
@@ -28,7 +28,7 @@ export const networkDirectory = {
     host: "0xf04F2C525819691ed9ABD3D2B7109E1633795e68",
     superTokens: {
       AVAXx: "0x5735C32C38f5Af0FB04a7c77C832Ba4D7aBfFeC8",
-      fDAI: "0x87E00Dced5670e01BEe33a9a724B1dac790937eF",
+      fDAIx: "0x296E9c01f80D408741f6e15d62013DDbe1041f1D",
       fUSDC: "0xE01F8743677Da897F4e7De9073b57Bf034FC2433",
     },
   },

@@ -86,7 +86,7 @@ function SentPayments() {
   };
 
   return (
-    <Page title="Customer |  TrustifiedNetwork">
+    <Page title="Recurring Payment |  TrustifiedNetwork">
       <CreateRecurringPayments
         open={handleClickOpen}
         close={handleClose}

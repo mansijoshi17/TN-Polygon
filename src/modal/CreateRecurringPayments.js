@@ -119,7 +119,7 @@ export default function CreateRecurringPayments(props) {
                   {activeStep === steps.length - 1 ? (
                     <Button
                       disabled={!btnDisbaled}
-                      onClick={formdatavalue.createAgreement}
+                      onClick={formdatavalue.createPayment}
                     >
                       {formdatavalue.loading
                         ? "Creating..."

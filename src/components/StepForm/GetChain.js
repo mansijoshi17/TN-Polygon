@@ -82,6 +82,7 @@ function GetChain() {
               id="demo-simple-select"
               name="token"
               label="Token"
+              value={formdata.token}
               onChange={value.setFormdata("token")}
             >
               {Object.keys(superTokens).map((key) => {

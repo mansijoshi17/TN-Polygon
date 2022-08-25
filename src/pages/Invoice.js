@@ -27,6 +27,12 @@ import Page from "../components/Page";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
+import { firebaseDataContext } from "src/context/FirebaseDataContext";
+import { InvoicContext } from "src/context/CreateInvoiceContext";
+
+import SentInvoices from "../components/invoices/SentInvoices";
+import ReceivedInvoices from "../components/invoices/ReceivedInvoices";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -67,24 +73,42 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 function Invoices() {
-  const { Moralis, account, user } = useMoralis();
+  const { user } = useMoralis();
   const navigate = useNavigate();
   const web3Context = React.useContext(Web3Context);
-  const { connectWallet, web3Auth, address } = web3Context;
+  const { address } = web3Context;
+
+  const firebaseContext = React.useContext(firebaseDataContext);
+  const { getInvoices, invoices } = firebaseContext;
+  const [sentInvoices, setSentInvoices] = useState([]);
+  const [receivedInvoices, setReceivedInvoices] = useState([]);
+
+  const invoiceContext = React.useContext(InvoicContext);
+  const { updated } = invoiceContext;
+
+  useEffect(async () => {
+    const s =
+      invoices &&
+      invoices.filter((s) => s.from == user?.attributes?.ethAddress);
+    setSentInvoices(s);
+    const r =
+      invoices &&
+      invoices.filter(
+        (s) => s.to.toLowerCase() == user?.attributes?.ethAddress
+      );
+    setReceivedInvoices(r);
+  }, [invoices, isUpdated]);
 
   const [status, setStatus] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState(0);
-  const { fetch, data, error, isLoading } = useMoralisCloudFunction(
-    "getInvoices",
-    {
-      autoFetch: true,
-    }
-  );
 
-  const [isUpdated, setIsUpdated] = useState([]);
-  const [invoices, setInvoices] = useState([]);
+  const [isUpdated, setIsUpdated] = useState(false);
+
+  useEffect(async () => {
+    getInvoices();
+  }, [updated, isUpdated]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -98,27 +122,8 @@ function Invoices() {
     setOpen(false);
   };
 
-  useEffect(() => {
-    setData();
-  }, [data, isUpdated, user]);
-
-  async function setData() {
-    setLoading(true);
-    const invoicedata = await JSON.parse(JSON.stringify(data));
-    const d =
-      data &&
-      invoicedata.filter((inv) => inv.name == user?.attributes.username);
-    console.log(data);
-    data && setInvoices(d);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    fetch();
-  }, [isUpdated, user]);
-
   return (
-    <Page title="Agreement |  TrustifiedNetwork">
+    <Page title="Invoice |  TrustifiedNetwork">
       <CreateInvoiceModal
         open={handleClickOpen}
         close={handleClose}
@@ -148,59 +153,22 @@ function Invoices() {
         </Stack>
         <Stack>
           <Card>
-            <TableContainer component={Paper}>
-              <Table aria-label="collapsible table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Invoice Number</TableCell>
-                    <TableCell>Due Date</TableCell>
-                    <TableCell>Customer Name</TableCell>
-                    <TableCell>Price</TableCell>
-                    <TableCell>Token</TableCell>
-                    <TableCell>Note</TableCell>
-
-                    <TableCell>Explore</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {invoices && invoices.length == 0 && (
-                    <TableRow>
-                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
-                        <h5>No invoices created yet!</h5>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {console.log(invoices, "invoices")}
-                  {invoices &&
-                    invoices.map((invoice) => (
-                      <TableRow>
-                        <TableCell>{invoice.invoiceNumber}</TableCell>
-                        <TableCell>{invoice.dueDate}</TableCell>
-                        <TableCell>{invoice.name}</TableCell>
-                        <TableCell>{invoice.price}</TableCell>
-                        <TableCell>{invoice.token}</TableCell>
-                        <TableCell>{invoice.note}</TableCell>
-                        <TableCell>
-                          <Button
-                            //   color="primary"
-                            size="large"
-                            //   type="submit"
-                            variant="contained"
-                            to={`/invoice/${invoice.objectId}`}
-                            onClick={() => {
-                              navigate(`/invoice/${invoice.objectId}`, {
-                                state: invoice,
-                              });
-                            }}
-                          >
-                            View
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Sent" {...a11yProps(0)} />
+                <Tab label="Received" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <SentInvoices invoices={sentInvoices} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <ReceivedInvoices invoices={receivedInvoices} />
+            </TabPanel>
           </Card>
         </Stack>
       </Container>

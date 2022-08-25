@@ -16,7 +16,7 @@ import {
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import Iconify from "src/components/Iconify";
 
 import { styled } from "@mui/material/styles";
@@ -79,7 +79,7 @@ function Customers() {
 
   useEffect(async () => {
     getCustomers();
-  }, [isUpdated, customers]);
+  }, [isUpdated]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
