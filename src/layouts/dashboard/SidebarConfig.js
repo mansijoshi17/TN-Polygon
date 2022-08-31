@@ -41,6 +41,11 @@ const sidebarConfig = [
         path: "/dashboard/payments/sent",
         icon: getIcon("uil:send"),
       },
+      {
+        title: "Received Payments",
+        path: "/dashboard/payments/receive",
+        icon: getIcon("uil:receive"),
+      },
     ],
   },
   // {

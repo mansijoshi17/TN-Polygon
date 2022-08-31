@@ -5,7 +5,8 @@ export const contracts = {
 };
 
 export const networkDirectory = {
-  ropsten: {
+  3: {
+    name: "ropsten",
     cfa: "0xaD2F1f7cd663f6a15742675f975CcBD42bb23a88",
     host: "0xF2B4E81ba39F5215Db2e05B2F66f482BB8e87FD2",
     superTokens: {
@@ -14,7 +15,8 @@ export const networkDirectory = {
       fUSDC: "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2",
     },
   },
-  mumbai: {
+  80001: {
+    name: "mumbai",
     cfa: "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873",
     host: "0xEB796bdb90fFA0f28255275e16936D25d3418603",
     superTokens: {
@@ -23,7 +25,8 @@ export const networkDirectory = {
       fUSDC: "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2",
     },
   },
-  avalanche: {
+  43113: {
+    name: "avalanche",
     cfa: "0xED74d30B8034152b0638CB03cc5c3c906dd1c482",
     host: "0xf04F2C525819691ed9ABD3D2B7109E1633795e68",
     superTokens: {

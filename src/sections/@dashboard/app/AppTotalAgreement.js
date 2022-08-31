@@ -85,7 +85,7 @@ export default function AppTotalAgreement() {
       startingBlock:  networkId == 80001 && pBlock  || networkId == 3 && rBlock  || networkId == 97 && bBlock  || networkId == 43113 && aBlock ,
       endingBlock: networkId == 80001 && pBlock  || networkId == 3 && rBlock  || networkId == 97 && bBlock  || networkId == 43113 && aBlock ,
     }); 
-       setAgree(logs.data.items.length); 
+       setAgree(logs?.data?.items?.length); 
   }, []);
 
   return (

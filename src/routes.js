@@ -27,6 +27,7 @@ import SubscribtionDetails from "./pages/SubscribtionDetails";
 import ProductIntegration from "./pages/ProductIntegration";
 import Customers from "./pages/Customers";
 import SentPayments from "./pages/RecurringPayments/SentPayments";
+import ReceivedPayments from "./pages/RecurringPayments/ReceivedPayments";
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ export default function Router() {
         { path: "subscriptions", element: <Subscription /> },
         { path: "customers", element: <Customers /> },
         { path: "payments/sent", element: <SentPayments /> },
+        { path: "payments/receive", element: <ReceivedPayments /> },
       ],
     },
 

@@ -24,9 +24,9 @@ export default function CreateRecurringPayments(props) {
     formdata.token.length > 0 &&
     formdata.chain.length > 0 &&
     formdata.amount.length > 0 &&
-    formdata.period.length > 0 &&
-    formdata.sdate.length > 0 &&
-    formdata.edate.length > 0;
+    formdata.period.length > 0 ;
+    // formdata.sdate.length > 0 &&
+    // formdata.edate.length > 0;
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -58,7 +58,7 @@ export default function CreateRecurringPayments(props) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped((prevSkipped) => {
       const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
+      newSkipped.add(activeStep); 
       return newSkipped;
     });
   };
@@ -118,8 +118,11 @@ export default function CreateRecurringPayments(props) {
                   )}
                   {activeStep === steps.length - 1 ? (
                     <Button
-                      disabled={!btnDisbaled}
-                      onClick={formdatavalue.createPayment}
+                    
+                      onClick={ async () => {
+                        await formdatavalue.createPayment();
+                        props.close();
+                      }}
                     >
                       {formdatavalue.loading
                         ? "Creating..."

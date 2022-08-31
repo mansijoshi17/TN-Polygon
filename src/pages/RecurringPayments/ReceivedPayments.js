@@ -11,7 +11,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TextField,
   CircularProgress,
 } from "@mui/material";
 import { ethers } from "ethers";
@@ -19,12 +18,6 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Iconify from "src/components/Iconify";
-
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { LoadingButton } from "@mui/lab";
 
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
@@ -75,34 +68,28 @@ const RootStyle = styled(Page)(({ theme }) => ({
   },
 }));
 
-function SentPayments() {
+function ReceivedPayments() {
   const [status, setStatus] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [value, setValue] = React.useState(0);
-  const [amountVal, setAmountVal] = useState(0);
-  const [flow, setFlow] = useState({});
-
-  const [openUpdate, setOpenUpdate] = useState(false);
-
-  const [isUpdated, setIsUpdated] = useState(false);
 
   const firebaseContext = React.useContext(firebaseDataContext);
   const { getPayments, payments } = firebaseContext;
 
   const superfluidContext = React.useContext(SuperfluidContext);
-  const { listOutFlows, sf, isUpdatedctx, outFlows, deleteFlow, updateStream } =
-    superfluidContext;
+  const { listInFlows, sf, isUpdatedctx, inFlows } = superfluidContext;
 
   useEffect(async () => {
     if (sf) {
       await getPayments();
-      listOutFlows();
+      listInFlows();
     }
   }, [sf, isUpdatedctx]);
 
-  console.log(outFlows);
+  console.log(inFlows);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -119,13 +106,6 @@ function SentPayments() {
 
   return (
     <Page title="Recurring Payment |  TrustifiedNetwork">
-      <CreateRecurringPayments
-        open={handleClickOpen}
-        close={handleClose}
-        op={open}
-        setIsUpdated={setIsUpdated}
-        isUpdated={isUpdated}
-      />
       <Container pl={0} pr={0}>
         <Stack
           direction="row"
@@ -136,14 +116,6 @@ function SentPayments() {
           <Typography variant="h4" gutterBottom>
             Payments
           </Typography>
-          <Button
-            variant="contained"
-            onClick={handleClickOpen}
-            to="#"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            Create Recurring Payments
-          </Button>
         </Stack>
         <Stack>
           <Card>
@@ -154,29 +126,28 @@ function SentPayments() {
                     <TableCell>Address</TableCell>
                     <TableCell>All Time Flow</TableCell>
                     <TableCell>Amount</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {isLoaded && (
                     <TableRow>
-                      <TableCell colSpan={5} sx={{ textAlign: "center" }}>
+                      <TableCell colSpan={3} sx={{ textAlign: "center" }}>
                         <CircularProgress />
                       </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
                 <TableBody>
-                  {outFlows && outFlows.length == 0 && (
+                  {inFlows && inFlows.length == 0 && (
                     <TableRow>
-                      <TableCell colSpan={5} sx={{ textAlign: "center" }}>
-                        <h5>No payments sent yet!</h5>
+                      <TableCell colSpan={3} sx={{ textAlign: "center" }}>
+                        <h5>No payments received yet!</h5>
                       </TableCell>
                     </TableRow>
                   )}
-                  {outFlows &&
-                    outFlows.map((flow) => {
+
+                  {inFlows &&
+                    inFlows.map((flow) => {
                       return (
                         <TableRow>
                           <TableCell>{flow.receiver}</TableCell>
@@ -185,22 +156,6 @@ function SentPayments() {
                           </TableCell>
                           <TableCell>
                             {flow.amount}/{flow.period}
-                          </TableCell>
-                          <TableCell
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              setOpenUpdate(true);
-                              setAmountVal(flow.amount);
-                              setFlow(flow);
-                            }}
-                          >
-                            {getIcon("uil:edit")}
-                          </TableCell>
-                          <TableCell
-                            style={{ cursor: "pointer" }}
-                            onClick={() => deleteFlow(flow)}
-                          >
-                            {getIcon("uil:trash")}
                           </TableCell>
                         </TableRow>
                       );
@@ -211,53 +166,8 @@ function SentPayments() {
           </Card>
         </Stack>
       </Container>
-      <Dialog open={openUpdate} close={() => setOpenUpdate(false)} fullWidth>
-        <DialogTitle
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Update stream
-        </DialogTitle>
-        <DialogContent style={{ overflowX: "hidden" }}>
-          <div>
-            <Box style={{ marginBottom: "20px" }}></Box>
-
-            <Stack spacing={3}>
-              <TextField
-                fullWidth
-                label="Amount"
-                name="amount"
-                id="amount"
-                type="number"
-                value={amountVal}
-                onChange={(e) => setAmountVal(e.target.value)}
-              />
-            </Stack>
-
-            <DialogActions>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                onClick={async () => {
-                  setLoading(true);
-                  await updateStream(flow, amountVal);
-                  setLoading(false);
-                  setOpenUpdate(false);
-                }}
-                disabled={loading}
-              >
-                {loading ? "Updating..." : "Update"}
-              </LoadingButton>
-              <Button variant="contained" onClick={() => setOpenUpdate(false)}>
-                Cancel
-              </Button>
-            </DialogActions>
-          </div>
-        </DialogContent>
-      </Dialog>
     </Page>
   );
 }
 
-export default SentPayments;
+export default ReceivedPayments;

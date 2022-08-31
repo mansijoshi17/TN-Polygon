@@ -22,6 +22,7 @@ import { makeStore } from "./redux/store";
 import { Provider } from "react-redux";
 import { FirebaseDataContextProvider } from "./context/FirebaseDataContext";
 import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
+import { SuperfluidContextProvider } from "./context/SuperFluideContext";
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
@@ -33,21 +34,23 @@ ReactDOM.render(
           serverUrl={process.env.REACT_APP_MORALIS_SERVER}
         >
           <NotificationContextProvider>
-            <MoneyStreamingContextProvider>
-              <FirebaseDataContextProvider>
-                <InvoiceContextProvider>
-                  <Web3ModalContextProvider>
-                    <Web3ContextProvider>
-                      <SuperfluidWeb3ContextProvider>
-                        <TransakWeb3ContextWeb3ContextProvider>
-                          <App />
-                        </TransakWeb3ContextWeb3ContextProvider>
-                      </SuperfluidWeb3ContextProvider>
-                    </Web3ContextProvider>
-                  </Web3ModalContextProvider>
-                </InvoiceContextProvider>
-              </FirebaseDataContextProvider>
-            </MoneyStreamingContextProvider>
+            <FirebaseDataContextProvider>
+              <InvoiceContextProvider>
+                <Web3ModalContextProvider>
+                  <Web3ContextProvider>
+                    <SuperfluidWeb3ContextProvider>
+                      <SuperfluidContextProvider>
+                        <MoneyStreamingContextProvider>
+                          <TransakWeb3ContextWeb3ContextProvider>
+                            <App />
+                          </TransakWeb3ContextWeb3ContextProvider>
+                        </MoneyStreamingContextProvider>
+                      </SuperfluidContextProvider>
+                    </SuperfluidWeb3ContextProvider>
+                  </Web3ContextProvider>
+                </Web3ModalContextProvider>
+              </InvoiceContextProvider>
+            </FirebaseDataContextProvider>
           </NotificationContextProvider>
         </MoralisProvider>
       </BrowserRouter>

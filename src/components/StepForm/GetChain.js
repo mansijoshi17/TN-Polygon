@@ -28,7 +28,7 @@ function GetChain() {
   const { getCustomers, customers } = firebaseContext;
 
   const [superTokens, setSuperTokens] = React.useState(
-    networkDirectory["mumbai"].superTokens
+    networkDirectory["80001"].superTokens
   );
 
   useEffect(async () => {
@@ -107,25 +107,20 @@ function GetChain() {
               value={formdata.chain}
               onChange={(e) => {
                 const networkId = window.ethereum.networkVersion;
+                console.log(networkId, "networkId");
                 if (e.target.value == "bsc" && networkId !== "97") {
                   toast.error(
                     "Please connect to the BSC Testnet network in Metamask to continue!"
                   );
-                } else if (
-                  e.target.value == "mumbai" &&
-                  networkId !== "80001"
-                ) {
+                } else if (e.target.value == "80001" && networkId !== "80001") {
                   toast.error(
                     "Please connect to the Polygon Mumbai Testnet network in Metamask to continue!"
                   );
-                } else if (e.target.value == "ropsten" && networkId !== "3") {
+                } else if (e.target.value == "3" && networkId !== "3") {
                   toast.error(
                     "Please connect to the Ropsten Network in Metamask to continue!"
                   );
-                } else if (
-                  e.target.value == "avalanche" &&
-                  networkId !== "43113"
-                ) {
+                } else if (e.target.value == "43113" && networkId !== "43113") {
                   toast.error(
                     "Please connect to the AVAX FUJI network in Metamask to continue!"
                   );
@@ -143,19 +138,19 @@ function GetChain() {
                 spacing={2}
               >
                 <FormControlLabel
-                  value="mumbai"
+                  value="80001"
                   control={<Radio />}
                   label="Mumbai"
                   onChange={value.setFormdata("chain")}
                 />
                 <FormControlLabel
-                  value="ropsten"
+                  value="3"
                   control={<Radio />}
                   label="Ropsten"
                   onChange={value.setFormdata("chain")}
                 />
                 <FormControlLabel
-                  value="avalanche"
+                  value="43113"
                   control={<Radio />}
                   label="Avalanche"
                   onChange={value.setFormdata("chain")}
