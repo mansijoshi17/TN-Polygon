@@ -1,19 +1,34 @@
 import React, { useState, createContext, useEffect, useCallback } from "react";
 
-import { collection, addDoc, getDocs, db } from "../firebase";
+import { collection, addDoc, getDocs, db, query, where } from "../firebase";
+
+import { useMoralis } from "react-moralis";
 
 export const firebaseDataContext = createContext(undefined);
 
 export const FirebaseDataContextProvider = (props) => {
+  const { user } = useMoralis();
   const [customers, setCustomers] = useState([]);
   const [invoices, setInvoices] = useState([]);
   const [payments, setPayments] = useState([]);
 
   async function getCustomers() {
-    const customers = collection(db, "customers");
-    const customerSnapshot = await getDocs(customers);
-    const customersList = customerSnapshot.docs.map((doc) => doc.data());
-    setCustomers(customersList);
+    console.log(localStorage.getItem("user"));
+    console.log(user?.attributes.ethAddress);
+    try {
+      const customers = query(
+        collection(db, "customers"),
+        where("admin", "==", localStorage.getItem("user"))
+      );
+
+      const customerSnapshot = await getDocs(customers);
+      console.log(customerSnapshot, "customerSnapshot");
+
+      const customersList = customerSnapshot.docs.map((doc) => doc.data());
+      setCustomers(customersList);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function getInvoices() {

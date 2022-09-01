@@ -178,9 +178,10 @@ export const SuperfluidContextProvider = (props) => {
 
       console.log("Updating your stream...");
 
-      const result = await updateFlowOperation.exec(signer);
+      const updateTransaction = await updateFlowOperation.exec(signer);
+      const txu = await updateTransaction.wait();
 
-      if (result) {
+      if (txu) {
         const docRef = doc(db, "payments", stream?.id?.toString());
         await updateDoc(docRef, {
           amount: newAmount,
@@ -207,7 +208,6 @@ export const SuperfluidContextProvider = (props) => {
 
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
-        console.log(payment, "payment");
         if (payment.sender.toLowerCase() == user?.attributes?.ethAddress) {
           let obj;
           const getFlowOperation = await sf.cfaV1.getFlow({
@@ -221,6 +221,8 @@ export const SuperfluidContextProvider = (props) => {
             receiver: payment.customerAddress,
             token: payment.token,
           });
+
+          console.log(getFlowOperation, "getFlowOperation");
 
           let amount;
           if (payment.period == "Month") {
@@ -242,6 +244,7 @@ export const SuperfluidContextProvider = (props) => {
             currentFlowRate: flowData?.data[0]?.currentFlowRate,
             token: payment.token,
           };
+          console.log(obj, "obj");
           outFlow.push(obj);
         } else {
           console.log("No outgoing streams");

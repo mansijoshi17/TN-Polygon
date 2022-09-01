@@ -150,7 +150,7 @@ function ReceivedPayments() {
                     inFlows.map((flow) => {
                       return (
                         <TableRow>
-                          <TableCell>{flow.receiver}</TableCell>
+                          <TableCell>{flow.sender}</TableCell>
                           <TableCell>
                             <FlowingStream streamData={flow} />
                           </TableCell>

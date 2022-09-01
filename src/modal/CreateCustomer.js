@@ -13,11 +13,13 @@ import { styled } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
 import { collection, addDoc, db } from "../firebase";
+import { useMoralis, useMoralisQuery } from "react-moralis";
 
 const Input = styled("input")({
   display: "none",
 });
 function CreateCustomerModal(props) {
+  const { user } = useMoralis();
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -34,6 +36,7 @@ function CreateCustomerModal(props) {
           name: values.name,
           address: values.address,
           email: values.email,
+          admin: localStorage.getItem("user"),
         });
         props.setIsUpdated(!props.isUpdated);
         resetForm();
