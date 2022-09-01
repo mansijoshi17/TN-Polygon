@@ -22,3 +22,8 @@ export function fShortenNumber(number) {
 export function fData(number) {
   return numeral(number).format('0.0 b');
 }
+
+export const shortAddress = (addr) =>
+  addr.length > 10 && addr.startsWith('0x')
+    ? `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`
+    : addr

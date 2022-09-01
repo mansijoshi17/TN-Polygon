@@ -198,7 +198,7 @@ function TableSubBody(props) {
                   </TableBody>
                 </Table>
               </Stack>
-              <UserListModal  list={subscribtions} /> 
+              {/* <UserListModal  list={subscribtions} />  */}
             </Box>
           </Collapse>
         </TableCell>

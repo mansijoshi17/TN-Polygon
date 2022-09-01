@@ -13,7 +13,7 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -28,6 +28,9 @@ import { FlowingStream } from "../../components/FlowingStream";
 
 import { SuperfluidContext } from "../../context/SuperFluideContext";
 import { firebaseDataContext } from "../../context/FirebaseDataContext";
+import AnimatedBalance from "src/superfluid/AnimateBalance";
+import { shortAddress } from "src/utils/formatNumber";
+import Decimal from "decimal.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -88,7 +91,7 @@ function ReceivedPayments() {
     }
   }, [sf, isUpdatedctx]);
 
-  console.log(inFlows);
+  console.log(inFlows, "inFlows");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -103,6 +106,16 @@ function ReceivedPayments() {
   };
 
   const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
+
+
+  // export const streamGranularityInSeconds = {
+  //   second: 1,
+  //   minute: 60,
+  //   hour: 3600,
+  //   day: 86400,
+  //   week: 86400 * 7,
+  //   month: 86400 * 30
+  // } 
 
   return (
     <Page title="Recurring Payment |  TrustifiedNetwork">
@@ -148,14 +161,33 @@ function ReceivedPayments() {
 
                   {inFlows &&
                     inFlows.map((flow) => {
+                      var updatedAt = parseFloat(flow.streamedUntilUpdatedAt);
+                      var timestamp = parseFloat(flow.updatedAtTimestamp);
+                      var currentFlowRate = parseFloat(ethers.utils.formatEther(flow.currentFlowRate));
+                      console.log(flow.currentFlowRate, "flow.currentFlowRate");
+                      // var flowrate = (flow.currentFlowRate * 3600 * 24 * 30) / 1e18;
+                      const flowRateBigNumber = BigNumber.from(flow.currentFlowRate);
+                      // let time;
+                      // if (flow.period == "Week") {
+                      //   time = 86400 * 7;
+                      // } else if (flow.period == "Month") {
+                      //   time = 86400 * 30;
+                      // } else if (flow.period == "Day") {
+                      //   time = 86400;
+                      // } else if (flow.period == "Hour") {
+                      //   time = 3600;
+                      // }
+                      const flowRateConverted = flowRateBigNumber.mul(86400).toString();
+                      const ether = ethers.utils.formatEther(flowRateConverted);
+                      const isRounded = ether.split(".")[1].length > 18;
                       return (
                         <TableRow>
-                          <TableCell>{flow.receiver}</TableCell>
+                          <TableCell>{shortAddress(flow.sender)}</TableCell>
                           <TableCell>
-                            <FlowingStream streamData={flow} />
+                            <FlowingStream updatedAt={updatedAt} timestamp={timestamp} currentFlowRate={currentFlowRate} streamData={flow} />
                           </TableCell>
                           <TableCell>
-                            {flow.amount}/{flow.period}
+                            {isRounded && "~"}{new Decimal(ether).toDP(18).toFixed()} / Day 
                           </TableCell>
                         </TableRow>
                       );

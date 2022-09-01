@@ -273,6 +273,7 @@ export const SuperfluidContextProvider = (props) => {
           receiver: payment.customerAddress,
           token: payment.token,
         });
+        console.log(flowData,"flowData");
         let amount;
         if (payment.period == "Month") {
           amount = calculateStream(getFlowOperation.flowRate, 30);
@@ -293,6 +294,7 @@ export const SuperfluidContextProvider = (props) => {
           currentFlowRate: flowData?.data[0]?.currentFlowRate,
           token: payment.token,
         };
+        console.log(obj,"object");
         inFlow.push(obj);
       } else {
         console.log("No incoming streams");

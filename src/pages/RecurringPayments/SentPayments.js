@@ -35,6 +35,9 @@ import { FlowingStream } from "../../components/FlowingStream";
 
 import { SuperfluidContext } from "../../context/SuperFluideContext";
 import { firebaseDataContext } from "../../context/FirebaseDataContext";
+import AnimatedBalance from "src/superfluid/AnimateBalance";
+import { shortAddress } from "src/utils/formatNumber";
+import Decimal from "decimal.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -102,7 +105,7 @@ function SentPayments() {
     }
   }, [sf, isUpdatedctx]);
 
-  console.log(outFlows);
+  console.log(outFlows,"outFlows");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -113,7 +116,7 @@ function SentPayments() {
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }; 
 
   const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
@@ -171,20 +174,28 @@ function SentPayments() {
                   {outFlows && outFlows.length == 0 && (
                     <TableRow>
                       <TableCell colSpan={5} sx={{ textAlign: "center" }}>
-                        <h5>No payments sent yet!</h5>
+                        <h5>No Available!</h5>
                       </TableCell>
                     </TableRow>
                   )}
                   {outFlows &&
                     outFlows.map((flow) => {
+                      var updatedAt = parseFloat(flow.streamedUntilUpdatedAt);
+                      var timestamp = parseFloat(flow.updatedAtTimestamp);
+                      var currentFlowRate = parseFloat(ethers.utils.formatEther(flow.currentFlowRate)); 
+                      const flowRateBigNumber = BigNumber.from(flow.currentFlowRate); 
+                      const flowRateConverted = flowRateBigNumber.mul(86400).toString();
+                      const ether = ethers.utils.formatEther(flowRateConverted);
+                      const isRounded = ether.split(".")[1].length > 18;
                       return (
                         <TableRow>
-                          <TableCell>{flow.receiver}</TableCell>
+                          <TableCell>{shortAddress(flow.receiver)}</TableCell>
                           <TableCell>
-                            <FlowingStream streamData={flow} />
+                          <FlowingStream updatedAt={updatedAt} timestamp={timestamp} currentFlowRate={currentFlowRate} streamData={flow} /> 
                           </TableCell>
                           <TableCell>
-                            {flow.amount}/{flow.period}
+                            {/* {flow.amount}/{flow.period} */}
+                            {isRounded && "~"}{new Decimal(ether).toDP(18).toFixed()} / Day 
                           </TableCell>
                           <TableCell
                             style={{ cursor: "pointer" }}
