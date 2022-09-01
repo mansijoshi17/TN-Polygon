@@ -14,7 +14,7 @@ import {
   TextField,
   CircularProgress,
 } from "@mui/material";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -180,10 +180,18 @@ function SentPayments() {
                   )}
                   {outFlows &&
                     outFlows.map((flow) => {
-                      var updatedAt = parseFloat(flow.streamedUntilUpdatedAt);
-                      var timestamp = parseFloat(flow.updatedAtTimestamp);
-                      var currentFlowRate = parseFloat(ethers.utils.formatEther(flow.currentFlowRate)); 
-                      const flowRateBigNumber = BigNumber.from(flow.currentFlowRate); 
+                       let time;
+                      if (flow.period == "Week") {
+                        time = 86400 * 7;
+                      } else if (flow.period == "Month") {
+                        time = 86400 * 30;
+                      } else if (flow.period == "Day") {
+                        time = 86400;
+                      }  
+                      var updatedAt = parseFloat(flow.streamedUntilUpdatedAt != undefined && flow.streamedUntilUpdatedAt);
+                      var timestamp = parseFloat( flow.updatedAtTimestamp != undefined && flow.updatedAtTimestamp);
+                      var currentFlowRate = flow.currentFlowRate != undefined && parseFloat(ethers.utils.formatEther(flow.currentFlowRate)); 
+                      const flowRateBigNumber = BigNumber.from(flow.currentFlowRate != undefined && flow.currentFlowRate); 
                       const flowRateConverted = flowRateBigNumber.mul(86400).toString();
                       const ether = ethers.utils.formatEther(flowRateConverted);
                       const isRounded = ether.split(".")[1].length > 18;
@@ -194,8 +202,10 @@ function SentPayments() {
                           <FlowingStream updatedAt={updatedAt} timestamp={timestamp} currentFlowRate={currentFlowRate} streamData={flow} /> 
                           </TableCell>
                           <TableCell>
-                            {/* {flow.amount}/{flow.period} */}
-                            {isRounded && "~"}{new Decimal(ether).toDP(18).toFixed()} / Day 
+                            {/* {flow.amount}/{flow.period} */}{
+                              flow.currentFlowRate == undefined || flow.streamedUntilUpdatedAt != undefined ||  flow.updatedAtTimestamp != undefined && <Box><CircularProgress/></Box>
+                            }
+                            {isRounded && "~"}{new Decimal(ether).toDP(18).toFixed()} / {flow.period} 
                           </TableCell>
                           <TableCell
                             style={{ cursor: "pointer" }}

@@ -249,7 +249,7 @@ export const SuperfluidContextProvider = (props) => {
       }
       setOutFlows(outFlow);
     } catch (error) {
-      console.log(error);
+     toast.error(error);
     }
   }
 

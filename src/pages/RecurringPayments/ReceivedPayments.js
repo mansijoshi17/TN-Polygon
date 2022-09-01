@@ -167,16 +167,16 @@ function ReceivedPayments() {
                       console.log(flow.currentFlowRate, "flow.currentFlowRate");
                       // var flowrate = (flow.currentFlowRate * 3600 * 24 * 30) / 1e18;
                       const flowRateBigNumber = BigNumber.from(flow.currentFlowRate);
-                      // let time;
-                      // if (flow.period == "Week") {
-                      //   time = 86400 * 7;
-                      // } else if (flow.period == "Month") {
-                      //   time = 86400 * 30;
-                      // } else if (flow.period == "Day") {
-                      //   time = 86400;
-                      // } else if (flow.period == "Hour") {
-                      //   time = 3600;
-                      // }
+                      let time;
+                      if (flow.period == "Week") {
+                        time = 86400 * 7;
+                      } else if (flow.period == "Month") {
+                        time = 86400 * 30;
+                      } else if (flow.period == "Day") {
+                        time = 86400;
+                      } else if (flow.period == "Hour") {
+                        time = 3600;
+                      }
                       const flowRateConverted = flowRateBigNumber.mul(86400).toString();
                       const ether = ethers.utils.formatEther(flowRateConverted);
                       const isRounded = ether.split(".")[1].length > 18;
@@ -187,7 +187,7 @@ function ReceivedPayments() {
                             <FlowingStream updatedAt={updatedAt} timestamp={timestamp} currentFlowRate={currentFlowRate} streamData={flow} />
                           </TableCell>
                           <TableCell>
-                            {isRounded && "~"}{new Decimal(ether).toDP(18).toFixed()} / Day 
+                            {isRounded && "~"}{new Decimal(ether).toDP(18).toFixed()} / {flow.period} 
                           </TableCell>
                         </TableRow>
                       );
