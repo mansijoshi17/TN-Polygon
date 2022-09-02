@@ -14,7 +14,7 @@ export const FlowingStream = ({ streamData }) => {
         parseFloat(streamData?.streamedUntilUpdatedAt) +
         (currentTime - parseFloat(streamData?.updatedAtTimestamp)) *
           parseFloat(streamData?.currentFlowRate);
-      setFormattedValue(val);
+      setFormattedValue((val / 1e18).toFixed(10));
     }, 100);
   }
 

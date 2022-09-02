@@ -7,6 +7,8 @@ const AnimatedBalance = ({
   decimalPlaces = 7
 }) => {
   const [valueShow, setValueShow] = useState(value);
+
+
   useEffect(() => {
     setValueShow(value);
     const id = setInterval(() => {
@@ -18,6 +20,7 @@ const AnimatedBalance = ({
       clearInterval(id);
     };
   }, [value, rate]);
+
   return <p className="m-0 p-0">{valueShow.toFixed(decimalPlaces)} <span style={{color:'green',fontSize:'10px',fontWeight:'bold'}}>USDCx</span></p>;
 };
 

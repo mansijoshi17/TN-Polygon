@@ -43,19 +43,20 @@ export default function AppItemOrders() {
   const [agree,setAgree]= useState(); 
   const { data, error, isLoading } = useMoralisCloudFunction("getAgreements"); 
 
-  const Customer = Moralis.Object.extend("Agreementss");
-  const query = new Moralis.Query(Customer);
+  // const Customer = Moralis.Object.extend("Agreementss");
+  // const query = new Moralis.Query(Customer);
   const networkId = window.ethereum.networkVersion; 
 
 
   useEffect(async()=>{  
+    console.log(user,"user");
     const data = await Moralis.Plugins.covalent?.getTokenBalancesForAddress({
         chainId: networkId,
         address: user && user.attributes.ethAddress,
 
        }); 
        console.log(data,"balance");
-       setAgree(ethers.utils.formatUnits(data.data.items[0].balance, 18)); 
+       setAgree(ethers.utils.formatUnits(data && data.data.items[0].balance, 18)); 
        
    
   },[]);

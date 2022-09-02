@@ -58,7 +58,7 @@ export default function LendingHeader() {
 
   const dashboard = () => {
     if (isAuthenticated && user) {
-      navigate("/dashboard/Agreement");
+      navigate("/dashboard/app");
     } else {
       toast.info("Please Connect the wallet!");
     }

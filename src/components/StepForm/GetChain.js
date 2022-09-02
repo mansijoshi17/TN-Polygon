@@ -107,7 +107,7 @@ function GetChain() {
               value={formdata.chain}
               onChange={(e) => {
                 const networkId = window.ethereum.networkVersion;
-                console.log(networkId, "networkId");
+
                 if (e.target.value == "bsc" && networkId !== "97") {
                   toast.error(
                     "Please connect to the BSC Testnet network in Metamask to continue!"

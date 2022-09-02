@@ -100,12 +100,12 @@ export const SuperfluidContextProvider = (props) => {
     } else if (typeof Number(amt) === "number") {
       const monthlyAmount = ethers.utils.parseEther(amt.toString());
       console.log(monthlyAmount, "monthlyAmount");
-      const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / days);
+      const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / days); // 3600 - 1 hour
       return calculatedFlowRate;
     }
   }
 
-  function getSeconds(dateValue) {
+  function getSeconds(dateValue) {0-9
     const date = new Date(dateValue.toString());
     const seconds = Math.floor(date.getTime() / 1000);
     return seconds;
@@ -119,10 +119,6 @@ export const SuperfluidContextProvider = (props) => {
     } else {
       flowRate = calFlowRate(stream.amount, 7);
     }
-
-    console.log(flowRate, "flowRate");
-    const startDate = getSeconds(stream.sdate);
-    const endDate = getSeconds(stream.edate);
 
     try {
       const createFlowOperation = sf.cfaV1.createFlow({
@@ -144,8 +140,6 @@ export const SuperfluidContextProvider = (props) => {
           chain: stream.chain,
           amount: stream.amount,
           period: stream.period,
-          sdate: startDate,
-          edate: endDate,
         });
         await getPayments();
         await listOutFlows();
@@ -198,7 +192,7 @@ export const SuperfluidContextProvider = (props) => {
   }
 
   function calculateStream(flowRate, days) {
-    const stream = new BigNumber(flowRate * (86400 * days)).shiftedBy(-18);
+    const stream = new BigNumber(flowRate * (86400 * days)).shiftedBy(-18); // 86400 - 1 day
     return stream.toFixed(2);
   }
 
@@ -276,6 +270,7 @@ export const SuperfluidContextProvider = (props) => {
           receiver: payment.customerAddress,
           token: payment.token,
         });
+        console.log(flowData, "flowData");
         let amount;
         if (payment.period == "Month") {
           amount = calculateStream(getFlowOperation.flowRate, 30);
@@ -296,6 +291,7 @@ export const SuperfluidContextProvider = (props) => {
           currentFlowRate: flowData?.data[0]?.currentFlowRate,
           token: payment.token,
         };
+        console.log(obj, "object");
         inFlow.push(obj);
       } else {
         console.log("No incoming streams");

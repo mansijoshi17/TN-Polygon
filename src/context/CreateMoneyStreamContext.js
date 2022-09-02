@@ -29,11 +29,9 @@ export const MoneyStreamingContextProvider = (props) => {
     formData: {
       customerAdd: "",
       token: "",
-      chain: 80001,
+      chain: "80001",
       amount: "",
       period: "",
-      sdate: 0,
-      edate: 0,
     },
   });
 

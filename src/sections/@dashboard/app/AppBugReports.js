@@ -66,6 +66,8 @@ export default function AppBugReports() {
 
   const updateNetFlow = async () => {
     const result = await flowDetails(user?.attributes?.ethAddress);
+    console.log(result,"result");
+    console.log(parseFloat(ethers.utils.formatEther(826719576)),"log");
     setNetFlow(parseFloat(ethers.utils.formatEther(result.cfa.netFlow)));
   }; 
   useEffect(() => {

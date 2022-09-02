@@ -13,8 +13,6 @@ export const FirebaseDataContextProvider = (props) => {
   const [payments, setPayments] = useState([]);
 
   async function getCustomers() {
-    console.log(localStorage.getItem("user"));
-    console.log(user?.attributes.ethAddress);
     try {
       const customers = query(
         collection(db, "customers"),
@@ -22,7 +20,6 @@ export const FirebaseDataContextProvider = (props) => {
       );
 
       const customerSnapshot = await getDocs(customers);
-      console.log(customerSnapshot, "customerSnapshot");
 
       const customersList = customerSnapshot.docs.map((doc) => doc.data());
       setCustomers(customersList);
