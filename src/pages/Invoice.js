@@ -27,6 +27,8 @@ import Tab from "@mui/material/Tab";
 import { firebaseDataContext } from "src/context/FirebaseDataContext"; 
 import SentInvoices from "../components/invoices/SentInvoices";
 import ReceivedInvoices from "../components/invoices/ReceivedInvoices";
+import CreateInvoiceModal from "src/modal/CreateInvoiceModal";
+import { InvoicContext } from "src/context/CreateInvoiceContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,7 +42,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ pt: 2  }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -76,8 +78,8 @@ function Invoices() {
   const [sentInvoices, setSentInvoices] = useState([]);
   const [receivedInvoices, setReceivedInvoices] = useState([]);
 
-  // const invoiceContext = React.useContext(InvoicContext);
-  // const { updated } = invoiceContext;
+  const invoiceContext = React.useContext(InvoicContext);
+  const { updated } = invoiceContext;
 
   useEffect(async () => {
     const s =
@@ -101,7 +103,7 @@ function Invoices() {
 
   useEffect(async () => {
     getInvoices();
-  }, [ isUpdated]);
+  }, [ updated,isUpdated]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -117,6 +119,14 @@ function Invoices() {
 
   return (
     <Page title="Invoice |  TrustifiedNetwork">
+      <CreateInvoiceModal
+        open={handleClickOpen}
+        close={handleClose}
+        op={open}
+        acc={user?.attributes?.ethAddress}
+        setIsUpdated={setIsUpdated}
+        isUpdated={isUpdated}
+      />
       
       <Container pl={0} pr={0}>
         <Stack

@@ -21,6 +21,7 @@ import { makeStore } from "./redux/store";
 import { Provider } from "react-redux";
 import { FirebaseDataContextProvider } from "./context/FirebaseDataContext"; 
 import { SuperfluidContextProvider } from "./context/SuperFluideContext";
+import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
@@ -33,6 +34,7 @@ ReactDOM.render(
         >
           <NotificationContextProvider>
             <FirebaseDataContextProvider> 
+            <InvoiceContextProvider>
                 <Web3ModalContextProvider> 
                     <SuperfluidWeb3ContextProvider>
                       <SuperfluidContextProvider>
@@ -44,6 +46,7 @@ ReactDOM.render(
                       </SuperfluidContextProvider>
                     </SuperfluidWeb3ContextProvider> 
                 </Web3ModalContextProvider> 
+           </InvoiceContextProvider>
             </FirebaseDataContextProvider>
           </NotificationContextProvider>
         </MoralisProvider>

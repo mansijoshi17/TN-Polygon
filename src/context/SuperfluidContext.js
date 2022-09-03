@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { gql } from "graphql-request"; 
 import { toast } from "react-toastify"; 
-import { Daix } from "src/pages/contracts/Daix";
+import { Daix } from "src/contracts/Daix";
  
 
 export const SuperfluidWeb3Context = createContext(undefined);
