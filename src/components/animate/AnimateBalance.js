@@ -13,7 +13,7 @@ const AnimateBalance = ({ value, rate, timeout = 100, decimalPlaces = 7 }) => {
       clearInterval(id);
     };
   }, [value, rate]);
-  return <p {...props}>{valueShow.toFixed(decimalPlaces)}</p>;
+  return <p>{valueShow.toFixed(decimalPlaces)}</p>;
 };
 
 export default AnimateBalance;

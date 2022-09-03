@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import * as Yup from 'yup';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Stack, TextField, Box } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -22,24 +22,31 @@ function CreateCustomerModal(props) {
   const { user } = useMoralis();
   const [loading, setLoading] = useState(false);
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string('Enter email').email('Enter a valid email').required('Email is required'),
+    name: Yup.string('Enter Name').required('Name is required'),
+    address: Yup.string('Enter customer Address').required('Address is required'),
+  });
+
   const formik = useFormik({
     initialValues: {
       name: "",
       address: "",
       email: "",
     },
-
-    onSubmit: async (values, { resetForm }) => {
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
       setLoading(true);
+      console.log(values, "values");
       try {
-        const docRef = await addDoc(collection(db, "customers"), {
-          name: values.name,
-          address: values.address,
-          email: values.email,
-          admin: localStorage.getItem("user"),
-        });
+        // const docRef = await addDoc(collection(db, "customers"), {
+        //   name: values.name,
+        //   address: values.address,
+        //   email: values.email,
+        //   admin: localStorage.getItem("user"),
+        // });
         props.setIsUpdated(!props.isUpdated);
-        resetForm();
+        // resetForm();
         setLoading(false);
         props.close();
         toast.success("Successfully customer created!!");
@@ -51,6 +58,9 @@ function CreateCustomerModal(props) {
       }
     },
   });
+
+
+ 
 
   return (
     <div>
@@ -81,15 +91,22 @@ function CreateCustomerModal(props) {
                   name="name"
                   id="name"
                   type="text"
-                  {...formik.getFieldProps("name")}
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                 />
+                {formik.touched.name && formik.errors.name}
                 <TextField
                   fullWidth
                   label="Wallet Address"
                   name="address"
                   id="address"
                   type="text"
-                  {...formik.getFieldProps("address")}
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
+                  error={formik.touched.address && Boolean(formik.errors.address)}
+                  helperText={formik.touched.address && formik.errors.address}
                 />
 
                 <TextField
@@ -98,7 +115,11 @@ function CreateCustomerModal(props) {
                   name="email"
                   id="email"
                   type="email"
-                  {...formik.getFieldProps("email")}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+
                 />
               </Stack>
 

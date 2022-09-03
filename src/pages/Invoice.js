@@ -17,19 +17,14 @@ import React, { useEffect, useState } from "react";
 import { useMoralis, useMoralisCloudFunction } from "react-moralis";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Iconify from "src/components/Iconify";
-import { Web3Context } from "src/context/Web3Context";
-import { factoryAbi, factoryAddress } from "src/contracts/contract";
-import CreateInvoiceModal from "src/modal/CreateInvoiceModal";
+import Iconify from "src/components/Iconify";   
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Page from "../components/Page";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import { firebaseDataContext } from "src/context/FirebaseDataContext";
-import { InvoicContext } from "src/context/CreateInvoiceContext";
-
+import { firebaseDataContext } from "src/context/FirebaseDataContext"; 
 import SentInvoices from "../components/invoices/SentInvoices";
 import ReceivedInvoices from "../components/invoices/ReceivedInvoices";
 
@@ -74,17 +69,15 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 function Invoices() {
   const { user } = useMoralis();
-  const navigate = useNavigate();
-  const web3Context = React.useContext(Web3Context);
-  const { address } = web3Context;
+  const navigate = useNavigate(); 
 
   const firebaseContext = React.useContext(firebaseDataContext);
   const { getInvoices, invoices } = firebaseContext;
   const [sentInvoices, setSentInvoices] = useState([]);
   const [receivedInvoices, setReceivedInvoices] = useState([]);
 
-  const invoiceContext = React.useContext(InvoicContext);
-  const { updated } = invoiceContext;
+  // const invoiceContext = React.useContext(InvoicContext);
+  // const { updated } = invoiceContext;
 
   useEffect(async () => {
     const s =
@@ -108,7 +101,7 @@ function Invoices() {
 
   useEffect(async () => {
     getInvoices();
-  }, [updated, isUpdated]);
+  }, [ isUpdated]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -124,14 +117,7 @@ function Invoices() {
 
   return (
     <Page title="Invoice |  TrustifiedNetwork">
-      <CreateInvoiceModal
-        open={handleClickOpen}
-        close={handleClose}
-        op={open}
-        acc={address}
-        setIsUpdated={setIsUpdated}
-        isUpdated={isUpdated}
-      />
+      
       <Container pl={0} pr={0}>
         <Stack
           direction="row"
@@ -152,8 +138,8 @@ function Invoices() {
           </Button>
         </Stack>
         <Stack>
-          <Card>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+           
+            <Box sx={{ borderBottom: 1, borderColor: "divider", width:'fit-content' }}>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -168,8 +154,7 @@ function Invoices() {
             </TabPanel>
             <TabPanel value={value} index={1}>
               <ReceivedInvoices invoices={receivedInvoices} />
-            </TabPanel>
-          </Card>
+            </TabPanel> 
         </Stack>
       </Container>
     </Page>

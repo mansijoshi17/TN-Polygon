@@ -4,17 +4,11 @@ import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar, IconButton, Button } from "@mui/material";
 // components
-import Iconify from "../../components/Iconify";
-//
-import Searchbar from "./Searchbar";
-import AccountPopover from "./AccountPopover";
-import LanguagePopover from "./LanguagePopover";
+import Iconify from "../../components/Iconify"; 
+import AccountPopover from "./AccountPopover"; 
 import NotificationsPopover from "./NotificationsPopover";
-import { useMoralis } from "react-moralis";
-import { Web3Context } from "../../context/Web3Context";
-
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import Transak from "src/modal/TransakModal";
+import { useMoralis } from "react-moralis"; 
+ 
 import { TransakWeb3Context } from "../../context/Transak";
 
 // ----------------------------------------------------------------------
@@ -49,9 +43,7 @@ DashboardNavbar.propTypes = {
 
 export default function DashboardNavbar({ onOpenSidebar }) {
   const { Moralis, authenticate, user, isAuthenticated, account } =
-    useMoralis();
-  const web3Context = React.useContext(Web3Context);
-  const { connectWallet, web3Auth, address } = web3Context;
+    useMoralis(); 
 
   const TransakWeb3context = React.useContext(TransakWeb3Context);
   const { openTransak } = TransakWeb3context;
@@ -93,7 +85,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             <Button onClick={() => authenticate()}>Connect</Button>
           ) : (
             <p style={{ color: "black", textOverflow: "ellipsis" }}>
-              {user && user.attributes.username}
+              {user && user?.attributes?.username}
             </p>
           )}
 

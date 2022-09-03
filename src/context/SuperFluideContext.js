@@ -1,21 +1,11 @@
-import React, { useState, createContext, useEffect, useCallback } from "react";
-import detectEthereumProvider from "@metamask/detect-provider";
+import React, { useState, createContext, useEffect, useCallback } from "react"; 
 
 import { useMoralis } from "react-moralis";
-import { Framework, createSkipPaging } from "@superfluid-finance/sdk-core";
+import { Framework  } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
+ 
 
-import Web3 from "web3";
-
-import BigNumber from "bignumber.js";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-import { gql } from "graphql-request";
-import { networks } from "../redux/networks";
-import { sfSubgraph, sfApi } from "../redux/store";
-import { toast } from "react-toastify";
-import { Daix } from "../contracts/Daix";
+import BigNumber from "bignumber.js"; 
 
 import { firebaseDataContext } from "./FirebaseDataContext";
 
@@ -49,35 +39,7 @@ export const SuperfluidContextProvider = (props) => {
 
   useEffect(() => {
     initWeb3();
-  }, []);
-
-  // function loadFlow(data) {
-  //   const date = new Date();
-  //   const currentTime = Math.floor(date.getTime() / 1000);
-
-  //   let stopAnimation = false;
-  //   let lastAnimationTimestamp = 0;
-
-  //   const animationStep = (currentAnimationTimestamp) => {
-  //     if (
-  //       currentAnimationTimestamp - lastAnimationTimestamp >
-  //       ANIMATION_MINIMUM_STEP_TIME
-  //     ) {
-  //       if (stopAnimation) {
-  //         return;
-  //       }
-
-  //       let val =
-  //         data.streamedUntilUpdatedAt +
-  //         (currentTime - data.updatedAtTimestamp) * data.currentFlowRate;
-  //       console.log(val);
-
-  //       lastAnimationTimestamp = currentAnimationTimestamp;
-  //     }
-  //     window.requestAnimationFrame(animationStep);
-  //   };
-  //   window.requestAnimationFrame(animationStep);
-  // }
+  }, []); 
 
   async function initWeb3() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);

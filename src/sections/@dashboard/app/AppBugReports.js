@@ -1,18 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 // material
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Typography } from "@mui/material";
-// utils
-import { fShortenNumber } from "../../../utils/formatNumber";
+import { Card, Typography } from "@mui/material"; 
 //
 import Iconify from "../../../components/Iconify";
 import { SuperfluidWeb3Context } from "../../../context/SuperfluidContext";
 import { BigNumberish, ethers } from "ethers";
 import { Box } from "@mui/material";
 import _ from "lodash";
-import { useMoralis } from "react-moralis";
+import { useMoralis } from "react-moralis"; 
+import AnimatedBalance from "src/components/animate/AnimateBalance";
 import { flowDetails } from "src/superfluid";
-import AnimatedBalance from "src/superfluid/AnimateBalance";
 
 // ----------------------------------------------------------------------
 

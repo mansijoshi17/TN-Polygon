@@ -4,9 +4,7 @@ import { useMoralis } from "react-moralis";
 import { toast } from "react-toastify";
 
 import { NotificationContext } from "./Notification";
-import { networkDirectory, contracts } from "../config";
-import streamFactory from "../abi/StreamFactory.json";
-import moneyRouter from "../abi/MoneyRouter.json";
+import { networkDirectory, contracts } from "../config"; 
 import { Framework } from "@superfluid-finance/sdk-core";
 import { SuperfluidContext } from "./SuperFluideContext";
 

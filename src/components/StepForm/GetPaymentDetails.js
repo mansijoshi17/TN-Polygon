@@ -1,20 +1,12 @@
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
+import { 
+  FormControl, 
   InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
+  MenuItem, 
   Select,
-  Stack,
-  TextareaAutosize,
-  TextField,
-  Grid,
+  Stack, 
+  TextField, 
 } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useContext } from "react"; 
 import { MoneyStreamingContext } from "src/context/CreateMoneyStreamContext";
 
 function GetPaymentDetails() {
@@ -50,40 +42,7 @@ function GetPaymentDetails() {
                 return <MenuItem value={t}>{t}</MenuItem>;
               })}
           </Select>
-        </FormControl>
-        {/* <Grid container>
-          <Grid item md={6} xs={6}>
-            <label style={{ color: "grey" }}>Start Date :</label>
-
-            <TextField
-              fullWidth
-              label=" "
-              name="sdate"
-              id="sdate"
-              type="date"
-              required
-              style={{
-                paddingRight: "1vw",
-              }}
-              value={formdata.sdate}
-              onChange={value.setFormdata("sdate")}
-            />
-          </Grid>
-          <Grid item md={6} xs={6}>
-            <label style={{ color: "grey" }}>End Date :</label>
-
-            <TextField
-              fullWidth
-              label=" "
-              name="edate"
-              id="edate"
-              type="date"
-              required
-              value={formdata.edate}
-              onChange={value.setFormdata("edate")}
-            />
-          </Grid>
-        </Grid> */}
+        </FormControl>  
       </Stack>
     </div>
   );

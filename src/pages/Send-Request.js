@@ -16,17 +16,15 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useMoralis, useMoralisCloudFunction, useMoralisWeb3Api } from "react-moralis";
 import { toast } from "react-toastify";
-import Iconify from "src/components/Iconify";
-import { Web3Context } from "src/context/Web3Context";
-import { factoryAbi, factoryAddress } from "src/contracts/contract";
-import CreatePaymentModal from "src/modal/CreatePaymentModal";
+import Iconify from "src/components/Iconify";  
+// import CreatePaymentModal from "src/modal/CreatePaymentModal";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Page from "../components/Page";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import SendTable from "src/components/payments/SendTable";
-import RequestTable from "src/components/payments/RequestTable";
+// import RequestTable from "src/components/payments/RequestTable";
 import Web3 from "web3";
 
 function TabPanel(props) {
@@ -70,9 +68,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 function SendRequest() {
   const { Moralis, account, user } = useMoralis();
-  const Web3Api = useMoralisWeb3Api();
-  const web3Context = React.useContext(Web3Context);
-  const { connectWallet, web3Auth, address } = web3Context;
+  const Web3Api = useMoralisWeb3Api(); 
 
   const [status, setStatus] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -167,14 +163,14 @@ function SendRequest() {
 
   return (
     <Page title="Payments |  TrustifiedNetwork">
-      <CreatePaymentModal
+      {/* <CreatePaymentModal
         open={handleClickOpen}
         close={handleClose}
         op={open}
         acc={address}
         setIsUpdated={setIsUpdated}
         isUpdated={isUpdated}
-      />
+      /> */}
       <Container pl={0} pr={0}>
         <Stack
           direction="row"
@@ -281,7 +277,7 @@ function SendRequest() {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Card>
-              <RequestTable requestData={requestData} />
+              {/* <RequestTable requestData={requestData} /> */}
             </Card>
           </TabPanel>
         </Stack>

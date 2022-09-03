@@ -53,8 +53,8 @@ export const ProfileDetails = (props) => {
   });
 
   async function onChangeAvatar(e) {
-    const file = e.target.files[0]; 
-    let fileIpfs = await saveFile("trustified", file, { saveIPFS: true }); 
+    const file = e.target.files[0];
+    let fileIpfs = await saveFile("trustified", file, { saveIPFS: true });
     user.set("Avatar", fileIpfs);
     await user.save();
     const moralisFile = new Moralis.File('Avatar', file);
@@ -70,8 +70,7 @@ export const ProfileDetails = (props) => {
     });
   };
 
-  const handleSubmit = async () => { 
-
+  const handleSubmit = async () => {
     if (user) {
       await setUserData({
         username: values.username,
@@ -82,7 +81,7 @@ export const ProfileDetails = (props) => {
         purpose: values.purpose
       })
     }
-    toast.success("Successfully update the profile!"); 
+    toast.success("Successfully update the profile!");
   }
 
   return (
@@ -91,26 +90,25 @@ export const ProfileDetails = (props) => {
       noValidate
       {...props}
     >
-      <ToastContainer />
-      <Stack direction="row" spacing={3} style={{ justifyContent: 'center', display: 'flex' }} >
-        <Badge
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          badgeContent={
-            <label htmlFor="icon-button-file">
-              <Input accept="image/*" id="icon-button-file" type="file" onChange={onChangeAvatar} />
-              <IconButton color="primary" aria-label="upload picture" component="span">
-                <PhotoCamera />
-              </IconButton>
-            </label>
-          }
-        >
-          <Avatar sx={{ width: 100, height: 100 }} src={avatar ? avatar : "/images/log.png"} />
-        </Badge>
-
-      </Stack>
+      <ToastContainer /> 
       <Card   >
         <CardContent>
+          <Stack direction="row" spacing={3} style={{ justifyContent: 'center', display: 'flex',marginBottom:'30px' }} >
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={
+                <label htmlFor="icon-button-file">
+                  <Input accept="image/*" id="icon-button-file" type="file" onChange={onChangeAvatar} />
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <PhotoCamera />
+                  </IconButton>
+                </label>
+              }
+            >
+              <Avatar sx={{ width: 100, height: 100 }} src={avatar ? avatar : "/images/log.png"} />
+            </Badge> 
+          </Stack>
 
           <Grid
             container

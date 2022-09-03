@@ -9,8 +9,7 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import reportWebVitals from "./reportWebVitals";
-import { MoralisProvider } from "react-moralis";
-import { Web3ContextProvider } from "./context/Web3Context";
+import { MoralisProvider } from "react-moralis"; 
 import { SuperfluidWeb3ContextProvider } from "./context/SuperfluidContext";
 import { TransakWeb3ContextWeb3ContextProvider } from "./context/Transak";
 import { Web3ModalContextProvider } from "./context/Web3Modal";
@@ -20,8 +19,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { makeStore } from "./redux/store";
 import { Provider } from "react-redux";
-import { FirebaseDataContextProvider } from "./context/FirebaseDataContext";
-import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
+import { FirebaseDataContextProvider } from "./context/FirebaseDataContext"; 
 import { SuperfluidContextProvider } from "./context/SuperFluideContext";
 // ----------------------------------------------------------------------
 
@@ -34,10 +32,8 @@ ReactDOM.render(
           serverUrl={process.env.REACT_APP_MORALIS_SERVER}
         >
           <NotificationContextProvider>
-            <FirebaseDataContextProvider>
-              <InvoiceContextProvider>
-                <Web3ModalContextProvider>
-                  <Web3ContextProvider>
+            <FirebaseDataContextProvider> 
+                <Web3ModalContextProvider> 
                     <SuperfluidWeb3ContextProvider>
                       <SuperfluidContextProvider>
                         <MoneyStreamingContextProvider>
@@ -46,10 +42,8 @@ ReactDOM.render(
                           </TransakWeb3ContextWeb3ContextProvider>
                         </MoneyStreamingContextProvider>
                       </SuperfluidContextProvider>
-                    </SuperfluidWeb3ContextProvider>
-                  </Web3ContextProvider>
-                </Web3ModalContextProvider>
-              </InvoiceContextProvider>
+                    </SuperfluidWeb3ContextProvider> 
+                </Web3ModalContextProvider> 
             </FirebaseDataContextProvider>
           </NotificationContextProvider>
         </MoralisProvider>

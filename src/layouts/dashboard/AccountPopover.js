@@ -38,6 +38,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const navigate = useNavigate();
+  const {user} = useMoralis()
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const web3ModalContext = React.useContext(Web3ModalContext);
@@ -51,7 +52,7 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(false);
   };
-
+console.log(user,"user");
   return (
     <>
       <IconButton
@@ -74,7 +75,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user && user?.attributes?.Avatar?._url} alt={user && user?.attributes?.username} />
       </IconButton>
 
       <MenuPopover
@@ -85,10 +86,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            { user && user?.attributes?.username}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {account.email}
+            {user && user?.attributes?.email}
           </Typography>
         </Box>
 
