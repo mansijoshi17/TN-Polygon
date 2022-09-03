@@ -4,19 +4,11 @@ import {
   Container,
   Stack,
   Box,
-  Typography,
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
-import { ethers } from "ethers";
+  Typography, 
+} from "@mui/material"; 
 import React, { useEffect, useState } from "react";
-import { useMoralis, useMoralisCloudFunction } from "react-moralis";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useMoralis } from "react-moralis";
+import { Link as RouterLink, useNavigate } from "react-router-dom"; 
 import Iconify from "src/components/Iconify";   
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
@@ -70,8 +62,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 function Invoices() {
-  const { user } = useMoralis();
-  const navigate = useNavigate(); 
+  const { user } = useMoralis(); 
 
   const firebaseContext = React.useContext(firebaseDataContext);
   const { getInvoices, invoices } = firebaseContext;
@@ -92,11 +83,8 @@ function Invoices() {
         (s) => s.to.toLowerCase() == user?.attributes?.ethAddress
       );
     setReceivedInvoices(r);
-  }, [invoices, isUpdated]);
-
-  const [status, setStatus] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  }, [invoices, isUpdated]); 
+  const [open, setOpen] = React.useState(false); 
   const [value, setValue] = React.useState(0);
 
   const [isUpdated, setIsUpdated] = useState(false);

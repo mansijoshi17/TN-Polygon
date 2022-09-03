@@ -4,10 +4,8 @@ import DashboardLayout from "./layouts/dashboard";
 import LendingPageLayout from "./layouts/LendingPageLayout"; 
 import DashboardApp from "./pages/DashboardApp"; 
 import NotFound from "./pages/Page404"; 
-import UserProfile from "./layouts/dashboard/UserProfile";
-// import Profile from "./pages/Profile"; 
-import Lending from "./LendingPage/Lending"; 
-import SendRequest from "./pages/Send-Request"; 
+import UserProfile from "./layouts/dashboard/UserProfile"; 
+import Lending from "./LendingPage/Lending";  
 import Invoice from "./pages/Invoice";  
 import Customers from "./pages/Customers";
 import SentPayments from "./pages/RecurringPayments/SentPayments";
@@ -21,8 +19,7 @@ export default function Router() {
       path: "/dashboard",
       element: <DashboardLayout />,
       children: [
-        { path: "app", element: <DashboardApp /> },  
-        { path: "send-request", element: <SendRequest /> },  
+        { path: "app", element: <DashboardApp /> },    
         { path: "userProfile", element: <UserProfile /> },
         { path: "invoice", element: <Invoice /> },  
         { path: "customers", element: <Customers /> },

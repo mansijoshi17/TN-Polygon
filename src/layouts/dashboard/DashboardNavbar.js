@@ -42,20 +42,12 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
-  const { Moralis, authenticate, user, isAuthenticated, account } =
+  const {authenticate, user  } =
     useMoralis(); 
 
   const TransakWeb3context = React.useContext(TransakWeb3Context);
   const { openTransak } = TransakWeb3context;
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
 
   return (
     <RootStyle>
@@ -65,11 +57,8 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           sx={{ mr: 1, color: "text.primary", display: { lg: "none" } }}
         >
           <Iconify icon="eva:menu-2-fill" />
-        </IconButton>
-
-        {/* <Searchbar /> */}
-        <Box sx={{ flexGrow: 1 }} />
-
+        </IconButton> 
+        <Box sx={{ flexGrow: 1 }} /> 
         <Stack
           direction="row"
           alignItems="center"
@@ -87,9 +76,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             <p style={{ color: "black", textOverflow: "ellipsis" }}>
               {user && user?.attributes?.username}
             </p>
-          )}
-
-          {/* <p style={{ color: 'black', textOverflow: 'ellipsis' }}>{account != null && account.slice(0, 10)}</p> */}
+          )} 
         </Stack>
       </ToolbarStyle>
     </RootStyle>

@@ -1,25 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import * as Yup from 'yup';
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Stack, TextField, Box } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { styled } from "@mui/material/styles";
-import { toast } from "react-toastify";
-import { ethers } from "ethers";
-import { collection, addDoc, db } from "../firebase";
-import { useMoralis, useMoralisQuery } from "react-moralis";
-
-const Input = styled("input")({
-  display: "none",
-});
-function CreateCustomerModal(props) {
-  const { user } = useMoralis();
+import * as Yup from 'yup'; 
+import { Stack, TextField, Box, CircularProgress } from "@mui/material";
+import { LoadingButton } from "@mui/lab"; 
+import { toast } from "react-toastify"; 
+import { collection, addDoc, db } from "../firebase"; 
+ 
+function CreateCustomerModal(props) { 
   const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -35,25 +27,23 @@ function CreateCustomerModal(props) {
       email: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      setLoading(true);
-      console.log(values, "values");
+    onSubmit: async (values) => {
+      setLoading(true); 
       try {
-        // const docRef = await addDoc(collection(db, "customers"), {
-        //   name: values.name,
-        //   address: values.address,
-        //   email: values.email,
-        //   admin: localStorage.getItem("user"),
-        // });
+        const docRef = await addDoc(collection(db, "customers"), {
+          name: values.name,
+          address: values.address,
+          email: values.email,
+          admin: localStorage.getItem("user"),
+        });
         props.setIsUpdated(!props.isUpdated);
-        // resetForm();
+        resetForm();
         setLoading(false);
         props.close();
         toast.success("Successfully customer created!!");
       } catch (error) {
         console.log(error);
-        setLoading(false);
-
+        setLoading(false); 
         toast.error("Something went wrong!");
       }
     },
@@ -95,8 +85,7 @@ function CreateCustomerModal(props) {
                   onChange={formik.handleChange}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
-                />
-                {formik.touched.name && formik.errors.name}
+                />  
                 <TextField
                   fullWidth
                   label="Wallet Address"
@@ -130,7 +119,7 @@ function CreateCustomerModal(props) {
                   loading={formik.isSubmitting}
                   disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create"}
+                  {loading ?  <CircularProgress/> : "Create"}
                 </LoadingButton>
                 <Button onClick={props.close} variant="contained">
                   Cancel

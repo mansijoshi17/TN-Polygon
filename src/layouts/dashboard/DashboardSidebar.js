@@ -46,8 +46,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    } 
   }, [pathname]);
 
   const renderContent = (
@@ -62,25 +61,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       <Box >
-        <Link underline="none" component={RouterLink} to="#">
-          {/* <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </AccountStyle> */}
+        <Link underline="none" component={RouterLink} to="#"> 
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
-
-      <Box sx={{ flexGrow: 1 }} />
-
+      <NavSection navConfig={sidebarConfig} /> 
+      <Box sx={{ flexGrow: 1 }} /> 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}> 
       </Box>
     </Scrollbar>

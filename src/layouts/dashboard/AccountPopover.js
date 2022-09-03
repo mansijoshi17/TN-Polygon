@@ -10,16 +10,11 @@ import {
   Typography,
   Avatar,
   IconButton,
-} from "@mui/material";
-// components
+} from "@mui/material"; 
 import Iconify from "../../components/Iconify";
-import MenuPopover from "../../components/MenuPopover";
-//
-import account from "../../_mocks_/account";
+import MenuPopover from "../../components/MenuPopover"; 
 import { useMoralis } from "react-moralis";
-import { Web3ModalContext } from "../../context/Web3Modal";
-
-// ----------------------------------------------------------------------
+import { Web3ModalContext } from "../../context/Web3Modal"; 
 
 const MENU_OPTIONS = [
   {
