@@ -10,6 +10,8 @@ import Invoice from "./pages/Invoice";
 import Customers from "./pages/Customers";
 import SentPayments from "./pages/RecurringPayments/SentPayments";
 import ReceivedPayments from "./pages/RecurringPayments/ReceivedPayments";
+import InvoiceDetail from "./pages/InvoiceDetail";
+import Agreement from "./pages/Agreement";
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +23,7 @@ export default function Router() {
       children: [
         { path: "app", element: <DashboardApp /> },    
         { path: "userProfile", element: <UserProfile /> },
+        { path: "Agreement", element: <Agreement /> },
         { path: "invoice", element: <Invoice /> },  
         { path: "customers", element: <Customers /> },
         { path: "payments/sent", element: <SentPayments /> },
@@ -32,7 +35,7 @@ export default function Router() {
       element: <LendingPageLayout />,
       children: [
         { path: "/", element: <Lending /> },
-        // { path: "/:name", element: <Profile /> },  
+        { path: "/invoice/:id", element: <InvoiceDetail /> }, 
       ],
     },
     { path: "*", element: <Navigate to="/404" replace /> }, 
