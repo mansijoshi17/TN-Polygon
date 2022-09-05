@@ -43,60 +43,6 @@ function GetChain() {
     <div>
       <Stack spacing={3} sx={{ margin: "20px" }}>
         <Box sx={{ minWidth: 120 }}>
-          <FormControl
-            fullWidth
-            style={{
-              paddingRight: "2vw",
-              marginBottom: "2vw",
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">Customer</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              name="customer"
-              label="Customer"
-              value={formdata.customerAdd}
-              onChange={value.setFormdata("customerAdd")}
-            >
-              {customers &&
-                customers.map((customer) => {
-                  return (
-                    <MenuItem value={customer.address}>
-                      {customer.name}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-          </FormControl>
-          <FormControl
-            fullWidth
-            style={{
-              paddingRight: "2vw",
-              marginBottom: "2vw",
-            }}
-          >
-            <InputLabel id="demo-simple-select-label">Token</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              name="token"
-              label="Token"
-              value={formdata.token}
-              onChange={value.setFormdata("token")}
-            >
-              {Object.keys(superTokens).map((key) => {
-                return (
-                  <MenuItem key={key} value={superTokens[key]}>
-                    {key}
-                  </MenuItem>
-                );
-              })}
-
-              {/* <MenuItem value="MATICx">MATICx</MenuItem>
-              <MenuItem value="AVAXx">AVAXx</MenuItem> */}
-            </Select>
-          </FormControl>
           <FormControl fullWidth>
             <FormLabel id="demo-controlled-radio-buttons-group">
               Choose Your Network
@@ -144,9 +90,9 @@ function GetChain() {
                   onChange={value.setFormdata("chain")}
                 />
                 <FormControlLabel
-                  value="3"
+                  value="5"
                   control={<Radio />}
-                  label="Ropsten"
+                  label="Goerli"
                   onChange={value.setFormdata("chain")}
                 />
                 <FormControlLabel
@@ -184,6 +130,62 @@ function GetChain() {
                             <MenuItem value="Ropsten" onChange={value.setFormdata("chain")} >Ropsten</MenuItem>
                             <MenuItem value="Avax" onChange={value.setFormdata("chain")} >Avalanche FUJI</MenuItem>
                         </Select> */}
+          </FormControl>
+
+          <FormControl
+            fullWidth
+            style={{
+              marginTop: "2vw",
+              paddingRight: "2vw",
+              marginBottom: "2vw",
+            }}
+          >
+            <InputLabel id="demo-simple-select-label">Token</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="token"
+              label="Token"
+              value={formdata.token}
+              onChange={value.setFormdata("token")}
+            >
+              {Object.keys(superTokens).map((key) => {
+                return (
+                  <MenuItem key={key} value={superTokens[key]}>
+                    {key}
+                  </MenuItem>
+                );
+              })}
+
+              {/* <MenuItem value="MATICx">MATICx</MenuItem>
+              <MenuItem value="AVAXx">AVAXx</MenuItem> */}
+            </Select>
+          </FormControl>
+          <FormControl
+            fullWidth
+            style={{
+              paddingRight: "2vw",
+              marginBottom: "2vw",
+            }}
+          >
+            <InputLabel id="demo-simple-select-label">Customer</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="customer"
+              label="Customer"
+              value={formdata.customerAdd}
+              onChange={value.setFormdata("customerAdd")}
+            >
+              {customers &&
+                customers.map((customer) => {
+                  return (
+                    <MenuItem value={customer.address}>
+                      {customer.name}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
           </FormControl>
         </Box>
       </Stack>

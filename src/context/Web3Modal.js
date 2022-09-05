@@ -25,27 +25,27 @@ export const Web3ModalContextProvider = (props) => {
   const [signedMessage, setSignedMessage] = useState("");
   const [verified, setVerified] = useState();
 
-  const {  authenticate,  user, isAuthenticated , enableWeb3 } = useMoralis();
+  const { authenticate, user, isAuthenticated, enableWeb3 } = useMoralis();
 
   const connectWallet = async () => {
     try {
       const provider = await web3Modal.connect();
       const library = new ethers.providers.Web3Provider(provider);
-      const accounts = await library.listAccounts(); 
-      const network = await library.getNetwork(); 
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
       setProvider(provider);
-      await authenticate({signingMessage: "Log in using Moralis" })  
+      await authenticate({ signingMessage: "Log in using Moralis" });
       await enableWeb3({ provider: provider });
       setLibrary(library);
       if (accounts) setAccount(accounts[0]);
       setChainId(network.chainId);
       localStorage.setItem("user", accounts[0]);
-      if (accounts) navigate("/dashboard/app");
+      if (accounts) navigate("/dashboard/customers");
     } catch (error) {
-      console.log(error,"err");
+      console.log(error, "err");
       setError(error);
     }
-  }; 
+  };
 
   const refreshState = () => {
     setAccount();

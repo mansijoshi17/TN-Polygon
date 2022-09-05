@@ -102,7 +102,6 @@ function SentPayments() {
     }
   }, [sf, isUpdatedctx]);
 
-  console.log(outFlows);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

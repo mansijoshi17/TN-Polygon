@@ -5,14 +5,14 @@ export const contracts = {
 };
 
 export const networkDirectory = {
-  3: {
-    name: "ropsten",
-    cfa: "0xaD2F1f7cd663f6a15742675f975CcBD42bb23a88",
-    host: "0xF2B4E81ba39F5215Db2e05B2F66f482BB8e87FD2",
+  5: {
+    name: "goerli",
+    cfa: "0xEd6BcbF6907D4feEEe8a8875543249bEa9D308E8",
+    host: "0x22ff293e14F1EC3A09B137e9e06084AFd63adDF9",
     superTokens: {
-      ETHx: "0x6fC99F5591b51583ba15A8C2572408257A1D2797",
-      fDAIx: "0xBF6201a6c48B56d8577eDD079b84716BB4918E8A",
-      fUSDC: "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2",
+      ETHx: "0x5943F705aBb6834Cad767e6E4bB258Bc48D9C947",
+      fDAIx: "0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00",
+      fUSDCx: "0x8aE68021f6170E5a766bE613cEA0d75236ECCa9a",
     },
   },
   80001: {

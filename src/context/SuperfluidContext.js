@@ -12,15 +12,13 @@ import { gql } from "graphql-request";
 import { networks } from "../redux/networks";
 import { sfSubgraph, sfApi } from "../redux/store";
 import { toast } from "react-toastify";
-import {Daix} from "../contracts/Daix";
- 
+import { Daix } from "../contracts/Daix";
 
 export const SuperfluidWeb3Context = createContext(undefined);
 
 export const url = `https://polygon-mumbai.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`;
 export const customHttpProvider = new ethers.providers.JsonRpcProvider(url);
 const USDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
-
 
 const searchByAddressDocument = gql`
   query Search($addressId: ID, $addressBytes: Bytes) {
@@ -46,31 +44,27 @@ const searchByAddressDocument = gql`
 
 export const SuperfluidWeb3ContextProvider = (props) => {
   const [isLoadingcon, setIsLoaing] = useState(false);
-  const { user,Moralis } = useMoralis();
+  const { user, Moralis } = useMoralis();
   const navigate = useNavigate();
   const [totalStreams, setTotalStreams] = useState(0);
   const [flow, setFlow] = useState();
-  const [subAddress,setSubAddress]= useState("");
-  const [subTotal , setSubTotal ] = useState(0);
+  const [subAddress, setSubAddress] = useState("");
+  const [subTotal, setSubTotal] = useState(0);
   const [subflow, setSubFlow] = useState();
 
+  const getSubAddress = (add) => {
+    setSubAddress(add);
+  };
 
-const getSubAddress=(add)=>{
-  setSubAddress(add);
-}
+  async function getUSDCXBalance(provider, subAddress) {
+    const signer = provider.getSigner(subAddress);
+    const contract = new ethers.Contract(USDCx, Daix, signer);
+    let result = await contract.balanceOf(subAddress);
+    return ethers.utils.formatEther(result);
+  }
 
- async function getUSDCXBalance(
-  provider ,
-  subAddress, 
-) {
-  const signer = provider.getSigner(subAddress);
-  const contract = new ethers.Contract(USDCx, Daix, signer);
-  let result = await contract.balanceOf(subAddress);
-  return ethers.utils.formatEther(result);
-}
-
-// const provider = new ethers.providers.Web3Provider(window.ethereum);
-// const signer = provider.getSigner();
+  // const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // const signer = provider.getSigner();
 
   // const queryData = networks.map((network) =>
   //   sfSubgraph.useCustomQuery({
@@ -99,7 +93,7 @@ const getSubAddress=(add)=>{
   //   filter: {
   //     sender: queryData[0].currentData?.accounts[0]?.id,
   //   },
-  // }); 
+  // });
 
   // const prefetchStreamsQuery = sfSubgraph.usePrefetch("streams");
   // prefetchStreamsQuery({
@@ -118,14 +112,14 @@ const getSubAddress=(add)=>{
 
   // const outgoingStreamsQuery = sfSubgraph.useStreamsQuery({
   //   chainId: networks[0].chainId,
-  //   filter: { 
+  //   filter: {
   //     sender: subAddress,
   //   },
   // });
 
   // const incomingStreamsQuery = sfSubgraph.useStreamsQuery({
   //   chainId: networks[0].chainId,
-  //   filter: { 
+  //   filter: {
   //     receiver: user?.attributes?.ethAddress,
   //   },
   // });
@@ -140,7 +134,7 @@ const getSubAddress=(add)=>{
     //   superToken: USDCx,
     //   account: subAddress,
     //   providerOrSigner: signer,
-    // }); 
+    // });
 
     // setSubFlow(
     //   outgoingStreamsQuery.data?.data[
@@ -200,20 +194,20 @@ const getSubAddress=(add)=>{
       subPackage.set("subscriberAddress", user.attributes.ethAddress);
       subPackage.set("subscriberAvatar", user.attributes.Avatar);
       subPackage.set("subscriberAllData", user);
-      await subPackage.save(); 
+      await subPackage.save();
       setIsLoaing(false);
       alert(`Congrats - you've just created a money stream!
       View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}`);
       toast.success("Successfully Subscribe!");
-      navigate("/dashboard/app");
+      navigate("/dashboard/customers");
     } catch (error) {
       toast.error("Something want wrong!");
-      setIsLoaing(false);  
+      setIsLoaing(false);
       console.error(error);
     }
   }
 
-  async function listOutFlows() { 
+  async function listOutFlows() {
     // const chainId = await window.ethereum.request({ method: "eth_chainId" });
     // const sf = await Framework.create({
     //   chainId: Number(chainId),
@@ -223,7 +217,7 @@ const getSubAddress=(add)=>{
     //   superToken: USDCx,
     //   account: user?.attributes?.ethAddress,
     //   providerOrSigner: signer,
-    // }); 
+    // });
 
     // setFlow(
     //   incomingStreamsQuery.data?.data[
@@ -256,7 +250,7 @@ const getSubAddress=(add)=>{
         isLoadingcon,
         listOutFlows,
         totalStreams,
-        flow, 
+        flow,
       }}
       {...props}
     >

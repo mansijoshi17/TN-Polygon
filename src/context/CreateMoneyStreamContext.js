@@ -58,9 +58,6 @@ export const MoneyStreamingContextProvider = (props) => {
       handleClose();
       setLoading(false);
     } catch (error) {
-      console.log(
-        "Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!"
-      );
       setLoading(false);
       console.error(error);
     }

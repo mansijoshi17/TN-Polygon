@@ -42,7 +42,6 @@ function CreateProductModal(props) {
   const prod = new Product();
 
   const networkId = window.ethereum.networkVersion;
-   
 
   const handleChange = (event) => {
     setCreator(event.target.value);
@@ -52,7 +51,7 @@ function CreateProductModal(props) {
     const file = e.target.files[0];
     let fileIpfs = await saveFile("trustified", file, { saveIPFS: true });
     const moralisFile = new Moralis.File("trustified_products", file);
-  
+
     setImgs(fileIpfs);
   };
 
@@ -74,7 +73,6 @@ function CreateProductModal(props) {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values, { resetForm }) => {
-      console.log(props.currentUser);
       try {
         setLoading(true);
         props.setLoading(true);
@@ -208,7 +206,12 @@ function CreateProductModal(props) {
                   fullWidth
                   name="price"
                   type="number"
-                  label={`Price in ${networkId == 28 && "BOBA Rinkeby" || networkId == 80001 &&  "MATIC" || networkId == 3 && "ETH" || networkId == 97 && "BNB"}`}
+                  label={`Price in ${
+                    (networkId == 28 && "BOBA Rinkeby") ||
+                    (networkId == 80001 && "MATIC") ||
+                    (networkId == 3 && "ETH") ||
+                    (networkId == 97 && "BNB")
+                  }`}
                   {...formik.getFieldProps("price")}
                   error={Boolean(formik.touched.price && formik.errors.price)}
                   helperText={formik.touched.price && formik.errors.price}

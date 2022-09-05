@@ -111,7 +111,7 @@ function ProductDetails() {
                     onChange={value.setFormdata("network")}
                   >
                     <MenuItem value="ethereum">Ethereum</MenuItem>
-                    <MenuItem value="polygon">Polygon</MenuItem>
+                    <MenuItem value="mumbai">Mumbai</MenuItem>
                     <MenuItem value="binance">Bsc</MenuItem>
                     <MenuItem value="avalanche">Avalanche</MenuItem>
                   </Select>
