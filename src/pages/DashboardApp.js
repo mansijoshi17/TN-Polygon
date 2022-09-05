@@ -9,8 +9,7 @@ import {
   AppNewUsers,
   AppBugReports,
   AppItemOrders,
-  AppNewsUpdate,
-  AppTotalAgreement,
+  AppNewsUpdate, 
   AppOrderTimeline,
   AppCurrentVisits,
   AppWebsiteVisits,
@@ -35,8 +34,8 @@ export default function DashboardApp() {
           </Typography>
         </Box>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppTotalAgreement />
+          <Grid item xs={12} sm={6} md={3}> 
+          <AppItemOrders />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppNewUsers />

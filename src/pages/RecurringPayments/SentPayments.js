@@ -1,4 +1,4 @@
-import { Card, TableBody } from "@mui/material";
+import { Card, TableBody, Tooltip } from "@mui/material";
 import {
   Button,
   Container,
@@ -35,6 +35,10 @@ import { FlowingStream } from "../../components/FlowingStream";
 
 import { SuperfluidContext } from "../../context/SuperFluideContext";
 import { firebaseDataContext } from "../../context/FirebaseDataContext";
+import { shortAddress } from "src/utils/formatNumber";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CopyAddress from "src/utils/Copy";
+import { useMoralis } from "react-moralis";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,6 +80,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 function SentPayments() {
+  const { user } = useMoralis();
   const [status, setStatus] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -95,12 +100,23 @@ function SentPayments() {
   const { listOutFlows, sf, isUpdatedctx, outFlows, deleteFlow, updateStream } =
     superfluidContext;
 
+  const [copySuccess, setCopySuccess] = useState("Copy");
+
+  const copyToClipBoard = async (copyMe) => {
+    try {
+      await navigator.clipboard.writeText(copyMe);
+      setCopySuccess("Copied!");
+    } catch (err) {
+      setCopySuccess("Failed to copy!");
+    }
+  };
+
   useEffect(async () => {
     if (sf) {
       await getPayments();
       listOutFlows();
     }
-  }, [sf, isUpdatedctx]);
+  }, [sf, isUpdatedctx, user]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -153,8 +169,7 @@ function SentPayments() {
                     <TableCell>Address</TableCell>
                     <TableCell>All Time Flow</TableCell>
                     <TableCell>Amount</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
+                    <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -177,29 +192,45 @@ function SentPayments() {
                   {outFlows &&
                     outFlows.map((flow) => {
                       return (
-                        <TableRow>
-                          <TableCell>{flow.receiver}</TableCell>
+                        <TableRow key={flow.id}>
+                          <TableCell className="d-flex ">
+                            <p
+                              className="m-0"
+                              style={{
+                                border: "1px solid #eee",
+                                padding: "3px 15px",
+                                borderRadius: "20px",
+                                fontWeight: "bolder",
+                                width: "fit-content",
+                              }}
+                            >
+                              {shortAddress(flow.receiver)}
+                            </p>
+                            <CopyAddress address={flow.receiver} />
+                          </TableCell>
                           <TableCell>
                             <FlowingStream streamData={flow} />
                           </TableCell>
                           <TableCell>
                             {flow.amount}/{flow.period}
                           </TableCell>
-                          <TableCell
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              setOpenUpdate(true);
-                              setAmountVal(flow.amount);
-                              setFlow(flow);
-                            }}
-                          >
-                            {getIcon("uil:edit")}
-                          </TableCell>
-                          <TableCell
-                            style={{ cursor: "pointer" }}
-                            onClick={() => deleteFlow(flow)}
-                          >
-                            {getIcon("uil:trash")}
+                          <TableCell className="d-flex">
+                            <div
+                              style={{ cursor: "pointer", margin: "0 10px" }}
+                              onClick={() => {
+                                setOpenUpdate(true);
+                                setAmountVal(flow.amount);
+                                setFlow(flow);
+                              }}
+                            >
+                              {getIcon("uil:edit")}
+                            </div>
+                            <div
+                              style={{ cursor: "pointer", margin: "0 10px" }}
+                              onClick={() => deleteFlow(flow)}
+                            >
+                              {getIcon("uil:trash")}
+                            </div>
                           </TableCell>
                         </TableRow>
                       );

@@ -11,6 +11,7 @@ export const FirebaseDataContextProvider = (props) => {
   const [customers, setCustomers] = useState([]);
   const [invoices, setInvoices] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [updated, setUpdated] = useState(false);
 
   async function getCustomers() {
     try {
@@ -50,6 +51,7 @@ export const FirebaseDataContextProvider = (props) => {
     });
 
     setPayments(paymentsList);
+    setUpdated(!updated);
   }
 
   return (
@@ -61,6 +63,7 @@ export const FirebaseDataContextProvider = (props) => {
         customers,
         invoices,
         payments,
+        updated,
       }}
       {...props}
     >

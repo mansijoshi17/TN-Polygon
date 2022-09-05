@@ -16,14 +16,10 @@ import {
   Radio,
   RadioGroup,
   Container,
-  Box,
-  InputLabel,
-  Select,
-  MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { styled } from "@mui/material/styles";
-import { toast } from "react-toastify";
 
 const Input = styled("input")({
   display: "none",
@@ -39,7 +35,6 @@ function CreateAgreementModal(props) {
   const [description, setDescription] = useState("");
   const [stackPercent, setStackPercent] = useState("");
   const [sellerPercent, setSellerPercent] = useState("");
-  const [chain, setChain] = useState('');
   const titleHandler = (e) => setTitle(e.target.value);
 
   const handleChange = (event) => {
@@ -54,6 +49,7 @@ function CreateAgreementModal(props) {
   };
   const submitAgreement = (e) => {
     e.preventDefault();
+    console.log(submitAgreement, "aaaaaa");
     if (creator == "buyer") {
       setBuyer(props.acc);
     } else {
@@ -61,6 +57,7 @@ function CreateAgreementModal(props) {
     }
     const data = { buyer, seller, price, stackPercent, sellerPercent };
     props.submitForm(data);
+    console.log(data, "data");
     setTitle("");
     setDescription("");
     setBuyer("");
@@ -100,7 +97,6 @@ function CreateAgreementModal(props) {
     onSubmit: async (values) => {
       const formData = {
         title: values.title,
-        chain : chain,
         description: values.description,
         buyerAddress: creator == "buyer" ? props.acc : buyer,
         sellerAddress: creator == "seller" ? props.acc : seller,
@@ -137,60 +133,18 @@ function CreateAgreementModal(props) {
                   value={creator}
                   onChange={handleChange}
                 >
-                  <Stack
-                    direction="row"
-                    justifyContent="start"
-                    alignItems="center"
-                    spacing={2}
-                  >
-                    <FormControlLabel
-                      value="buyer"
-                      control={<Radio />}
-                      label="Buyer"
-                    />
-                    <FormControlLabel
-                      value="seller"
-                      control={<Radio />}
-                      label="Seller"
-                    />
-                  </Stack>
+                  <FormControlLabel
+                    value="buyer"
+                    control={<Radio />}
+                    label="Buyer"
+                  />
+                  <FormControlLabel
+                    value="seller"
+                    control={<Radio />}
+                    label="Seller"
+                  />
                 </RadioGroup>
               </FormControl>
-
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth >
-                  <InputLabel id="demo-simple-select-label">Select Chain</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={chain}
-                    label="Chain"
-                    onChange={(e) => {  
-                      const networkId = window.ethereum.networkVersion;
-                      if (e.target.value == 'Binance' && networkId !== '97') {
-                        toast.error("Please connect to the BSC Testnet network in Metamask to continue!");
-                      } else if (e.target.value == 'Polygon' && networkId !== '80001') {
-                        toast.error("Please connect to the Polygon Mumbai Testnet network in Metamask to continue!");
-                      } else if (e.target.value == 'Ropsten' && networkId !== '3') {
-                        toast.error("Please connect to the Ropsten Network in Metamask to continue!");
-                      } else if (e.target.value == 'Boba' && networkId !== '28') {
-                        toast.error("Please connect to the BOBA network in Metamask to continue!");
-                      } else if (e.target.value == 'Avax' && networkId !== '43113') {
-                        toast.error("Please connect to the AVAX FUJI network in Metamask to continue!");
-                      }  
-                      setChain(e.target.value)
-                    }
-                    }
-                  >
-                    <MenuItem value="Boba">BOBA</MenuItem>
-                    <MenuItem value="Binance">BSC</MenuItem>
-                    <MenuItem value="Polygon">Polygon Mumbai</MenuItem>
-                    <MenuItem value="Ropsten">Ropsten</MenuItem>
-                    <MenuItem value="Avax">Avalanche FUJI</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-
               <TextField
                 fullWidth
                 label="Title"
@@ -249,12 +203,7 @@ function CreateAgreementModal(props) {
                 name="price"
                 id="price"
                 type="number"
-                label={chain === 'Boba' && "Price (in BOBA Rinkeby)" ||
-                 chain === 'Binance' &&  "Price (in BNB)" ||
-                 chain === 'Polygon' &&  "Price (in MATIC)" ||
-                 chain === 'Ropsten' &&  "Price (in ETH)" ||
-                 chain === '' &&  "Price" 
-                 }  
+                label="Price (in MATIC)"
                 //   required
                 // onChange={priceHandler}
                 // value={price}
@@ -274,7 +223,7 @@ function CreateAgreementModal(props) {
                 {...formik.getFieldProps("stakePercentBuyer")}
                 error={Boolean(
                   formik.touched.stakePercentBuyer &&
-                  formik.errors.stakePercentBuyer
+                    formik.errors.stakePercentBuyer
                 )}
                 helperText={
                   formik.touched.stakePercentBuyer &&
@@ -293,7 +242,7 @@ function CreateAgreementModal(props) {
                 {...formik.getFieldProps("stakePercentSeller")}
                 error={Boolean(
                   formik.touched.stakePercentSeller &&
-                  formik.errors.stakePercentSeller
+                    formik.errors.stakePercentSeller
                 )}
                 helperText={
                   formik.touched.stakePercentSeller &&
@@ -302,7 +251,7 @@ function CreateAgreementModal(props) {
               />
               {/* ----------------------------------------------- */}
             </Stack>
-            <DialogActions>
+            <DialogActions> 
               {/* <p style={{ color: "red" }}>Error</p> */}
               <LoadingButton
                 type="submit"
@@ -311,7 +260,7 @@ function CreateAgreementModal(props) {
                 disabled={props.loading}
               >
                 {props.loading == true
-                  ? "Creating Agreement..."
+                  ?  <CircularProgress/>
                   : "Create Agreement"}
               </LoadingButton>
               <Button onClick={props.close} variant="contained">

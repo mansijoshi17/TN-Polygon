@@ -12,6 +12,7 @@ export const NotificationContextProvider = (props) => {
   const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
   async function fetchNotifications(account) {
+    console.log(account,"account not");
     if (account) {
       // define the variables required to make a request
       const walletAddress = account;

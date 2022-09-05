@@ -6,13 +6,13 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Dialog, DialogContent } from '@mui/material';
+import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import GetChain from 'src/components/StepForm/GetChain';
-// import GetAgreementDetails from 'src/components/StepForm/GetPaymentDetails';
-import GetStackPercent from 'src/components/StepForm/GetStackPercent';
-import { AgreementAvaxAddress, AgreementBscAddress, AgreementMumbaiAddress, AgreementRopestenAddress } from 'src/contracts/contract';
-import { AgreementAddress } from 'src/contracts/config';
-import { MoneyStreamingContext } from 'src/context/CreateMoneyStreamContext';
+import GetAgreementDetails from 'src/components/StepForm/GetAgreementDetails';
+import GetStackPercent from 'src/components/StepForm/GetStackPercent'; 
+import { AgreementContext } from 'src/context/AgreementContext';
+import GetAgreementChain from 'src/components/StepForm/GetAgreementChain';
+import GetAgreePercent from 'src/components/StepForm/GetAgreePercent';
 
 const steps = ['Select Chain', 'Escrow Details', 'Create Agreement'];
  
@@ -21,7 +21,7 @@ export default function HorizontalLinearStepper() {
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set()); 
 
-    const formdatavalue = React.useContext(MoneyStreamingContext);
+    const formdatavalue = React.useContext(AgreementContext);
     const formdata = formdatavalue.labelInfo.formData; 
     const btnDisbaled =
     formdata.title.length > 0 &&
@@ -104,17 +104,17 @@ export default function HorizontalLinearStepper() {
                         </Stepper>
                         {
                             activeStep === 0 && (
-                                <GetChain />
+                                <GetAgreementChain />
                             )
                         }
-                        {/* {
+                        {
                             activeStep === 1 && (
                                 <GetAgreementDetails />
                             )
-                        } */}
+                        }
                         {
                             activeStep === 2 && (
-                                <GetStackPercent />
+                                <GetAgreePercent />
                             )
                         }
                         {activeStep === steps.length ? (
@@ -151,7 +151,7 @@ export default function HorizontalLinearStepper() {
                                          onClick={formdatavalue.createAgreement}
                                          
                                          >
-                                          {formdatavalue.loading ? 'Create Agreement...' : 'Create Agreement' }  
+                                          {formdatavalue.loading ?  <CircularProgress/> : 'Create Agreement' }  
                                         </Button> : <Button onClick={handleNext}>
                                             Next
                                         </Button>
@@ -168,7 +168,6 @@ export default function HorizontalLinearStepper() {
         </React.Fragment>
     );
 }
-
 
 
 

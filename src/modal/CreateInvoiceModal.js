@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Dialog, DialogContent } from "@mui/material";
+import { CircularProgress, Dialog, DialogContent } from "@mui/material";
 import ProductDetails from "src/components/invoiceStepForm/ProductDetails";
 import CustomerAndTaxDetails from "src/components/invoiceStepForm/CustomerAndTaxDetails";
 
@@ -127,14 +127,11 @@ export default function CreateInvoiceModal(props) {
                         props.close();
                       }}
                     >
-                      {formdatavalue.loading ? "Creating..." : "Create Invoice"}
+                      {formdatavalue.loading ?  <CircularProgress/> : "Create Invoice"}
                     </Button>
                   ) : (
                     <Button onClick={handleNext}>Next</Button>
-                  )}
-                  {/* <Button onClick={handleNext}>
-                                        {activeStep === steps.length - 1 ? 'Create Agreement' : 'Next'}
-                                    </Button> */}
+                  )} 
                 </Box>
               </React.Fragment>
             )}

@@ -29,6 +29,7 @@ import Scrollbar from "../../components/Scrollbar";
 import MenuPopover from "../../components/MenuPopover";
 import { Web3ModalContext } from "../../context/Web3Modal";
 import { NotificationContext } from "../../context/Notification";
+import { useMoralis } from "react-moralis";
 
 // ----------------------------------------------------------------------
 
@@ -187,6 +188,7 @@ function NotificationItem({ notification }) {
 
 export default function NotificationsPopover() {
   const anchorRef = useRef(null);
+  const {user} = useMoralis()
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const totalUnRead = notifications.filter(
@@ -218,8 +220,8 @@ export default function NotificationsPopover() {
 
   useEffect(() => {
     // EPNS
-    fetchNotifications(account);
-  }, [account, isUpdated]);
+    // fetchNotifications(user && user?.attributes?.ethAddress);
+  }, [user, isUpdated]);
 
   return (
     <>
@@ -291,30 +293,9 @@ export default function NotificationsPopover() {
                   }}
                 />
               ))}
-          </List>
-
-          {/* <List
-                disablePadding
-                subheader={
-                  <ListSubheader
-                    disableSticky
-                    sx={{ py: 1, px: 2.5, typography: "overline" }}
-                  >
-                    Before that
-                  </ListSubheader>
-                }
-              >
-                {notifications.slice(2, 5).map((notification) => (
-                  <NotificationItem
-                    key={notification.id}
-                    notification={notification}
-                  />
-                ))}
-              </List> */}
-        </Scrollbar>
-
-        <Divider />
-
+          </List> 
+        </Scrollbar> 
+        <Divider /> 
         <Box sx={{ p: 1 }}>
           <Button fullWidth disableRipple component={RouterLink} to="#">
             View All

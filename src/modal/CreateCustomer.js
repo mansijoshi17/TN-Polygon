@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Stack, TextField, Box } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { styled } from "@mui/material/styles";
-import { toast } from "react-toastify";
-import { ethers } from "ethers";
-import { collection, addDoc, db } from "../firebase";
-import { useMoralis, useMoralisQuery } from "react-moralis";
-
-const Input = styled("input")({
-  display: "none",
-});
-function CreateCustomerModal(props) {
-  const { user } = useMoralis();
+import * as Yup from 'yup'; 
+import { Stack, TextField, Box, CircularProgress } from "@mui/material";
+import { LoadingButton } from "@mui/lab"; 
+import { toast } from "react-toastify"; 
+import { collection, addDoc, db } from "../firebase"; 
+ 
+function CreateCustomerModal(props) { 
   const [loading, setLoading] = useState(false);
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string('Enter email').email('Enter a valid email').required('Email is required'),
+    name: Yup.string('Enter Name').required('Name is required'),
+    address: Yup.string('Enter customer Address').required('Address is required'),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -28,9 +26,9 @@ function CreateCustomerModal(props) {
       address: "",
       email: "",
     },
-
-    onSubmit: async (values, { resetForm }) => {
-      setLoading(true);
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true); 
       try {
         const docRef = await addDoc(collection(db, "customers"), {
           name: values.name,
@@ -45,12 +43,14 @@ function CreateCustomerModal(props) {
         toast.success("Successfully customer created!!");
       } catch (error) {
         console.log(error);
-        setLoading(false);
-
+        setLoading(false); 
         toast.error("Something went wrong!");
       }
     },
   });
+
+
+ 
 
   return (
     <div>
@@ -81,15 +81,21 @@ function CreateCustomerModal(props) {
                   name="name"
                   id="name"
                   type="text"
-                  {...formik.getFieldProps("name")}
-                />
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                />  
                 <TextField
                   fullWidth
                   label="Wallet Address"
                   name="address"
                   id="address"
                   type="text"
-                  {...formik.getFieldProps("address")}
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
+                  error={formik.touched.address && Boolean(formik.errors.address)}
+                  helperText={formik.touched.address && formik.errors.address}
                 />
 
                 <TextField
@@ -98,7 +104,11 @@ function CreateCustomerModal(props) {
                   name="email"
                   id="email"
                   type="email"
-                  {...formik.getFieldProps("email")}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+
                 />
               </Stack>
 
@@ -109,7 +119,7 @@ function CreateCustomerModal(props) {
                   loading={formik.isSubmitting}
                   disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create"}
+                  {loading ?  <CircularProgress/> : "Create"}
                 </LoadingButton>
                 <Button onClick={props.close} variant="contained">
                   Cancel

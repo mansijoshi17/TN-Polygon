@@ -12,78 +12,33 @@ import {
   TableRow,
   Paper,
   CircularProgress,
-} from "@mui/material";
-import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+} from "@mui/material"; 
+import React, { useEffect, useState } from "react"; 
 
-import Iconify from "src/components/Iconify";
-
-import { styled } from "@mui/material/styles";
-import PropTypes from "prop-types";
+import Iconify from "src/components/Iconify"; 
 import Page from "../components/Page";
 import CreateCustomerModal from "src/modal/CreateCustomer";
 
 import { firebaseDataContext } from "src/context/FirebaseDataContext";
+import { shortAddress } from "src/utils/formatNumber"; 
+import CopyAddress from "src/utils/Copy";
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+ 
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up("md")]: {
-    display: "flex",
-  },
-}));
-
-function Customers() {
-  const [status, setStatus] = React.useState("");
+function Customers() { 
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [value, setValue] = React.useState(0);
+  const [isLoaded, setIsLoaded] = React.useState(false); 
 
   const [isUpdated, setIsUpdated] = useState(false);
 
   const firebaseContext = React.useContext(firebaseDataContext);
   const { getCustomers, customers } = firebaseContext;
+ 
 
   useEffect(async () => {
     getCustomers();
-  }, [isUpdated]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  }, [isUpdated]); 
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,6 +47,7 @@ function Customers() {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <Page title="Customer |  TrustifiedNetwork">
@@ -149,9 +105,14 @@ function Customers() {
                   )}
                   {customers &&
                     customers.map((customer) => (
-                      <TableRow>
+                      <TableRow key={customer.id}>
                         <TableCell>{customer.name}</TableCell>
-                        <TableCell>{customer.address}</TableCell>
+                        <TableCell className="d-flex "  >
+                          <p className="m-0" style={{ border: '1px solid #eee', padding: '3px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
+                            {shortAddress(customer.address)}
+                          </p>
+                          <CopyAddress address={customer.address}/>
+                        </TableCell>
                         <TableCell>{customer.email}</TableCell>
                       </TableRow>
                     ))}

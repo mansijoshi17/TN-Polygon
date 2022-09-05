@@ -102,34 +102,7 @@ function GetChain() {
                   onChange={value.setFormdata("chain")}
                 />
               </Stack>
-            </RadioGroup>
-            {/* <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={chain}
-                            label="Chain"
-                            onChange={(e) => {
-                                const networkId = window.ethereum.networkVersion;
-                                if (e.target.value == 'Binance' && networkId !== '97') {
-                                    toast.error("Please connect to the BSC Testnet network in Metamask to continue!");
-                                } else if (e.target.value == 'Polygon' && networkId !== '80001') {
-                                    toast.error("Please connect to the Polygon Mumbai Testnet network in Metamask to continue!");
-                                } else if (e.target.value == 'Ropsten' && networkId !== '3') {
-                                    toast.error("Please connect to the Ropsten Network in Metamask to continue!");
-                                } else if (e.target.value == 'Boba' && networkId !== '28') {
-                                    toast.error("Please connect to the BOBA network in Metamask to continue!");
-                                } else if (e.target.value == 'Avax' && networkId !== '43113') {
-                                    toast.error("Please connect to the AVAX FUJI network in Metamask to continue!");
-                                }
-                                setChain(e.target.value) 
-                            }
-                            }
-                        > 
-                            <MenuItem value="Binance" onChange={value.setFormdata("chain")} >BSC</MenuItem>
-                            <MenuItem value="Polygon" onChange={value.setFormdata("chain")} >Polygon Mumbai</MenuItem>
-                            <MenuItem value="Ropsten" onChange={value.setFormdata("chain")} >Ropsten</MenuItem>
-                            <MenuItem value="Avax" onChange={value.setFormdata("chain")} >Avalanche FUJI</MenuItem>
-                        </Select> */}
+            </RadioGroup> 
           </FormControl>
 
           <FormControl

@@ -16,8 +16,8 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 function ReceivedInvoices({ invoices }) {
   const navigate = useNavigate();
   return (
-    <Container pl={0} pr={0}>
-      <TableContainer component={Paper}>
+    // <Container pl={0} pr={0}>
+      <TableContainer component={Paper} className="mt-4">
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
@@ -68,7 +68,7 @@ function ReceivedInvoices({ invoices }) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    // </Container>
   );
 }
 

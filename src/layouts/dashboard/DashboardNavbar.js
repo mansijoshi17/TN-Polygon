@@ -4,17 +4,11 @@ import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar, IconButton, Button } from "@mui/material";
 // components
-import Iconify from "../../components/Iconify";
-//
-import Searchbar from "./Searchbar";
-import AccountPopover from "./AccountPopover";
-import LanguagePopover from "./LanguagePopover";
+import Iconify from "../../components/Iconify"; 
+import AccountPopover from "./AccountPopover"; 
 import NotificationsPopover from "./NotificationsPopover";
-import { useMoralis } from "react-moralis";
-import { Web3Context } from "../../context/Web3Context";
-
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import Transak from "src/modal/TransakModal";
+import { useMoralis } from "react-moralis"; 
+ 
 import { TransakWeb3Context } from "../../context/Transak";
 
 // ----------------------------------------------------------------------
@@ -48,22 +42,12 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
-  const { Moralis, authenticate, user, isAuthenticated, account } =
-    useMoralis();
-  const web3Context = React.useContext(Web3Context);
-  const { connectWallet, web3Auth, address } = web3Context;
+  const {authenticate, user  } =
+    useMoralis(); 
 
   const TransakWeb3context = React.useContext(TransakWeb3Context);
   const { openTransak } = TransakWeb3context;
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
 
   return (
     <RootStyle>
@@ -73,11 +57,8 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           sx={{ mr: 1, color: "text.primary", display: { lg: "none" } }}
         >
           <Iconify icon="eva:menu-2-fill" />
-        </IconButton>
-
-        {/* <Searchbar /> */}
-        <Box sx={{ flexGrow: 1 }} />
-
+        </IconButton> 
+        <Box sx={{ flexGrow: 1 }} /> 
         <Stack
           direction="row"
           alignItems="center"
@@ -93,11 +74,9 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             <Button onClick={() => authenticate()}>Connect</Button>
           ) : (
             <p style={{ color: "black", textOverflow: "ellipsis" }}>
-              {user && user.attributes.username}
+              {user && user?.attributes?.username}
             </p>
-          )}
-
-          {/* <p style={{ color: 'black', textOverflow: 'ellipsis' }}>{account != null && account.slice(0, 10)}</p> */}
+          )} 
         </Stack>
       </ToolbarStyle>
     </RootStyle>

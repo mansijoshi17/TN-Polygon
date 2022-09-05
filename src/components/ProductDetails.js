@@ -14,12 +14,9 @@ import {
   Grid,
 } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { InvoicContext } from "src/context/CreateInvoiceContext";
+import { toast } from "react-toastify"; 
 
-function ProductDetails() {
-  const value = useContext(InvoicContext);
-  const formdata = value.labelInfo.formData;
+function ProductDetails() { 
 
   return (
     <div>

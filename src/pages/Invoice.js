@@ -4,34 +4,23 @@ import {
   Container,
   Stack,
   Box,
-  Typography,
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
-import { ethers } from "ethers";
+  Typography, 
+} from "@mui/material"; 
 import React, { useEffect, useState } from "react";
-import { useMoralis, useMoralisCloudFunction } from "react-moralis";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import Iconify from "src/components/Iconify";
-import { Web3Context } from "src/context/Web3Context";
-import { factoryAbi, factoryAddress } from "src/contracts/contract";
-import CreateInvoiceModal from "src/modal/CreateInvoiceModal";
+import { useMoralis } from "react-moralis";
+import { Link as RouterLink, useNavigate } from "react-router-dom"; 
+import Iconify from "src/components/Iconify";   
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Page from "../components/Page";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import { firebaseDataContext } from "src/context/FirebaseDataContext";
-import { InvoicContext } from "src/context/CreateInvoiceContext";
-
+import { firebaseDataContext } from "src/context/FirebaseDataContext"; 
 import SentInvoices from "../components/invoices/SentInvoices";
 import ReceivedInvoices from "../components/invoices/ReceivedInvoices";
+import CreateInvoiceModal from "src/modal/CreateInvoiceModal";
+import { InvoicContext } from "src/context/CreateInvoiceContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,7 +34,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ pt: 2  }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -73,10 +62,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 function Invoices() {
-  const { user } = useMoralis();
-  const navigate = useNavigate();
-  const web3Context = React.useContext(Web3Context);
-  const { address } = web3Context;
+  const { user } = useMoralis(); 
 
   const firebaseContext = React.useContext(firebaseDataContext);
   const { getInvoices, invoices } = firebaseContext;
@@ -97,18 +83,15 @@ function Invoices() {
         (s) => s.to.toLowerCase() == user?.attributes?.ethAddress
       );
     setReceivedInvoices(r);
-  }, [invoices, isUpdated]);
-
-  const [status, setStatus] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  }, [invoices, isUpdated]); 
+  const [open, setOpen] = React.useState(false); 
   const [value, setValue] = React.useState(0);
 
   const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(async () => {
     getInvoices();
-  }, [updated, isUpdated]);
+  }, [ updated,isUpdated]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -128,10 +111,11 @@ function Invoices() {
         open={handleClickOpen}
         close={handleClose}
         op={open}
-        acc={address}
+        acc={user?.attributes?.ethAddress}
         setIsUpdated={setIsUpdated}
         isUpdated={isUpdated}
       />
+      
       <Container pl={0} pr={0}>
         <Stack
           direction="row"
@@ -152,8 +136,8 @@ function Invoices() {
           </Button>
         </Stack>
         <Stack>
-          <Card>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+           
+            <Box sx={{ borderBottom: 1, borderColor: "divider", width:'fit-content' }}>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -168,8 +152,7 @@ function Invoices() {
             </TabPanel>
             <TabPanel value={value} index={1}>
               <ReceivedInvoices invoices={receivedInvoices} />
-            </TabPanel>
-          </Card>
+            </TabPanel> 
         </Stack>
       </Container>
     </Page>

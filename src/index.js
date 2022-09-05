@@ -10,7 +10,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import reportWebVitals from "./reportWebVitals";
 import { MoralisProvider } from "react-moralis";
-import { Web3ContextProvider } from "./context/Web3Context";
 import { SuperfluidWeb3ContextProvider } from "./context/SuperfluidContext";
 import { TransakWeb3ContextWeb3ContextProvider } from "./context/Transak";
 import { Web3ModalContextProvider } from "./context/Web3Modal";
@@ -21,8 +20,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { makeStore } from "./redux/store";
 import { Provider } from "react-redux";
 import { FirebaseDataContextProvider } from "./context/FirebaseDataContext";
-import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
 import { SuperfluidContextProvider } from "./context/SuperFluideContext";
+import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
+import { AgreementContextProvider } from "./context/AgreementContext";
+import { Web3ContextProvider } from "./context/Web3Context";
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
@@ -34,23 +35,25 @@ ReactDOM.render(
           serverUrl={process.env.REACT_APP_MORALIS_SERVER}
         >
           <NotificationContextProvider>
-            <FirebaseDataContextProvider>
-              <InvoiceContextProvider>
-                <Web3ModalContextProvider>
-                  <Web3ContextProvider>
-                    <SuperfluidWeb3ContextProvider>
-                      <SuperfluidContextProvider>
-                        <MoneyStreamingContextProvider>
-                          <TransakWeb3ContextWeb3ContextProvider>
-                            <App />
-                          </TransakWeb3ContextWeb3ContextProvider>
-                        </MoneyStreamingContextProvider>
-                      </SuperfluidContextProvider>
-                    </SuperfluidWeb3ContextProvider>
-                  </Web3ContextProvider>
-                </Web3ModalContextProvider>
-              </InvoiceContextProvider>
-            </FirebaseDataContextProvider>
+            <AgreementContextProvider>
+              <FirebaseDataContextProvider>
+                <InvoiceContextProvider>
+                  <Web3ModalContextProvider>
+                    <Web3ContextProvider>
+                      <SuperfluidWeb3ContextProvider>
+                        <SuperfluidContextProvider>
+                          <MoneyStreamingContextProvider>
+                            <TransakWeb3ContextWeb3ContextProvider>
+                              <App />
+                            </TransakWeb3ContextWeb3ContextProvider>
+                          </MoneyStreamingContextProvider>
+                        </SuperfluidContextProvider>
+                      </SuperfluidWeb3ContextProvider>
+                    </Web3ContextProvider>
+                  </Web3ModalContextProvider>
+                </InvoiceContextProvider>
+              </FirebaseDataContextProvider>
+            </AgreementContextProvider>
           </NotificationContextProvider>
         </MoralisProvider>
       </BrowserRouter>

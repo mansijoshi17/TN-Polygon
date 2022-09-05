@@ -24,12 +24,13 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ethers } from "ethers";
-import { BOBA,POLYGON,Ropsten,BSC, AVAX } from "../../network/Network";
+import { BOBA, POLYGON, Ropsten, BSC, AVAX } from "../../network/Network";
 import { AgreementAbi } from "../../contracts/config";
 import Label from "../Label";
 import TableRowView from "./TableRowView";
 import { ToastContainer, toast } from "react-toastify";
 import { NotificationContext } from "../../context/Notification";
+import { shortAddress } from "src/utils/formatNumber";
 
 function TableViewBody(props) {
   const [contractState, setContractState] = useState(null);
@@ -37,7 +38,7 @@ function TableViewBody(props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = React.useState(false);
   const [canloading, setCanLoading] = React.useState(false);
-  const [chainId, setChainId]= useState();
+  const [chainId, setChainId] = useState();
 
   const notificationContext = React.useContext(NotificationContext);
   const { sendNotifications } = notificationContext;
@@ -189,7 +190,7 @@ function TableViewBody(props) {
     }
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     const networkId = window.ethereum.networkVersion;
     setChainId(networkId);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -249,8 +250,15 @@ function TableViewBody(props) {
           <TableCell component="th" scope="row">
             {contractState.title.slice(0, 20)}
           </TableCell>
-          <TableCell>{contractState.buyer.slice(0, 10)}</TableCell>
-          <TableCell>{contractState.seller.slice(0, 10)}</TableCell>
+          <TableCell>
+            <p className="m-0" style={{ border: '1px solid #eee', padding: '3px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
+              {shortAddress(contractState.buyer)}
+            </p>
+          </TableCell>
+          <TableCell>
+            <p className="m-0" style={{ border: '1px solid #eee', padding: '3px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
+              {shortAddress(contractState.seller)}
+            </p> </TableCell>
           <TableCell>
             <Label
               variant="ghost"
@@ -266,7 +274,7 @@ function TableViewBody(props) {
           </TableCell>
           <TableCell>
             <a
-              href={`${chainId == 28 && BOBA.blockExplorerUrls[0] || chainId == 80001 &&  POLYGON.blockExplorerUrls[0] || chainId == 3 && Ropsten.blockExplorerUrls[0] || chainId == 97 && BSC.blockExplorerUrls[0]  || chainId == 43113 && AVAX.blockExplorerUrls[0]}/address/${contractState.address}`}
+              href={`${chainId == 28 && BOBA.blockExplorerUrls[0] || chainId == 80001 && POLYGON.blockExplorerUrls[0] || chainId == 3 && Ropsten.blockExplorerUrls[0] || chainId == 97 && BSC.blockExplorerUrls[0] || chainId == 43113 && AVAX.blockExplorerUrls[0]}/address/${contractState.address}`}
               target="_blank"
               rel="noreferrer"
             >
@@ -289,7 +297,7 @@ function TableViewBody(props) {
                     {contractState.description}
                   </Typography>
                   <Typography variant="h6" gutterBottom component="h2">
-                    Total Amount: {contractState.price} {chainId == 28 && "BOBA Rinkeby" || chainId == 80001 &&  "MATIC" || chainId == 3 && "ETH" || chainId == 97 && "BNB" || chainId == 43113 && "AVAX"} 
+                    Total Amount: {contractState.price} {chainId == 28 && "BOBA Rinkeby" || chainId == 80001 && "MATIC" || chainId == 3 && "ETH" || chainId == 97 && "BNB" || chainId == 43113 && "AVAX"}
                   </Typography>
                 </Stack>
                 <Stack

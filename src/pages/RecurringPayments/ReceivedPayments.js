@@ -1,6 +1,5 @@
 import { Card, TableBody } from "@mui/material";
-import {
-  Button,
+import { 
   Container,
   Stack,
   Box,
@@ -12,22 +11,19 @@ import {
   TableRow,
   Paper,
   CircularProgress,
-} from "@mui/material";
-import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+} from "@mui/material"; 
+import React, { useEffect, useState } from "react"; 
 import Iconify from "src/components/Iconify";
 
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import Page from "../../components/Page";
-import CreateRecurringPayments from "src/modal/CreateRecurringPayments";
-import { collection, addDoc, getDocs, db } from "../../firebase";
+import Page from "../../components/Page"; 
 import { FlowingStream } from "../../components/FlowingStream";
 
 import { SuperfluidContext } from "../../context/SuperFluideContext";
 import { firebaseDataContext } from "../../context/FirebaseDataContext";
+import { shortAddress } from "src/utils/formatNumber"; 
+import CopyAddress from "src/utils/Copy";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,32 +50,17 @@ TabPanel.propTypes = {
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
+ 
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+function ReceivedPayments() { 
 
-const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up("md")]: {
-    display: "flex",
-  },
-}));
-
-function ReceivedPayments() {
-  const [status, setStatus] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [value, setValue] = React.useState(0);
+  const [isLoaded, setIsLoaded] = React.useState(false); 
 
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { getPayments, payments } = firebaseContext;
+  const { getPayments } = firebaseContext;
 
   const superfluidContext = React.useContext(SuperfluidContext);
-  const { listInFlows, sf, isUpdatedctx, inFlows } = superfluidContext;
+  const { listInFlows, sf, isUpdatedctx, inFlows } = superfluidContext; 
 
   useEffect(async () => {
     if (sf) {
@@ -87,22 +68,7 @@ function ReceivedPayments() {
       listInFlows();
     }
   }, [sf, isUpdatedctx]);
-
-  console.log(inFlows);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
+  
 
   return (
     <Page title="Recurring Payment |  TrustifiedNetwork">
@@ -149,8 +115,13 @@ function ReceivedPayments() {
                   {inFlows &&
                     inFlows.map((flow) => {
                       return (
-                        <TableRow>
-                          <TableCell>{flow.sender}</TableCell>
+                        <TableRow key={flow.id}>
+                          <TableCell className="d-flex "  >
+                          <p className="m-0" style={{ border: '1px solid #eee', padding: '3px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
+                            {shortAddress(flow.sender)}
+                          </p>
+                          <CopyAddress address={flow.sender}/> 
+                        </TableCell> 
                           <TableCell>
                             <FlowingStream streamData={flow} />
                           </TableCell>

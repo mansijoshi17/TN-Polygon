@@ -1,46 +1,15 @@
-import React, { useState, createContext, useEffect, useCallback } from "react";
+import React, { useState, createContext } from "react";
 
-import { useMoralis } from "react-moralis";
-import { Framework, createSkipPaging } from "@superfluid-finance/sdk-core";
-import { ethers } from "ethers";
-
-import BigNumber from "bignumber.js";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-import { gql } from "graphql-request";
-import { networks } from "../redux/networks";
-import { sfSubgraph, sfApi } from "../redux/store";
-import { toast } from "react-toastify";
-
+import { useMoralis } from "react-moralis"; 
+import { ethers } from "ethers"; 
+import { useNavigate } from "react-router-dom"; 
 export const GetSenderStream = createContext(undefined);
 
 export const url = `https://polygon-mumbai.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`;
 export const customHttpProvider = new ethers.providers.JsonRpcProvider(url);
 const USDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
 
-const searchByAddressDocument = gql`
-  query Search($addressId: ID, $addressBytes: Bytes) {
-    tokensByAddress: tokens(where: { id: $addressId, isSuperToken: true }) {
-      id
-      symbol
-      name
-      isListed
-    }
-    tokensByUnderlyingAddress: tokens(
-      where: { isSuperToken: true, underlyingAddress: $addressBytes }
-    ) {
-      id
-      symbol
-      name
-      isListed
-    }
-    accounts(where: { id: $addressId }) {
-      id
-    }
-  }
-`;
-
+ 
 export const GetSenderStreamProvider = (props) => {
   const [isLoadingcon, setIsLoaing] = useState(false);
   const { user } = useMoralis();

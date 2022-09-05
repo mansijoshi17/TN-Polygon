@@ -1,21 +1,12 @@
 import React, { useState, createContext, useEffect, useCallback } from "react";
-import detectEthereumProvider from "@metamask/detect-provider";
 
 import { useMoralis } from "react-moralis";
-import { Framework, createSkipPaging } from "@superfluid-finance/sdk-core";
+import { Framework } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
 
-import Web3 from "web3";
+import { toast } from "react-toastify";
 
 import BigNumber from "bignumber.js";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-import { gql } from "graphql-request";
-import { networks } from "../redux/networks";
-import { sfSubgraph, sfApi } from "../redux/store";
-import { toast } from "react-toastify";
-import { Daix } from "../contracts/Daix";
 
 import { firebaseDataContext } from "./FirebaseDataContext";
 
@@ -50,34 +41,6 @@ export const SuperfluidContextProvider = (props) => {
   useEffect(() => {
     initWeb3();
   }, []);
-
-  // function loadFlow(data) {
-  //   const date = new Date();
-  //   const currentTime = Math.floor(date.getTime() / 1000);
-
-  //   let stopAnimation = false;
-  //   let lastAnimationTimestamp = 0;
-
-  //   const animationStep = (currentAnimationTimestamp) => {
-  //     if (
-  //       currentAnimationTimestamp - lastAnimationTimestamp >
-  //       ANIMATION_MINIMUM_STEP_TIME
-  //     ) {
-  //       if (stopAnimation) {
-  //         return;
-  //       }
-
-  //       let val =
-  //         data.streamedUntilUpdatedAt +
-  //         (currentTime - data.updatedAtTimestamp) * data.currentFlowRate;
-  //       console.log(val);
-
-  //       lastAnimationTimestamp = currentAnimationTimestamp;
-  //     }
-  //     window.requestAnimationFrame(animationStep);
-  //   };
-  //   window.requestAnimationFrame(animationStep);
-  // }
 
   async function initWeb3() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -134,7 +97,6 @@ export const SuperfluidContextProvider = (props) => {
     } else {
       flowRate = calFlowRateForHour(stream.amount);
     }
-    console.log(flowRate, "flowRate");
 
     try {
       const createFlowOperation = sf.cfaV1.createFlow({
@@ -177,11 +139,11 @@ export const SuperfluidContextProvider = (props) => {
     } else if (stream.period == "Year") {
       flowRate = calFlowRate(newAmount, 365);
     } else if (stream.period == "Week") {
-      flowRate = calFlowRate(stream.amount, 7);
+      flowRate = calFlowRate(newAmount, 7);
     } else if (stream.period == "Day") {
-      flowRate = calFlowRate(stream.amount, 1);
+      flowRate = calFlowRate(newAmount, 1);
     } else {
-      flowRate = calFlowRateForHour(stream.amount);
+      flowRate = calFlowRateForHour(newAmount);
     }
 
     try {
@@ -228,13 +190,15 @@ export const SuperfluidContextProvider = (props) => {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
     setChain(chainId);
     try {
+      console.log("called.................................", payments);
       let outFlow = [];
 
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
+        console.log(payment);
         if (payment.sender.toLowerCase() == user?.attributes?.ethAddress) {
           let obj;
-          console.log(payment, "payment");
+
           const getFlowOperation = await sf.cfaV1.getFlow({
             superToken: payment.token,
             sender: payment.sender,
@@ -246,6 +210,8 @@ export const SuperfluidContextProvider = (props) => {
             receiver: payment.customerAddress,
             token: payment.token,
           });
+
+          console.log(getFlowOperation, "getFlowOperation");
 
           let amount;
           if (payment.period == "Month") {
@@ -344,7 +310,7 @@ export const SuperfluidContextProvider = (props) => {
         // userData?: string
       });
       let deleteTransaction = await deleteFlowOperation.exec(signer);
-      console.log(deleteTransaction, "deleteTransaction");
+
       let txd = await deleteTransaction.wait();
       if (txd) {
         const docRef = doc(db, "payments", streamData?.id?.toString());

@@ -1,10 +1,11 @@
+ 
 import { Box, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
 import React, { useContext, useState } from 'react'
 import { toast } from 'react-toastify';
-import { MoneyStreamingContext } from 'src/context/CreateMoneyStreamContext';
+import { AgreementContext } from 'src/context/AgreementContext';
 
-function GetStackPercent(props) {
-    const value = useContext(MoneyStreamingContext);
+function GetAgreePercent(props) {
+    const value = useContext(AgreementContext);
     const formdata = value.labelInfo.formData;
     const [creator, setCreator] = useState("buyer");
     const [buyer, setBuyer] = useState("");
@@ -14,8 +15,6 @@ function GetStackPercent(props) {
     const handleChange = (event) => {
         setCreator(event.target.value);
     };
-
-    console.log(formdata,"formdata");
     return (
         <div>
             <Stack spacing={3} sx={{ margin: '10px' }}>
@@ -56,4 +55,4 @@ function GetStackPercent(props) {
     )
 }
 
-export default GetStackPercent
+export default GetAgreePercent
