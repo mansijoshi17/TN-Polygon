@@ -190,12 +190,11 @@ export const SuperfluidContextProvider = (props) => {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
     setChain(chainId);
     try {
-      console.log("called.................................", payments);
       let outFlow = [];
 
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
-        console.log(payment);
+
         if (payment.sender.toLowerCase() == user?.attributes?.ethAddress) {
           let obj;
 
@@ -210,8 +209,6 @@ export const SuperfluidContextProvider = (props) => {
             receiver: payment.customerAddress,
             token: payment.token,
           });
-
-          console.log(getFlowOperation, "getFlowOperation");
 
           let amount;
           if (payment.period == "Month") {
@@ -277,8 +274,12 @@ export const SuperfluidContextProvider = (props) => {
           amount = calculateStream(getFlowOperation.flowRate, 30);
         } else if (payment.period == "Year") {
           amount = calculateStream(getFlowOperation.flowRate, 365);
-        } else {
+        } else if (payment.period == "Week") {
           amount = calculateStream(getFlowOperation.flowRate, 7);
+        } else if (payment.period == "Day") {
+          amount = calculateStream(getFlowOperation.flowRate, 1);
+        } else {
+          amount = calculateHourStream(getFlowOperation.flowRate);
         }
 
         obj = {

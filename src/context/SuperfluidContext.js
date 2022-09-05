@@ -94,7 +94,7 @@ export const SuperfluidWeb3ContextProvider = (props) => {
       alert(`Congrats - you've just created a money stream!
       View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}`);
       toast.success("Successfully Subscribe!");
-      navigate("/dashboard/customers");
+      navigate("/dashboard/agreement");
     } catch (error) {
       toast.error("Something want wrong!");
       setIsLoaing(false);

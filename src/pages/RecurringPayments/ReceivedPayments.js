@@ -1,5 +1,5 @@
 import { Card, TableBody } from "@mui/material";
-import { 
+import {
   Container,
   Stack,
   Box,
@@ -11,18 +11,18 @@ import {
   TableRow,
   Paper,
   CircularProgress,
-} from "@mui/material"; 
-import React, { useEffect, useState } from "react"; 
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Iconify from "src/components/Iconify";
 
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import Page from "../../components/Page"; 
+import Page from "../../components/Page";
 import { FlowingStream } from "../../components/FlowingStream";
 
 import { SuperfluidContext } from "../../context/SuperFluideContext";
 import { firebaseDataContext } from "../../context/FirebaseDataContext";
-import { shortAddress } from "src/utils/formatNumber"; 
+import { shortAddress } from "src/utils/formatNumber";
 import CopyAddress from "src/utils/Copy";
 
 function TabPanel(props) {
@@ -50,25 +50,22 @@ TabPanel.propTypes = {
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
- 
 
-function ReceivedPayments() { 
-
-  const [isLoaded, setIsLoaded] = React.useState(false); 
+function ReceivedPayments() {
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { getPayments } = firebaseContext;
+  const { getPayments, payments } = firebaseContext;
 
   const superfluidContext = React.useContext(SuperfluidContext);
-  const { listInFlows, sf, isUpdatedctx, inFlows } = superfluidContext; 
+  const { listInFlows, sf, isUpdatedctx, inFlows } = superfluidContext;
 
   useEffect(async () => {
     if (sf) {
       await getPayments();
       listInFlows();
     }
-  }, [sf, isUpdatedctx]);
-  
+  }, [sf, isUpdatedctx, payments.length]);
 
   return (
     <Page title="Recurring Payment |  TrustifiedNetwork">
@@ -116,12 +113,21 @@ function ReceivedPayments() {
                     inFlows.map((flow) => {
                       return (
                         <TableRow key={flow.id}>
-                          <TableCell className="d-flex "  >
-                          <p className="m-0" style={{ border: '1px solid #eee', padding: '3px 15px', borderRadius: '20px', fontWeight: 'bolder', width: 'fit-content' }}>
-                            {shortAddress(flow.sender)}
-                          </p>
-                          <CopyAddress address={flow.sender}/> 
-                        </TableCell> 
+                          <TableCell className="d-flex ">
+                            <p
+                              className="m-0"
+                              style={{
+                                border: "1px solid #eee",
+                                padding: "3px 15px",
+                                borderRadius: "20px",
+                                fontWeight: "bolder",
+                                width: "fit-content",
+                              }}
+                            >
+                              {shortAddress(flow.sender)}
+                            </p>
+                            <CopyAddress address={flow.sender} />
+                          </TableCell>
                           <TableCell>
                             <FlowingStream streamData={flow} />
                           </TableCell>
