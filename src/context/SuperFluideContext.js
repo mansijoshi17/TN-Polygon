@@ -60,8 +60,7 @@ export const SuperfluidContextProvider = (props) => {
     if (typeof Number(amt) !== "number" || isNaN(Number(amt)) === true) {
       throw new Error("calculate a flowRate based on a number");
     } else if (typeof Number(amt) === "number") {
-      const monthlyAmount = ethers.utils.parseEther(amt.toString());
-      console.log(monthlyAmount, "monthlyAmount");
+      const monthlyAmount = ethers.utils.parseEther(amt.toString()); 
       const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / days); // 3600 - 1 hour
       return calculatedFlowRate;
     }
@@ -89,8 +88,7 @@ export const SuperfluidContextProvider = (props) => {
         superToken: stream.token,
         // userData?: string
       });
-
-      console.log("Creating your stream...");
+ 
 
       const result = await createFlowOperation.exec(signer);
 
@@ -131,8 +129,7 @@ export const SuperfluidContextProvider = (props) => {
         superToken: stream.token,
         // userData?: string
       });
-
-      console.log("Updating your stream...");
+ 
 
       const updateTransaction = await updateFlowOperation.exec(signer);
       const txu = await updateTransaction.wait();
@@ -177,8 +174,7 @@ export const SuperfluidContextProvider = (props) => {
             receiver: payment.customerAddress,
             token: payment.token,
           });
-
-          console.log(getFlowOperation, "getFlowOperation");
+ 
 
           let amount;
           if (payment.period == "Month") {
@@ -199,8 +195,7 @@ export const SuperfluidContextProvider = (props) => {
             updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
             currentFlowRate: flowData?.data[0]?.currentFlowRate,
             token: payment.token,
-          };
-          console.log(obj, "obj");
+          }; 
           outFlow.push(obj);
         } else {
           console.log("No outgoing streams");
@@ -231,8 +226,7 @@ export const SuperfluidContextProvider = (props) => {
           sender: payment.sender,
           receiver: payment.customerAddress,
           token: payment.token,
-        });
-        console.log(flowData, "flowData");
+        }); 
         let amount;
         if (payment.period == "Month") {
           amount = calculateStream(getFlowOperation.flowRate, 30);
@@ -252,8 +246,7 @@ export const SuperfluidContextProvider = (props) => {
           updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
           currentFlowRate: flowData?.data[0]?.currentFlowRate,
           token: payment.token,
-        };
-        console.log(obj, "object");
+        }; 
         inFlow.push(obj);
       } else {
         console.log("No incoming streams");
@@ -272,8 +265,7 @@ export const SuperfluidContextProvider = (props) => {
       });
       let result = await deleteFlowOperation.exec(signer);
       if (result) {
-        const docRef = doc(db, "payments", streamData?.id?.toString());
-        console.log(docRef);
+        const docRef = doc(db, "payments", streamData?.id?.toString()); 
 
         deleteDoc(docRef)
           .then(() => {

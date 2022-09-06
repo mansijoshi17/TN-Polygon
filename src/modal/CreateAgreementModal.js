@@ -48,16 +48,14 @@ function CreateAgreementModal(props) {
     setSeller(e.target.value);
   };
   const submitAgreement = (e) => {
-    e.preventDefault();
-    console.log(submitAgreement, "aaaaaa");
+    e.preventDefault(); 
     if (creator == "buyer") {
       setBuyer(props.acc);
     } else {
       setSeller(props.acc);
     }
     const data = { buyer, seller, price, stackPercent, sellerPercent };
-    props.submitForm(data);
-    console.log(data, "data");
+    props.submitForm(data); 
     setTitle("");
     setDescription("");
     setBuyer("");

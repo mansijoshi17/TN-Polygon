@@ -48,14 +48,12 @@ export default function AppItemOrders() {
   const networkId = window.ethereum.networkVersion; 
 
 
-  useEffect(async()=>{  
-    console.log(user,"user");
+  useEffect(async()=>{   
     const data = await Moralis.Plugins.covalent?.getTokenBalancesForAddress({
         chainId: networkId,
         address: user && user.attributes.ethAddress,
 
-       }); 
-       console.log(data,"balance");
+       });  
        setAgree(ethers.utils.formatUnits(data && data.data.items[0].balance, 18)); 
        
    

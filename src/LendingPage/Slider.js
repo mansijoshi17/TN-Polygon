@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import "./Slider.css";
 import BtnSlider from "./BtnSlider";
 import dataSlider from "./dataSlider";
-import { Box } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 export default function Slider() {
   const [slideIndex, setSlideIndex] = useState(1);
@@ -28,30 +28,38 @@ export default function Slider() {
   };
 
   return (
-    <div className="container-slider">
-      {dataSlider.map((obj, index) => {
-        return (
-          <div
-            key={obj.id}
-            className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
-          >
-            <div className="container">
-              <Box component="img" src={`/images/img${index + 1}.png`} />
+    <Fragment>
+      <div className="container-slider">
+        {dataSlider.map((obj, index) => {
+          return (
+            <div
+              key={obj.id}
+              className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
+            >
+              <Box component="img" src={`/images/landing${index + 1}.jpg`} sx={{height:'400px'}} />
+              <Typography sx={{marginLeft:2,color:'#25353D'}} gutterBottom variant="h4" component="div">
+                {obj.title}
+              </Typography>
+              <Divider sx={{m:1}} /> 
+              <Typography sx={{marginLeft:2}} variant="body1" color="#8C9498">
+                {obj.subTitle}
+              </Typography>
             </div>
-          </div>
-        );
-      })}
-      <BtnSlider moveSlide={nextSlide} direction={"next"} />
-      <BtnSlider moveSlide={prevSlide} direction={"prev"} />
+          );
+        })}
+        {/* <BtnSlider moveSlide={nextSlide} direction={"next"} />
+      <BtnSlider moveSlide={prevSlide} direction={"prev"} /> */}
+        <div className="container-dots">
+          {Array.from({ length: 4 }).map((item, index) => (
+            <div
+              onClick={() => moveDot(index + 1)}
+              className={slideIndex === index + 1 ? "dot active" : "dot"}
+            ></div>
+          ))}
+        </div>
 
-      <div className="container-dots">
-        {Array.from({ length: 3 }).map((item, index) => (
-          <div
-            onClick={() => moveDot(index + 1)}
-            className={slideIndex === index + 1 ? "dot active" : "dot"}
-          ></div>
-        ))}
       </div>
-    </div>
+
+    </Fragment>
   );
 }

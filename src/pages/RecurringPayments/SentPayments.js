@@ -116,8 +116,7 @@ function SentPayments() {
       listOutFlows();
     }
   }, [sf, isUpdatedctx]);
-
-  console.log(outFlows);
+ 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

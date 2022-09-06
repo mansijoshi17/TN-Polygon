@@ -46,8 +46,7 @@ export default function AccountPopover() {
   };
   const handleClose = () => {
     setOpen(false);
-  };
-console.log(user,"user");
+  }; 
   return (
     <>
       <IconButton

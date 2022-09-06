@@ -97,8 +97,7 @@ function Agreement() {
       await sendNotifications({
         to: user.attributes.ethAddress,
         message: `You Create ${data.title} Agreement Successfully! on ${data.chain} Network`,
-      })
-      console.log(txn, "transaction");
+      }) 
       toast.success("success");
       setLoading(false);
       handleClose();
