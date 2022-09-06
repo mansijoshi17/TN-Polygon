@@ -90,14 +90,12 @@ export const AgreementContextProvider = (props) => {
             await sendNotifications({
                 to: user.attributes.ethAddress,
                 message: `You Create ${labelInfo.formData.title} Agreement Successfully! on ${labelInfo.formData.chain} Network`,
-            })
-            console.log(txn, "transaction");
+            }) 
             toast.success("success");
             setLoading(false); 
             handleClose();
         } catch (err) {
-            setLoading(false);
-            console.log(err);
+            setLoading(false); 
             toast.error("error");
         }
     };

@@ -12,6 +12,7 @@ import SentPayments from "./pages/RecurringPayments/SentPayments";
 import ReceivedPayments from "./pages/RecurringPayments/ReceivedPayments";
 import InvoiceDetail from "./pages/InvoiceDetail";
 import Agreement from "./pages/Agreement";
+import Home from "./LendingPage/Home";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +35,8 @@ export default function Router() {
       path: "/",
       element: <LendingPageLayout />,
       children: [
-        { path: "/", element: <Lending /> },
+        // { path: "/", element: <Lending /> },
+        { path: "/", element: <Home /> },
         { path: "/invoice/:id", element: <InvoiceDetail /> }, 
       ],
     },

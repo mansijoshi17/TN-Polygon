@@ -1,6 +1,41 @@
 .css-1byr0tz {
     background: #F2F3F6 !important;
 }
-body{
+
+body {
     background-color: white !important;
-} 
+}
+
+.row-width {
+    width: 40% !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .colum-reverse {
+        flex-direction: column-reverse !important;
+    }
+
+    .row-width {
+        width: 100% !important;
+    }
+}
+
+.bg-color-feature {
+    background-color: #5902EC;
+    color: white !important;
+    border-radius: 10px;
+    min-height: 400px;
+}
+
+p.MuiTypography-root.MuiTypography-body2.MuiListItemText-secondary.css-1r4h3ox-MuiTypography-root {
+    color: #fff;
+    opacity: 0.7;
+}
+
+.bg-gredient {
+    background: rgb(2, 0, 36);
+    background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(89, 2, 236, 1) 49%, rgba(99, 56, 219, 0.389) 100%);
+}
+.MuiToolbar-root.MuiToolbar-regular.css-r6ewbb-MuiToolbar-root{
+    justify-content: space-between !important;
+}

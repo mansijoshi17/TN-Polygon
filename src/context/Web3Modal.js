@@ -39,8 +39,8 @@ export const Web3ModalContextProvider = (props) => {
       setLibrary(library);
       if (accounts) setAccount(accounts[0]);
       setChainId(network.chainId);
-      localStorage.setItem("user", accounts[0]);
-      if (accounts) navigate("/dashboard/agreement");
+      localStorage.setItem("user", accounts[0]); 
+      if (accounts) navigate("/dashboard/app");
     } catch (error) {
       console.log(error, "err");
       setError(error);

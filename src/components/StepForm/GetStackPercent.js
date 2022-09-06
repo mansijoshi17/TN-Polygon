@@ -14,8 +14,7 @@ function GetStackPercent(props) {
     const handleChange = (event) => {
         setCreator(event.target.value);
     };
-
-    console.log(formdata,"formdata");
+ 
     return (
         <div>
             <Stack spacing={3} sx={{ margin: '10px' }}>

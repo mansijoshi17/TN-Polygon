@@ -3,30 +3,24 @@ import { v4 as uuidv4 } from "uuid";
 const dataSlider = [
   {
     id: uuidv4(),
-    title: "Lorem ipsum",
-    subTitle: "Lorem",
+    title: "Escrow Agreement",
+    subTitle: "Simple crypto payment solution enabling DAOs, Freelancers, and Businesses in the crypto industry to accept crypto payments globally without paying hefty commissions.",
   },
   {
     id: uuidv4(),
-    title: "Lorem ipsum",
-    subTitle: "Lorem",
+    title: "Crypto Payment",
+    subTitle: "Simple crypto payment solution enabling DAOs, Freelancers, and Businesses in the crypto industry to accept crypto payments globally without paying hefty commissions.",
   },
   {
     id: uuidv4(),
-    title: "Lorem ipsum",
-    subTitle: "Lorem",
-  },
-
-  {
-    id: uuidv4(),
-    title: "Lorem ipsum",
-    subTitle: "Lorem"
+    title: "Invoices",
+    subTitle: "Simple crypto payment solution enabling DAOs, Freelancers, and Businesses in the crypto industry to accept crypto payments globally without paying hefty commissions.",
   },
   {
     id: uuidv4(),
-    title: "Lorem ipsum",
-    subTitle: "Lorem"
-  },
+    title: "Analytics",
+    subTitle: "Simple crypto payment solution enabling DAOs, Freelancers, and Businesses in the crypto industry to accept crypto payments globally without paying hefty commissions.",
+  } 
 ];
 
 export default dataSlider;

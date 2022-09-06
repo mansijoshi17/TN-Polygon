@@ -116,8 +116,8 @@ function SentPayments() {
       await getPayments();
       listOutFlows();
     }
-  }, [sf, isUpdatedctx, user, payments.length]);
-
+  }, [sf, isUpdatedctx]);
+ 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

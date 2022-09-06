@@ -49,8 +49,7 @@ useEffect(async()=>{
         chainId: networkId,
         address: user && user.attributes.ethAddress,
 
-       }); 
-       console.log(data,"balance");
+       });  
        setAgree(ethers.utils.formatUnits(data.data.items[0].balance, 18));  
   },[]);
 

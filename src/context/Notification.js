@@ -11,8 +11,7 @@ export const NotificationContextProvider = (props) => {
   const CHANNEL_PK = process.env.REACT_APP_EPNS_PRIVATE_KEY; // the private key of the address which you used to create a channel// Initialise the SDK
   const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
-  async function fetchNotifications(account) {
-    console.log(account,"account not");
+  async function fetchNotifications(account) { 
     if (account) {
       // define the variables required to make a request
       const walletAddress = account;

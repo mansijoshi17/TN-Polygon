@@ -66,8 +66,7 @@ export default function LendingHeader() {
 
   async function getVerified() {
     try {
-      const result = await worldID.enable();
-      console.log("World ID verified succesfully:", result); // <- Pass this result to your wallet transaction
+      const result = await worldID.enable(); 
     } catch (failure) {
       console.warn("World ID verification failed:", failure);
       // Re-activate here so your end user can try again
