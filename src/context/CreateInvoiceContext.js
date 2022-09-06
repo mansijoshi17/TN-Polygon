@@ -84,18 +84,19 @@ export const InvoiceContextProvider = (props) => {
     const randNo = await randomNumberCon.getRandom();
 
     try {
+      console.log(labelInfo,"labelInfo.formData");
       const docRef = await addDoc(collection(db, "invoices"), {
         invoiceNumber: parseInt(randNo._hex, 16),
         description: labelInfo.formData.description,
-        quantity: parseInt(labelInfo.formData.quantity),
-        price: parseInt(labelInfo.formData.price),
+        quantity: parseFloat(labelInfo.formData.quantity),
+        price: parseFloat(labelInfo.formData.price),
         token: labelInfo.formData.token,
         network: labelInfo.formData.network,
         name: customer[0].name,
         from: user?.attributes?.ethAddress,
         to: labelInfo.formData.to,
         taxName: labelInfo.formData.taxName,
-        taxPercentage: parseInt(labelInfo.formData.taxPercentage),
+        taxPercentage: parseFloat(labelInfo.formData.taxPercentage),
         note: labelInfo.formData.note,
         created: new Date(),
         paid: false,

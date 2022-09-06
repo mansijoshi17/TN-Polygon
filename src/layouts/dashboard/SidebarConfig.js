@@ -22,7 +22,7 @@ const sidebarConfig = [
     icon: getIcon("uil:invoice"),
   },
   {
-    title: "Recurring Payments",
+    title: "Payments",
     path: "/dashboard/payments",
     icon: getIcon("fluent:wallet-credit-card-24-filled"),
     children: [

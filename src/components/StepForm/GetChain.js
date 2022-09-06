@@ -86,7 +86,7 @@ function GetChain() {
                 <FormControlLabel
                   value="80001"
                   control={<Radio />}
-                  label="Mumbai"
+                  label="Polygon Mumbai"
                   onChange={value.setFormdata("chain")}
                 />
                 <FormControlLabel

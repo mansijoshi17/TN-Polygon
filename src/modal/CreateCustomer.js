@@ -27,7 +27,7 @@ function CreateCustomerModal(props) {
       email: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async(values, { resetForm }) => {
       setLoading(true); 
       try {
         const docRef = await addDoc(collection(db, "customers"), {

@@ -157,7 +157,7 @@ function SentPayments() {
             to="#"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            Create Recurring Payments
+            Create Recurring
           </Button>
         </Stack>
         <Stack>

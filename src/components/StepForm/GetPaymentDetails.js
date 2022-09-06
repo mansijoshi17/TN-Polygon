@@ -13,7 +13,7 @@ function GetPaymentDetails() {
   const value = useContext(MoneyStreamingContext);
   const formdata = value.labelInfo.formData;
 
-  const time = ["Year", "Month", "Week", "Day", "hour"];
+  const time = ["Hourly","Daily","Weekly","Monthly","Yearly" ];
 
   return (
     <div>

@@ -124,7 +124,7 @@ export default function CreateRecurringPayments(props) {
                     >
                       {formdatavalue.loading
                         ? "Creating..."
-                        : "Create Recurring Payment"}
+                        : "Create Recurring"}
                     </Button>
                   ) : (
                     <Button onClick={handleNext}>Next</Button>

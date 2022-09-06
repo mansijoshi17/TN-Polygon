@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 function SentInvoices({ invoices }) {
+  console.log(invoices,"invoices");
   const navigate = useNavigate();
   return (
     // <Container pl={0} pr={0} >
@@ -34,7 +35,7 @@ function SentInvoices({ invoices }) {
             {invoices && invoices.length == 0 && (
               <TableRow>
                 <TableCell colSpan={7} sx={{ textAlign: "center" }}>
-                  <h5>No invoices sented yet!</h5>
+                  <h5>No invoices sent yet!</h5>
                 </TableCell>
               </TableRow>
             )}

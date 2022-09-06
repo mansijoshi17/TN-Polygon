@@ -81,7 +81,7 @@ function GetAgreementChain() {
                             <FormControlLabel
                                 value="mumbai"
                                 control={<Radio />}
-                                label="Mumbai"
+                                label="Polygon Mumbai"
                                 onChange={value.setFormdata("chain")}
                             />
                             <FormControlLabel
