@@ -11,6 +11,8 @@ import Iconify from 'src/components/Iconify';
 import Slider from './Slider';
 import { Box } from '@mui/system';
 import Featurs from './featurs';
+import { toast } from 'react-toastify';
+import { useMoralis } from 'react-moralis';
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
     margin: 'auto',
@@ -38,7 +40,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
 
 
 function Home() {
-
+const {user}= useMoralis();
     const web3ModalContext = React.useContext(Web3ModalContext);
     const { connectWallet, account } = web3ModalContext;
     return (
@@ -48,7 +50,7 @@ function Home() {
                     <div className='col-12   col-md-6 col-lg-6 ' >
                         <Box sx={{ marginTop: { xs: "30px", sm: "40px", md: '60px', lg: '110px' } }}>
                             <Typography variant="h2" sx={{ color: '#25353D' }} gutterBottom>
-                                Noncustodial, Multichain crypto payments.
+                                Non-custodial, Multichain crypto payments.
                             </Typography>
                             <Typography variant='body1' sx={{ color: '#8C9498', fontSize: '1.2rem' }} gutterBottom>
                                 Simple crypto payment solution enabling DAOs, Freelancers, and Businesses in the crypto industry to accept crypto payments globally without paying hefty commissions.
@@ -59,6 +61,10 @@ function Home() {
                                 style={{ padding: '10px 20px' }}
                                 onClick={async () => {
                                     try {
+                                        if (user) {
+                                            toast.info("You are Already LoggedIn!")
+                                            return;
+                                        }
                                         await connectWallet();
                                     } catch (error) {
                                         console.log(error);
@@ -105,7 +111,7 @@ function Home() {
                                 color="#8C9498"
                                 sx={{ opacity: 0.72 }}
                             >
-                               Trustified makes it easy for Individual contractors and freelancers to track and get paid in Crypto.
+                                Trustified makes it easy for Individual contractors and freelancers to track and get paid in Crypto.
                             </Typography>
                         </RootStyle>
                     </div>
@@ -127,7 +133,7 @@ function Home() {
                                 color="#8C9498"
                                 sx={{ opacity: 0.72 }}
                             >
-                               Now any business can set up recurring payments for their vendors, salaries and manage them easily using Trustified.
+                                Now any business can set up recurring payments for their vendors, salaries and manage them easily using Trustified.
                             </Typography>
                         </RootStyle>
                     </div>
@@ -148,7 +154,7 @@ function Home() {
                                 color="#8C9498"
                                 sx={{ opacity: 0.72 }}
                             >
-                               At Trustified, DAOs can make payments to their contributors, and track and share the overall activity with the community members.  
+                                At Trustified, DAOs can make payments to their contributors, and track and share the overall activity with the community members.
                             </Typography>
                         </RootStyle>
                     </div>
@@ -157,10 +163,10 @@ function Home() {
 
             <Box className="container" sx={{ margin: { xs: "1rem 0", sm: "2rem 0", md: '3rem 0', lg: '4rem 0' } }}>
                 <div className="row colum-reverse justify-content-between"   >
-                <div className='col-12 col-sm-6  col-md-6 col-lg-6 mt-5 row-width' >
-                <Box sx={{ marginTop: { xs: "30px", sm: "40px", md: '60px', lg: '110px' } }}>
+                    <div className='col-12 col-sm-6  col-md-6 col-lg-6 mt-5 row-width' >
+                        <Box sx={{ marginTop: { xs: "30px", sm: "40px", md: '60px', lg: '110px' } }}>
                             <Typography variant="h2" sx={{ color: '#25353D' }} gutterBottom>
-                              FIAT on Ramp
+                                FIAT on Ramp
                             </Typography>
                             <Typography variant='body1' sx={{ color: '#8C9498', fontSize: '1.2rem' }} gutterBottom>
                                 Built in integrations for FIAT on Ramp to make your crypto onboarding journey super easy.
@@ -172,7 +178,7 @@ function Home() {
                             <img src='/images/transak.png' alt='bg' width="100%" height="auto" />
                         </RootStyle>
 
-                    </div> 
+                    </div>
                 </div>
             </Box>
         </Fragment>
