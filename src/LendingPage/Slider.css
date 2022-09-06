@@ -78,6 +78,6 @@
   cursor: pointer;
 }
 .dot.active {
-  background: rgb(32, 32, 32);
+  background: #5902ec;
 }
 

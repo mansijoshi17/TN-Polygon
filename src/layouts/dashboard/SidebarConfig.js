@@ -5,7 +5,7 @@ import Iconify from "../../components/Iconify";
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
-const sidebarConfig = [ 
+const sidebarConfig = [
   {
     title: "Escrow Agreements",
     path: "/dashboard/agreement",
@@ -20,7 +20,7 @@ const sidebarConfig = [
     title: "Invoice",
     path: "/dashboard/invoice",
     icon: getIcon("uil:invoice"),
-  }, 
+  },
   {
     title: "Recurring Payments",
     path: "/dashboard/payments",
@@ -35,10 +35,15 @@ const sidebarConfig = [
         title: "Received Payments",
         path: "/dashboard/payments/receive",
         icon: getIcon("uil:receive"),
-      },
-    ],
+      }, 
+    ], 
   },
-   
+  {
+    title: "Analytics",
+    path: "/dashboard/app",
+    icon: getIcon("eva:pie-chart-2-fill"),
+  },
+
 ];
 
 export default sidebarConfig;

@@ -1,12 +1,11 @@
-import React, { useState, createContext, useEffect, useCallback } from "react";
+import React, { useState, createContext, useEffect, useCallback } from "react"; 
 
 import { useMoralis } from "react-moralis";
-import { Framework } from "@superfluid-finance/sdk-core";
+import { Framework  } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
+ 
 
-import { toast } from "react-toastify";
-
-import BigNumber from "bignumber.js";
+import BigNumber from "bignumber.js"; 
 
 import { firebaseDataContext } from "./FirebaseDataContext";
 
@@ -40,7 +39,7 @@ export const SuperfluidContextProvider = (props) => {
 
   useEffect(() => {
     initWeb3();
-  }, []);
+  }, []); 
 
   async function initWeb3() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -61,41 +60,25 @@ export const SuperfluidContextProvider = (props) => {
     if (typeof Number(amt) !== "number" || isNaN(Number(amt)) === true) {
       throw new Error("calculate a flowRate based on a number");
     } else if (typeof Number(amt) === "number") {
-      const monthlyAmount = ethers.utils.parseEther(amt.toString());
-
+      const monthlyAmount = ethers.utils.parseEther(amt.toString()); 
       const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / days); // 3600 - 1 hour
       return calculatedFlowRate;
     }
   }
 
-  function calFlowRateForHour(amt) {
-    if (typeof Number(amt) !== "number" || isNaN(Number(amt)) === true) {
-      throw new Error("calculate a flowRate based on a number");
-    } else if (typeof Number(amt) === "number") {
-      const monthlyAmount = ethers.utils.parseEther(amt.toString());
-
-      const calculatedFlowRate = Math.floor(monthlyAmount / 60 / 60);
-      return calculatedFlowRate;
-    }
+  function getSeconds(dateValue) {0-9
+    const date = new Date(dateValue.toString());
+    const seconds = Math.floor(date.getTime() / 1000);
+    return seconds;
   }
-
-  // function getSeconds(dateValue) {
-  //   const date = new Date(dateValue.toString());
-  //   const seconds = Math.floor(date.getTime() / 1000);
-  //   return seconds;
-  // }
   let flowRate;
   async function createStream(stream) {
     if (stream.period == "Month") {
       flowRate = calFlowRate(stream.amount, 30);
     } else if (stream.period == "Year") {
       flowRate = calFlowRate(stream.amount, 365);
-    } else if (stream.period == "Week") {
-      flowRate = calFlowRate(stream.amount, 7);
-    } else if (stream.period == "Day") {
-      flowRate = calFlowRate(stream.amount, 1);
     } else {
-      flowRate = calFlowRateForHour(stream.amount);
+      flowRate = calFlowRate(stream.amount, 7);
     }
 
     try {
@@ -105,13 +88,11 @@ export const SuperfluidContextProvider = (props) => {
         superToken: stream.token,
         // userData?: string
       });
+ 
 
-      console.log("Creating your stream...");
+      const result = await createFlowOperation.exec(signer);
 
-      const createTransaction = await createFlowOperation.exec(signer);
-      const txc = await createTransaction.wait();
-
-      if (txc) {
+      if (result) {
         const docRef = await addDoc(collection(db, "payments"), {
           customerAddress: stream.customerAdd,
           sender: user?.attributes?.ethAddress,
@@ -124,10 +105,9 @@ export const SuperfluidContextProvider = (props) => {
         await listOutFlows();
         setIsUpdated(!isUpdatedctx);
       }
-      toast.success("Successfully created recurring payment!!");
-      return txc;
+
+      return result;
     } catch (error) {
-      toast.error("Something went wrong!");
       console.log(error);
     }
   }
@@ -138,12 +118,8 @@ export const SuperfluidContextProvider = (props) => {
       flowRate = calFlowRate(newAmount, 30);
     } else if (stream.period == "Year") {
       flowRate = calFlowRate(newAmount, 365);
-    } else if (stream.period == "Week") {
-      flowRate = calFlowRate(newAmount, 7);
-    } else if (stream.period == "Day") {
-      flowRate = calFlowRate(newAmount, 1);
     } else {
-      flowRate = calFlowRateForHour(newAmount);
+      flowRate = calFlowRate(newAmount, 7);
     }
 
     try {
@@ -153,8 +129,7 @@ export const SuperfluidContextProvider = (props) => {
         superToken: stream.token,
         // userData?: string
       });
-
-      console.log("Updating your stream...");
+ 
 
       const updateTransaction = await updateFlowOperation.exec(signer);
       const txu = await updateTransaction.wait();
@@ -168,11 +143,10 @@ export const SuperfluidContextProvider = (props) => {
         await listOutFlows();
         setIsUpdated(!isUpdatedctx);
       }
-      toast.success("Successfully updated recurring payment!!");
-      return txu;
+
+      return result;
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong!");
     }
   }
 
@@ -181,23 +155,14 @@ export const SuperfluidContextProvider = (props) => {
     return stream.toFixed(2);
   }
 
-  function calculateHourStream(flowRate) {
-    const stream = new BigNumber(flowRate * (60 * 60)).shiftedBy(-18);
-    return stream.toFixed(2);
-  }
-
   async function listOutFlows() {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    setChain(chainId);
     try {
       let outFlow = [];
 
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
-
         if (payment.sender.toLowerCase() == user?.attributes?.ethAddress) {
           let obj;
-
           const getFlowOperation = await sf.cfaV1.getFlow({
             superToken: payment.token,
             sender: payment.sender,
@@ -209,18 +174,15 @@ export const SuperfluidContextProvider = (props) => {
             receiver: payment.customerAddress,
             token: payment.token,
           });
+ 
 
           let amount;
           if (payment.period == "Month") {
             amount = calculateStream(getFlowOperation.flowRate, 30);
           } else if (payment.period == "Year") {
             amount = calculateStream(getFlowOperation.flowRate, 365);
-          } else if (payment.period == "Week") {
-            amount = calculateStream(getFlowOperation.flowRate, 7);
-          } else if (payment.period == "Day") {
-            amount = calculateStream(getFlowOperation.flowRate, 1);
           } else {
-            amount = calculateHourStream(getFlowOperation.flowRate);
+            amount = calculateStream(getFlowOperation.flowRate, 7);
           }
 
           obj = {
@@ -233,8 +195,7 @@ export const SuperfluidContextProvider = (props) => {
             updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
             currentFlowRate: flowData?.data[0]?.currentFlowRate,
             token: payment.token,
-          };
-
+          }; 
           outFlow.push(obj);
         } else {
           console.log("No outgoing streams");
@@ -247,8 +208,6 @@ export const SuperfluidContextProvider = (props) => {
   }
 
   async function listInFlows() {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    setChain(chainId);
     let inFlow = [];
     for (let i = 0; i < payments.length; i++) {
       let payment = payments[i];
@@ -267,19 +226,14 @@ export const SuperfluidContextProvider = (props) => {
           sender: payment.sender,
           receiver: payment.customerAddress,
           token: payment.token,
-        });
-
+        }); 
         let amount;
         if (payment.period == "Month") {
           amount = calculateStream(getFlowOperation.flowRate, 30);
         } else if (payment.period == "Year") {
           amount = calculateStream(getFlowOperation.flowRate, 365);
-        } else if (payment.period == "Week") {
-          amount = calculateStream(getFlowOperation.flowRate, 7);
-        } else if (payment.period == "Day") {
-          amount = calculateStream(getFlowOperation.flowRate, 1);
         } else {
-          amount = calculateHourStream(getFlowOperation.flowRate);
+          amount = calculateStream(getFlowOperation.flowRate, 7);
         }
 
         obj = {
@@ -292,8 +246,7 @@ export const SuperfluidContextProvider = (props) => {
           updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
           currentFlowRate: flowData?.data[0]?.currentFlowRate,
           token: payment.token,
-        };
-
+        }; 
         inFlow.push(obj);
       } else {
         console.log("No incoming streams");
@@ -310,28 +263,22 @@ export const SuperfluidContextProvider = (props) => {
         superToken: streamData.token,
         // userData?: string
       });
-      let deleteTransaction = await deleteFlowOperation.exec(signer);
+      let result = await deleteFlowOperation.exec(signer);
+      if (result) {
+        const docRef = doc(db, "payments", streamData?.id?.toString()); 
 
-      let txd = await deleteTransaction.wait();
-      if (txd) {
-        const docRef = doc(db, "payments", streamData?.id?.toString());
-
-        await deleteDoc(docRef)
-          .then(async () => {
+        deleteDoc(docRef)
+          .then(() => {
             console.log("Entire Document has been deleted successfully.");
-
-            await getPayments();
-            await listOutFlows();
-            setIsUpdated(!isUpdatedctx);
-            toast.success("Successfully deleted payment!!");
           })
           .catch((error) => {
-            toast.error("Something went wrong!");
             console.log(error);
           });
+        setIsUpdated(!isUpdatedctx);
+        await getPayments();
+        await listOutFlows();
       }
     } catch (error) {
-      toast.error("Something went wrong!");
       console.log(error);
     }
   }

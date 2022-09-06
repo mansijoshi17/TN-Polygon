@@ -58,7 +58,7 @@ export default function LendingHeader() {
 
   const dashboard = () => {
     if (isAuthenticated && user) {
-      navigate("/dashboard/agreement");
+      navigate("/dashboard/app");
     } else {
       toast.info("Please Connect the wallet!");
     }
@@ -75,7 +75,7 @@ export default function LendingHeader() {
 
   return (
     <AppBar position="static" color="transparent">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Logo />
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>

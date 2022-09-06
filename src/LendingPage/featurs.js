@@ -11,15 +11,41 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
     width: theme.spacing(8),
     height: theme.spacing(8),
     justifyContent: 'center',
-    marginBottom: theme.spacing(3),
     color: theme.palette.primary.dark,
     backgroundImage: `linear-gradient(135deg,  #fff 0%, #eee 100%)`
 }));
 
+const featureList = [
+    {
+        title: "No hefty commission",
+        icon: "/images/icon2.png",
+    },
+    {
+        title: "Risk free noncustodial",
+        icon: "/images/icon1.png",
+    },
+    {
+        title: "Instant settlement",
+        icon: "/images/icon3.png",
+    },
+    {
+        title: "Chain Agnostic",
+        icon: "/images/icon4.png",
+    },
+    {
+        title: "Realtime money streaming",
+        icon: "/images/icon5.png",
+    },
+    {
+        title: "Recurring payment",
+        icon: "/images/icon6.png",
+    },
+]
+
 function Featurs() {
     return (
         <Box className='container bg-color-feature ' sx={{ marginTop: { xs: "1rem", sm: "2rem", md: '3rem', lg: '4rem' } }}>
-            
+
             <div className="row">
                 <div className='col  text-center' >
                     <Typography style={{ margin: '3rem 0' }} variant="h3" sx={{ color: '#fff' }} gutterBottom>
@@ -29,79 +55,45 @@ function Featurs() {
             </div>
 
             <div className="row" >
-                <div className='col-12 col-sm-6 col-md-4 col-lg-4 ' >
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#5902EC' }}>
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <IconWrapperStyle>
-                                    <Iconify
-                                        icon="icon-park-outline:agreement"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </IconWrapperStyle>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary="No hefty commission" 
-                                secondary={
-                                    <React.Fragment>
-                                        {"Send/Receive crypto payments in a reliable."}
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
-                    </List>
-                </div>
-                <div className='col-12 col-sm-6 col-md-4 col-lg-4' >
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#5902EC' }}>
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <IconWrapperStyle>
-                                    <Iconify
-                                        icon="arcticons:crypto-prices"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </IconWrapperStyle>
-                            </ListItemAvatar>
-                            <ListItemText 
-                                primary="Risk free noncustodial"
-                                secondary={<React.Fragment>
-                                    {"Send/Receive crypto payments in a reliable."}
-                                </React.Fragment>
-                                }
-                            />
-                        </ListItem>
-                    </List>
-                </div>
-
-                <div className='col-12 col-sm-6 col-md-4 col-lg-4' >
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#5902EC' }}>
-
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <IconWrapperStyle>
-                                    <Iconify
-                                        icon="fa6-solid:file-invoice-dollar"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </IconWrapperStyle>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary="Instant settlement."
-                                secondary={
-                                    <React.Fragment>
-                                        {"Send / Recieve invoices to your customers."}
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
-                    </List>
-                </div>
+                {
+                    featureList.map((e) => {
+                        return (
+                            <FeaturList title={e.title} icon={e.icon} key={e.title} />
+                        )
+                    })
+                }
             </div>
         </Box>
     )
 }
 
 export default Featurs
+
+export const FeaturList = (props) => {
+    return (
+        <div className='col-12 col-sm-6 col-md-4 col-lg-4' >
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#5902EC' }}>
+                <ListItem alignItems="center">
+                    <ListItemAvatar>
+                        <IconWrapperStyle>
+                            {/* <Iconify 
+                                icon={props.icon}
+                                width={24}
+                                height={24}
+                            /> */}
+                            <img
+                                src={props.icon}
+                                width={24}
+                                height={24}
+                                alt=""/>
+                        </IconWrapperStyle>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={props.title}
+                        secondary={null}
+                    />
+                </ListItem>
+            </List>
+        </div>
+    )
+}

@@ -18,6 +18,7 @@ import {
   AppConversionRates,
 } from "../sections/@dashboard/app";
 import { useNavigate } from "react-router-dom";
+import AppTotalAgreement from "src/sections/@dashboard/app/AppTotalAgreement";
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +36,7 @@ export default function DashboardApp() {
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}> 
-          <AppItemOrders />
+          <AppTotalAgreement />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppNewUsers />

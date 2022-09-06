@@ -39,3 +39,7 @@ p.MuiTypography-root.MuiTypography-body2.MuiListItemText-secondary.css-1r4h3ox-M
 .MuiToolbar-root.MuiToolbar-regular.css-r6ewbb-MuiToolbar-root{
     justify-content: space-between !important;
 }
+
+header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorTransparent.MuiAppBar-positionStatic.css-1bql3tn-MuiPaper-root-MuiAppBar-root{
+    box-shadow: none !important;
+}

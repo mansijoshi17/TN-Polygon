@@ -105,11 +105,7 @@ function Home() {
                                 color="#8C9498"
                                 sx={{ opacity: 0.72 }}
                             >
-                                Create profile, add services like software development,
-                                accounts, finance, digital marketing as per your expertise.
-                                Add Products from physical goods, digital products such as
-                                themes, plugins, templates, growth hack guide, booklets and so
-                                on.
+                               Trustified makes it easy for Individual contractors and freelancers to track and get paid in Crypto.
                             </Typography>
                         </RootStyle>
                     </div>
@@ -131,10 +127,7 @@ function Home() {
                                 color="#8C9498"
                                 sx={{ opacity: 0.72 }}
                             >
-                                Sell products/services globally. Create agreement with scope
-                                of work, delivery time frame and pricing. Let smart contract
-                                ensure trust and ethical behaviour of parties involved in
-                                transaction.
+                               Now any business can set up recurring payments for their vendors, salaries and manage them easily using Trustified.
                             </Typography>
                         </RootStyle>
                     </div>
@@ -155,8 +148,7 @@ function Home() {
                                 color="#8C9498"
                                 sx={{ opacity: 0.72 }}
                             >
-                                Developers can easily integrate agreement and crypto payment
-                                service in web and mobile app using Trustified SDK.
+                               At Trustified, DAOs can make payments to their contributors, and track and share the overall activity with the community members.  
                             </Typography>
                         </RootStyle>
                     </div>
@@ -164,23 +156,23 @@ function Home() {
             </Box>
 
             <Box className="container" sx={{ margin: { xs: "1rem 0", sm: "2rem 0", md: '3rem 0', lg: '4rem 0' } }}>
-                <div className="row justify-content-between"   >
-                    <div className='col-12 col-sm-5  col-md-5 col-lg-5 p-2' >
+                <div className="row colum-reverse justify-content-between"   >
+                <div className='col-12 col-sm-6  col-md-6 col-lg-6 mt-5 row-width' >
+                <Box sx={{ marginTop: { xs: "30px", sm: "40px", md: '60px', lg: '110px' } }}>
+                            <Typography variant="h2" sx={{ color: '#25353D' }} gutterBottom>
+                              FIAT on Ramp
+                            </Typography>
+                            <Typography variant='body1' sx={{ color: '#8C9498', fontSize: '1.2rem' }} gutterBottom>
+                                Built in integrations for FIAT on Ramp to make your crypto onboarding journey super easy.
+                            </Typography>
+                        </Box>
+                    </div>
+                    <div className='col-12 col-sm-6  col-md-6 col-lg-6 p-2' >
                         <RootStyle>
                             <img src='/images/transak.png' alt='bg' width="100%" height="auto" />
                         </RootStyle>
 
-                    </div>
-                    <div className='col-12 col-sm-7  col-md-7 col-lg-7 mt-5 row-width' >
-                        <Box >
-                            <Typography variant="h2" sx={{ color: '#25353D' }} gutterBottom>
-                                On chain payments done right.
-                            </Typography>
-                            <Typography variant='body1' sx={{ color: '#8C9498', fontSize: '1.2rem' }} gutterBottom>
-                                Powered by the Solana network, wagmi.bio is your one stop gateway for receiving payments in crypto.
-                            </Typography>
-                        </Box>
-                    </div>
+                    </div> 
                 </div>
             </Box>
         </Fragment>
