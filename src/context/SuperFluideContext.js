@@ -323,17 +323,17 @@ export const SuperfluidContextProvider = (props) => {
         const docRef = doc(db, "payments", streamData?.id?.toString());
 
         deleteDoc(docRef)
-          .then(() => {
+          .then(async () => {
             toast.success("Successfully deleted payment!!");
+            setIsUpdated(!isUpdatedctx);
+            await getPayments();
+            await listOutFlows();
             console.log("Entire Document has been deleted successfully.");
           })
           .catch((error) => {
             toast.error("Something went wrong!");
             console.log(error);
           });
-        setIsUpdated(!isUpdatedctx);
-        await getPayments();
-        await listOutFlows();
       }
     } catch (error) {
       toast.error("Something went wrong!");
