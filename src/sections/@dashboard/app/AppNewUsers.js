@@ -6,14 +6,15 @@ import { fShortenNumber } from '../../../utils/formatNumber';
 // component
 import Iconify from '../../../components/Iconify';
 import { useMoralis } from 'react-moralis';
-import { useEffect, useState } from 'react'; 
+import React, { useEffect, useState } from 'react';
+import { firebaseDataContext } from 'src/context/FirebaseDataContext';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(5, 0),
-  color: theme.palette.primary.main 
+  color: theme.palette.primary.main
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -37,17 +38,47 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 1352831;
 
 export default function AppNewUsers() {
-  const { Moralis, user } = useMoralis();
+
+  const {user}= useMoralis();
+
+  const firebaseContext = React.useContext(firebaseDataContext);
+  const { getInvoices, invoices, loading } = firebaseContext;
+
+  const [sentInvoices, setSentInvoices] = useState([]);
+  const [receivedInvoices, setReceivedInvoices] = useState([]);
+
+  
+
+
+  useEffect(() => {
+    const s =
+    invoices &&
+    invoices.filter((s) => s.from == user?.attributes?.ethAddress); 
+  setSentInvoices(s);
+  const r =
+    invoices &&
+    invoices.filter(
+      (s) => s.to.toLowerCase() == user?.attributes?.ethAddress
+    ); 
+  setReceivedInvoices(r);
+  }, [ ]); 
+
+
+  useEffect(() => {
+    getInvoices();
+  }, [ ])
  
+
 
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Iconify icon="ant-design:transaction-outlined" width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3"  color="#000">{fShortenNumber(10)}</Typography>
+      <Typography variant="body1" color="#000">Send <span style={{fontWeight:900, fontSize:'24px'}}>{sentInvoices.length}</span></Typography>
+      <Typography variant="body1" color="#000">Received <span style={{fontWeight:900, fontSize:'24px'}}>{receivedInvoices.length}</span></Typography> 
       <Typography variant="subtitle2" color="#000" sx={{ opacity: 0.72 }}>
-         Crypto Transactions
+         Invoices
       </Typography>
     </RootStyle>
   );

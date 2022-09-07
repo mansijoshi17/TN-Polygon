@@ -74,6 +74,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
     display: "flex",
   },
 }));
+ 
 
 function SentPayments() {
   const [status, setStatus] = React.useState("");
@@ -110,8 +111,7 @@ function SentPayments() {
     setOpen(false);
   };
 
-  const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
-
+  const getIcon = (name) => <Iconify icon={name} width={22} height={22} />; 
   return (
     <Page title="Recurring Payment |  TrustifiedNetwork">
       <CreateRecurringPayments

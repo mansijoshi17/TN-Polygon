@@ -15,7 +15,10 @@ export const SuperfluidWeb3Context = createContext(undefined);
 
 export const url = `https://polygon-mumbai.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`;
 export const customHttpProvider = new ethers.providers.JsonRpcProvider(url);
-const USDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
+const  fUSDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
+const MATICx= "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4";
+const fDAIx= "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
+// const  fUSDCx= "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2";
 
 export const SuperfluidWeb3ContextProvider = (props) => {
   const [isLoadingcon, setIsLoaing] = useState(false);
@@ -33,7 +36,13 @@ export const SuperfluidWeb3ContextProvider = (props) => {
 
   async function getUSDCXBalance(provider, subAddress) {
     const signer = provider.getSigner(subAddress);
-    const contract = new ethers.Contract(USDCx, Daix, signer);
+    const contract = new ethers.Contract(fUSDCx, Daix, signer);
+    let result = await contract.balanceOf(subAddress);
+    return ethers.utils.formatEther(result);
+  }
+  async function getfDAIxBalance(provider, subAddress) {
+    const signer = provider.getSigner(subAddress);
+    const contract = new ethers.Contract(fDAIx, Daix, signer);
     let result = await contract.balanceOf(subAddress);
     return ethers.utils.formatEther(result);
   }
@@ -122,6 +131,7 @@ export const SuperfluidWeb3ContextProvider = (props) => {
         getSubAddress,
         outgoingFlows,
         getUSDCXBalance,
+        getfDAIxBalance,
         subTotal,
         subflow,
         createNewFlow,
