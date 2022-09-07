@@ -1,4 +1,4 @@
-import { Card, TableBody } from "@mui/material";
+import { Button, Card, TableBody } from "@mui/material";
 import {
   Container,
   Stack,
@@ -70,7 +70,7 @@ function ReceivedPayments() {
   }
 
   return (
-    <Page title="Recurring Payment |  TrustifiedNetwork">
+    <Page title="Recurring Payment |  Trustified">
       <Container pl={0} pr={0}>
         <Stack
           direction="row"
@@ -81,6 +81,14 @@ function ReceivedPayments() {
           <Typography variant="h4" gutterBottom>
             Payments
           </Typography>
+          <Button
+            variant="contained"
+            // onClick={handleClickOpen}
+            to="#"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            Request Payment
+          </Button>
         </Stack>
         <Stack>
           <Card>
