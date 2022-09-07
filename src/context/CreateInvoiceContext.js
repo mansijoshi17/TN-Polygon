@@ -26,7 +26,7 @@ export const InvoiceContextProvider = (props) => {
   const firebaseContext = React.useContext(firebaseDataContext);
   const { customers } = firebaseContext;
 
-  window.ethereum.enable();
+  // window.ethereum.enable();
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const priceFeed = new ethers.Contract(
@@ -83,8 +83,7 @@ export const InvoiceContextProvider = (props) => {
     await randomNumberCon.getRandomNumber(1000);
     const randNo = await randomNumberCon.getRandom();
 
-    try {
-      console.log(labelInfo,"labelInfo.formData");
+    try { 
       const docRef = await addDoc(collection(db, "invoices"), {
         invoiceNumber: parseInt(randNo._hex, 16),
         description: labelInfo.formData.description,

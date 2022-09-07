@@ -46,7 +46,7 @@ export default function LendingHeader() {
     setAnchorElUser(null);
   };
 
-  useEffect(() => { }, [user]);
+  // useEffect(() => { }, [user]);
 
   const cryptoPayment = () => {
     if (isAuthenticated && user) {
