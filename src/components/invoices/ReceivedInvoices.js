@@ -1,4 +1,4 @@
-import { Card, TableBody } from "@mui/material";
+import { Card, CircularProgress, TableBody } from "@mui/material";
 import {
   Button,
   Container,
@@ -13,7 +13,7 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-function ReceivedInvoices({ invoices }) {
+function ReceivedInvoices({ invoices, loading }) {
   const navigate = useNavigate();
   return (
     // <Container pl={0} pr={0}>
@@ -31,7 +31,15 @@ function ReceivedInvoices({ invoices }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {invoices && invoices.length == 0 && (
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={6} sx={{ textAlign: "center" }}>
+                <CircularProgress />
+              </TableCell>
+            </TableRow>
+          )}
+
+            {loading == false && invoices && invoices.length == 0 && (
               <TableRow>
                 <TableCell colSpan={7} sx={{ textAlign: "center" }}>
                   <h5>No invoices received yet!</h5>
@@ -39,7 +47,7 @@ function ReceivedInvoices({ invoices }) {
               </TableRow>
             )}
 
-            {invoices &&
+            {loading == false && invoices &&
               invoices.map((invoice) => (
                 <TableRow>
                   <TableCell>{invoice.invoiceNumber}</TableCell>

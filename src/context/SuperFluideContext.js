@@ -1,11 +1,11 @@
-import React, { useState, createContext, useEffect, useCallback } from "react"; 
+import React, { useState, createContext, useEffect, useCallback } from "react";
 
 import { useMoralis } from "react-moralis";
-import { Framework  } from "@superfluid-finance/sdk-core";
+import { Framework } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
- 
 
-import BigNumber from "bignumber.js"; 
+
+import BigNumber from "bignumber.js";
 
 import { firebaseDataContext } from "./FirebaseDataContext";
 
@@ -30,6 +30,7 @@ export const SuperfluidContextProvider = (props) => {
   const [signer, setSigner] = useState();
   const [chain, setChain] = useState();
   const [isUpdatedctx, setIsUpdated] = useState(false);
+  const [ isLoaded, setIsLoaded] = useState(false);
 
   const [inFlows, setInFlows] = useState([]);
   const [outFlows, setOutFlows] = useState([]);
@@ -39,7 +40,7 @@ export const SuperfluidContextProvider = (props) => {
 
   useEffect(() => {
     initWeb3();
-  }, []); 
+  }, []);
 
   async function initWeb3() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -60,13 +61,14 @@ export const SuperfluidContextProvider = (props) => {
     if (typeof Number(amt) !== "number" || isNaN(Number(amt)) === true) {
       throw new Error("calculate a flowRate based on a number");
     } else if (typeof Number(amt) === "number") {
-      const monthlyAmount = ethers.utils.parseEther(amt.toString()); 
+      const monthlyAmount = ethers.utils.parseEther(amt.toString());
       const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / days); // 3600 - 1 hour
       return calculatedFlowRate;
     }
   }
 
-  function getSeconds(dateValue) {0-9
+  function getSeconds(dateValue) {
+    0 - 9
     const date = new Date(dateValue.toString());
     const seconds = Math.floor(date.getTime() / 1000);
     return seconds;
@@ -88,7 +90,7 @@ export const SuperfluidContextProvider = (props) => {
         superToken: stream.token,
         // userData?: string
       });
- 
+
 
       const result = await createFlowOperation.exec(signer);
 
@@ -129,7 +131,7 @@ export const SuperfluidContextProvider = (props) => {
         superToken: stream.token,
         // userData?: string
       });
- 
+
 
       const updateTransaction = await updateFlowOperation.exec(signer);
       const txu = await updateTransaction.wait();
@@ -156,6 +158,7 @@ export const SuperfluidContextProvider = (props) => {
   }
 
   async function listOutFlows() {
+    setIsLoaded(true)
     try {
       let outFlow = [];
 
@@ -174,7 +177,7 @@ export const SuperfluidContextProvider = (props) => {
             receiver: payment.customerAddress,
             token: payment.token,
           });
- 
+
 
           let amount;
           if (payment.period == "Month") {
@@ -195,64 +198,73 @@ export const SuperfluidContextProvider = (props) => {
             updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
             currentFlowRate: flowData?.data[0]?.currentFlowRate,
             token: payment.token,
-          }; 
+          };
           outFlow.push(obj);
         } else {
           console.log("No outgoing streams");
         }
       }
       setOutFlows(outFlow);
+      setIsLoaded(false)
     } catch (error) {
       console.log(error);
+      setIsLoaded(false)
     }
   }
 
   async function listInFlows() {
-    let inFlow = [];
-    for (let i = 0; i < payments.length; i++) {
-      let payment = payments[i];
+    setIsLoaded(true)
+    try {
+      let inFlow = []; 
+      for (let i = 0; i < payments.length; i++) {
+        let payment = payments[i];
 
-      if (
-        payment.customerAddress.toLowerCase() == user?.attributes?.ethAddress
-      ) {
-        let obj;
-        const getFlowOperation = await sf.cfaV1.getFlow({
-          superToken: payment.token,
-          sender: payment.sender,
-          receiver: payment.customerAddress,
-          providerOrSigner: provider,
-        });
-        const flowData = await sf.query.listStreams({
-          sender: payment.sender,
-          receiver: payment.customerAddress,
-          token: payment.token,
-        }); 
-        let amount;
-        if (payment.period == "Month") {
-          amount = calculateStream(getFlowOperation.flowRate, 30);
-        } else if (payment.period == "Year") {
-          amount = calculateStream(getFlowOperation.flowRate, 365);
+        if (
+          payment.customerAddress.toLowerCase() == user?.attributes?.ethAddress
+        ) {
+          let obj;
+          const getFlowOperation = await sf.cfaV1.getFlow({
+            superToken: payment.token,
+            sender: payment.sender,
+            receiver: payment.customerAddress,
+            providerOrSigner: provider,
+          });
+          const flowData = await sf.query.listStreams({
+            sender: payment.sender,
+            receiver: payment.customerAddress,
+            token: payment.token,
+          });
+          let amount;
+          if (payment.period == "Month") {
+            amount = calculateStream(getFlowOperation.flowRate, 30);
+          } else if (payment.period == "Year") {
+            amount = calculateStream(getFlowOperation.flowRate, 365);
+          } else {
+            amount = calculateStream(getFlowOperation.flowRate, 7);
+          }
+
+          obj = {
+            id: payment.id,
+            sender: payment.sender,
+            receiver: payment.customerAddress,
+            amount: amount,
+            period: payment.period,
+            streamedUntilUpdatedAt: flowData?.data[0]?.streamedUntilUpdatedAt,
+            updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
+            currentFlowRate: flowData?.data[0]?.currentFlowRate,
+            token: payment.token,
+          };
+          inFlow.push(obj);
         } else {
-          amount = calculateStream(getFlowOperation.flowRate, 7);
+          console.log("No incoming streams");
         }
-
-        obj = {
-          id: payment.id,
-          sender: payment.sender,
-          receiver: payment.customerAddress,
-          amount: amount,
-          period: payment.period,
-          streamedUntilUpdatedAt: flowData?.data[0]?.streamedUntilUpdatedAt,
-          updatedAtTimestamp: flowData?.data[0]?.updatedAtTimestamp,
-          currentFlowRate: flowData?.data[0]?.currentFlowRate,
-          token: payment.token,
-        }; 
-        inFlow.push(obj);
-      } else {
-        console.log("No incoming streams");
       }
+      setInFlows(inFlow);
+      setIsLoaded(false)
+    } catch (error) {
+      console.log(error);
+      setIsLoaded(false)
     }
-    setInFlows(inFlow);
   }
 
   async function deleteFlow(streamData) {
@@ -265,7 +277,7 @@ export const SuperfluidContextProvider = (props) => {
       });
       let result = await deleteFlowOperation.exec(signer);
       if (result) {
-        const docRef = doc(db, "payments", streamData?.id?.toString()); 
+        const docRef = doc(db, "payments", streamData?.id?.toString());
 
         deleteDoc(docRef)
           .then(() => {
@@ -295,6 +307,7 @@ export const SuperfluidContextProvider = (props) => {
         isUpdatedctx,
         outFlows,
         inFlows,
+        isLoaded
       }}
       {...props}
     >

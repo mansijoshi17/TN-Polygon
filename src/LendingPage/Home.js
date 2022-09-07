@@ -86,7 +86,7 @@ const {user}= useMoralis();
                 <div className="row"  >
                     <div className='col  text-center' >
                         <Typography variant="h3" sx={{ color: '#25353D' }} gutterBottom>
-                            Builds For
+                            Build For
                         </Typography>
                     </div>
                 </div>

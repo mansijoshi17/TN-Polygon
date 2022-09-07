@@ -51,21 +51,23 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function ReceivedPayments() {
-  const [isLoaded, setIsLoaded] = React.useState(false);
+function ReceivedPayments() { 
 
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { getPayments, payments } = firebaseContext;
+  const { payments } = firebaseContext;
 
   const superfluidContext = React.useContext(SuperfluidContext);
-  const { listInFlows, sf, isUpdatedctx, inFlows } = superfluidContext;
+  const { listInFlows, sf, isUpdatedctx, inFlows ,isLoaded} = superfluidContext;
 
-  useEffect(async () => {
-    if (sf) {
-      await getPayments();
+  useEffect( () => {
+    getData();
+  }, [sf, isUpdatedctx, payments.length]);
+
+  async function getData(){
+    if (sf) { 
       listInFlows();
     }
-  }, [sf, isUpdatedctx, payments.length]);
+  }
 
   return (
     <Page title="Recurring Payment |  TrustifiedNetwork">
@@ -94,14 +96,14 @@ function ReceivedPayments() {
                 <TableBody>
                   {isLoaded && (
                     <TableRow>
-                      <TableCell colSpan={3} sx={{ textAlign: "center" }}>
+                      <TableCell colSpan={6} sx={{ textAlign: "center" }}>
                         <CircularProgress />
                       </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
                 <TableBody>
-                  {inFlows && inFlows.length == 0 && (
+                  {isLoaded == false && inFlows && inFlows.length == 0 && (
                     <TableRow>
                       <TableCell colSpan={3} sx={{ textAlign: "center" }}>
                         <h5>No payments received yet!</h5>
@@ -109,7 +111,7 @@ function ReceivedPayments() {
                     </TableRow>
                   )}
 
-                  {inFlows &&
+                  {isLoaded == false && inFlows &&
                     inFlows.map((flow) => {
                       return (
                         <TableRow key={flow.id}>
