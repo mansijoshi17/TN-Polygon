@@ -51,7 +51,7 @@ function SentInvoices({ invoices , loading}) {
 
           {loading == false && invoices &&
             invoices.map((invoice) => (
-              <TableRow>
+              <TableRow key={invoice.id}>
                 <TableCell>{invoice.invoiceNumber}</TableCell>
                 <TableCell>{invoice.name}</TableCell>
                 <TableCell>{invoice.price}</TableCell>

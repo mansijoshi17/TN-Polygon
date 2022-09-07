@@ -27,7 +27,7 @@ export default function DashboardApp() {
   const { Moralis, user } = useMoralis();
 
   return (
-    <Page title="Dashboard | TrustifiedNetwork">
+    <Page title="Dashboard | Trustified">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">

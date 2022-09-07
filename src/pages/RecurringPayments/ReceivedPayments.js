@@ -61,11 +61,11 @@ function ReceivedPayments() {
 
   useEffect( () => {
     getData();
-  }, [sf, isUpdatedctx, payments.length]);
+  }, [sf, isUpdatedctx]);
 
   async function getData(){
     if (sf) { 
-      listInFlows();
+    await  listInFlows();
     }
   }
 
@@ -100,9 +100,7 @@ function ReceivedPayments() {
                         <CircularProgress />
                       </TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-                <TableBody>
+                  )} 
                   {isLoaded == false && inFlows && inFlows.length == 0 && (
                     <TableRow>
                       <TableCell colSpan={3} sx={{ textAlign: "center" }}>

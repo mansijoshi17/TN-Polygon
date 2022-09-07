@@ -39,7 +39,7 @@ function GetPaymentDetails() {
           >
             {time &&
               time.map((t) => {
-                return <MenuItem value={t}>{t}</MenuItem>;
+                return <MenuItem key={t} value={t}>{t}</MenuItem>;
               })}
           </Select>
         </FormControl>  

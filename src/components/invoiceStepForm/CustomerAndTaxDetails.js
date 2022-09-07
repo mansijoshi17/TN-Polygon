@@ -48,7 +48,7 @@ import {
                     {customers &&
                       customers.map((customer) => {
                         return (
-                          <MenuItem value={customer.address}>
+                          <MenuItem key={customer.address} value={customer.address}>
                             {customer.name}
                           </MenuItem>
                         );

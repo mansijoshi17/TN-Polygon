@@ -98,7 +98,7 @@ function SentPayments() {
 
   async function getData(){
     if (sf) { 
-      listOutFlows();
+     await listOutFlows();
     }
   } 
 
