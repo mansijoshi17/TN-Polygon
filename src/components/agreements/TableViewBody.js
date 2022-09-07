@@ -235,8 +235,7 @@ function TableViewBody(props) {
 
   if (contractState != null) {
     return (
-      <TableBody>
-        <ToastContainer />
+      <TableBody> 
         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
           <TableCell>
             <IconButton
@@ -403,7 +402,7 @@ function TableViewBody(props) {
       </TableBody>
     );
   } else {
-    return "";
+    return <TableBody></TableBody>;
   }
 }
 

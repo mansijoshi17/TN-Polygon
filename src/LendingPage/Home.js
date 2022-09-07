@@ -86,7 +86,7 @@ const {user}= useMoralis();
                 <div className="row"  >
                     <div className='col  text-center' >
                         <Typography variant="h3" sx={{ color: '#25353D' }} gutterBottom>
-                            Builds For
+                            Build For
                         </Typography>
                     </div>
                 </div>
@@ -162,9 +162,9 @@ const {user}= useMoralis();
             </Box>
 
             <Box className="container" sx={{ margin: { xs: "1rem 0", sm: "2rem 0", md: '3rem 0', lg: '4rem 0' } }}>
-                <div className="row colum-reverse justify-content-between"   >
+                <div className="row justify-content-between"   >
                     <div className='col-12 col-sm-6  col-md-6 col-lg-6 mt-5 row-width' >
-                        <Box sx={{ marginTop: { xs: "30px", sm: "40px", md: '60px', lg: '110px' } }}>
+                        <Box >
                             <Typography variant="h2" sx={{ color: '#25353D' }} gutterBottom>
                                 FIAT on Ramp
                             </Typography>

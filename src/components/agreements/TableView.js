@@ -93,23 +93,27 @@ function TableView(props) {
           </TableRow>
         </TableHead>
         {isLoading && (
+           <TableBody>
           <TableRow>
             <TableCell colSpan={6} sx={{ textAlign: "center" }}>
               <CircularProgress />
             </TableCell>
           </TableRow>
+          </TableBody>
         )}
         {contractAddressList && contractAddressList.length == 0 && (
+          <TableBody>
           <TableRow>
             <TableCell colSpan={6} sx={{ textAlign: "center" }}>
               <h5>No contract available</h5>
             </TableCell>
           </TableRow>
+          </TableBody>
         )}
 
         {/* <TableBody> */}
         {contractAddressList &&
-          contractAddressList.map((list) => {
+          contractAddressList.map((list) => { 
             return (
               <TableViewBody
                 key={list}

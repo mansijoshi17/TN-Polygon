@@ -65,7 +65,7 @@ function Invoices() {
   const { user } = useMoralis(); 
 
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { getInvoices, invoices } = firebaseContext;
+  const { getInvoices, invoices,loading } = firebaseContext;
   const [sentInvoices, setSentInvoices] = useState([]);
   const [receivedInvoices, setReceivedInvoices] = useState([]);
 
@@ -148,10 +148,10 @@ function Invoices() {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <SentInvoices invoices={sentInvoices} />
+              <SentInvoices invoices={sentInvoices} loading={loading} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <ReceivedInvoices invoices={receivedInvoices} />
+              <ReceivedInvoices invoices={receivedInvoices}  loading={loading}/>
             </TabPanel> 
         </Stack>
       </Container>

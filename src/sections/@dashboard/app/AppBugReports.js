@@ -48,17 +48,22 @@ const FETCH_BALANCE_INTERVAL = 25000;
 export default function AppBugReports() {
   const {user} = useMoralis();
   const supweb3Context = React.useContext(SuperfluidWeb3Context);
-  const { listOutFlows, totalStreams, flow, getUSDCXBalance } = supweb3Context; 
+  const { listOutFlows, totalStreams, flow, getUSDCXBalance,getfDAIxBalance } = supweb3Context; 
 
 
   const [balance, setBalance] = useState(0);
+  const [dai, setDai] = useState(0);
   const [netFlow, setNetFlow] = useState(0);
   const [childrenLoading, setChildrenLoading] = useState(false);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const updateBalance = () => {
     getUSDCXBalance(provider, user?.attributes?.ethAddress).then((value) => {
+      console.log(value,"value");
       setBalance(parseFloat(value));
+    });
+    getfDAIxBalance(provider, user?.attributes?.ethAddress).then((value) => { 
+      setDai(parseFloat(value));
     });
   };
 
@@ -80,10 +85,11 @@ export default function AppBugReports() {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="ic:twotone-unsubscribe" width={24} height={24} />
+        <Iconify icon="icon-park-solid:transaction" width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3" color="#000">
-        <AnimatedBalance value={balance} rate={netFlow}/> 
+        <AnimatedBalance value={balance} rate={netFlow} title="fUSDCX"/> 
+        <AnimatedBalance value={dai} rate={netFlow} title="fDAIx"/> 
       </Typography>
       <Typography variant="subtitle2" color="#000" sx={{ opacity: 0.72 }}>
         Total Streams

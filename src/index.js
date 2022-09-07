@@ -24,11 +24,13 @@ import { SuperfluidContextProvider } from "./context/SuperFluideContext";
 import { InvoiceContextProvider } from "./context/CreateInvoiceContext";
 import { AgreementContextProvider } from "./context/AgreementContext";
 import { Web3ContextProvider } from "./context/Web3Context";
+import { ToastContainer } from "react-toastify";
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={makeStore()}>
+    <ToastContainer />
       <BrowserRouter>
         <MoralisProvider
           appId={process.env.REACT_APP_MORALIS_KEY}

@@ -75,7 +75,7 @@ export default function LendingHeader() {
 
   return (
     <AppBar position="static" color="transparent">
-      <Container maxWidth="lg">
+      <Container  sx={{ maxWidth: { lg: 'lg', xl: 'xl', xxl: 'xxl' } }}>
         <Toolbar disableGutters>
           <Logo />
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>

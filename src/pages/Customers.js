@@ -26,14 +26,12 @@ import CopyAddress from "src/utils/Copy";
  
 
 function Customers() { 
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [isLoaded, setIsLoaded] = React.useState(false); 
+  const [open, setOpen] = React.useState(false);  
 
   const [isUpdated, setIsUpdated] = useState(false);
 
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { getCustomers, customers } = firebaseContext;
+  const { getCustomers, customers ,loading} = firebaseContext;
  
 
   useEffect(async () => {
@@ -89,21 +87,21 @@ function Customers() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {isLoaded && (
+                  {loading && (
                     <TableRow>
-                      <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                      <TableCell colSpan={6} sx={{ textAlign: "center" }}>
                         <CircularProgress />
                       </TableCell>
                     </TableRow>
                   )}
-                  {customers && customers.length == 0 && (
+                  {loading == false && customers && customers.length == 0 && (
                     <TableRow>
                       <TableCell colSpan={6} sx={{ textAlign: "center" }}>
                         <h5>No customers are added yet!</h5>
                       </TableCell>
                     </TableRow>
                   )}
-                  {customers &&
+                  {loading == false && customers &&
                     customers.map((customer) => (
                       <TableRow key={customer.id}>
                         <TableCell>{customer.name}</TableCell>

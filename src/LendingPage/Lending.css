@@ -223,18 +223,12 @@ main {
   vertical-align: middle;
 }
 
-#footer {
-  background-color: #f7f7f7;
-  align-items: left; 
-  margin-bottom: 0px; 
-  display: flex;
-  justify-content: space-between;
-  height: 60px;
-  padding: "10px";
-  text-align: center;
-  font-family: "Roboto Condensed";
-
-  letter-spacing: 3px;
+.footer {
+  background-color: #f7f7f7; 
+  /* height: 60px; */
+  padding: "10px" !important;
+  text-align: center; 
+  width: 100%;
 }
 .madewith {
   display: flex;

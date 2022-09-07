@@ -36,12 +36,12 @@ export default function Slider() {
               key={obj.id}
               className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
             >
-              <Box component="img" src={`/images/landing${index + 1}.jpg`} sx={{height:'400px'}} />
-              <Typography sx={{marginLeft:2,color:'#25353D'}} gutterBottom variant="h4" component="div">
+              <Box component="img" src={`/images/landing${index + 1}.jpg`} sx={{ height: '400px' }} />
+              <Typography sx={{ marginLeft: 2, color: '#25353D' }} gutterBottom variant="h4" component="div">
                 {obj.title}
               </Typography>
-              <Divider sx={{m:1}} /> 
-              <Typography sx={{marginLeft:2}} variant="body1" color="#8C9498">
+              <Divider sx={{ m: 1 }} />
+              <Typography sx={{ marginLeft: 2 }} variant="body1" color="#8C9498">
                 {obj.subTitle}
               </Typography>
             </div>
@@ -52,6 +52,7 @@ export default function Slider() {
         <div className="container-dots">
           {Array.from({ length: 4 }).map((item, index) => (
             <div
+              key={index}
               onClick={() => moveDot(index + 1)}
               className={slideIndex === index + 1 ? "dot active" : "dot"}
             ></div>
