@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 
 const AnimateBalance = ({ value, rate, timeout = 100, decimalPlaces = 7 }) => {
@@ -13,7 +14,7 @@ const AnimateBalance = ({ value, rate, timeout = 100, decimalPlaces = 7 }) => {
       clearInterval(id);
     };
   }, [value, rate]);
-  return <p>{valueShow.toFixed(decimalPlaces)}</p>;
+  return  <Typography variant="h3" color="#000">{valueShow.toFixed(decimalPlaces)}</Typography> ;
 };
 
 export default AnimateBalance;
