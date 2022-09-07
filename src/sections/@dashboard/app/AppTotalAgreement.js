@@ -96,8 +96,8 @@ export default function AppTotalAgreement() {
       <IconWrapperStyle>
         <Iconify icon="icon-park-outline:agreement" width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3" color="#000">
-        {contractAddressList === null ? 0 : contractAddressList.length}
+      <Typography variant="body1" color="#000">
+       <span style={{fontWeight:900,fontSize:'16px'}}> {contractAddressList === null ? 0 : contractAddressList.length}</span>
       </Typography>
       <Typography variant="subtitle2" color="#000" sx={{ opacity: 0.72 }}>
         Escrow Agreements

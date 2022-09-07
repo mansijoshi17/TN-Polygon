@@ -110,7 +110,7 @@ function ReceivedPayments() {
                   )}
 
                   {isLoaded == false && inFlows &&
-                    inFlows.map((flow) => {
+                    inFlows.map((flow) => { 
                       return (
                         <TableRow key={flow.id}>
                           <TableCell className="d-flex ">

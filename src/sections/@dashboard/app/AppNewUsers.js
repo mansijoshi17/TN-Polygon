@@ -75,8 +75,8 @@ export default function AppNewUsers() {
       <IconWrapperStyle>
         <Iconify icon="ant-design:transaction-outlined" width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="body1" color="#000">Send <span style={{fontWeight:900, fontSize:'24px'}}>{sentInvoices.length}</span></Typography>
-      <Typography variant="body1" color="#000">Received <span style={{fontWeight:900, fontSize:'24px'}}>{receivedInvoices.length}</span></Typography> 
+      <Typography variant="body1" color="#000"> <span style={{fontWeight:900, fontSize:'16px'}}>{sentInvoices.length}</span>{" "} Send</Typography>
+      <Typography variant="body1" color="#000"> <span style={{fontWeight:900, fontSize:'16px'}}>{receivedInvoices.length}</span> {" "} Received</Typography> 
       <Typography variant="subtitle2" color="#000" sx={{ opacity: 0.72 }}>
          Invoices
       </Typography>
