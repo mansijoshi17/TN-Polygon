@@ -51,21 +51,22 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function ReceivedPayments() { 
-
+function ReceivedPayments() {
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { payments } = firebaseContext;
+  const { getPayments, payments } = firebaseContext;
 
   const superfluidContext = React.useContext(SuperfluidContext);
-  const { listInFlows, sf, isUpdatedctx, inFlows ,isLoaded} = superfluidContext;
+  const { listInFlows, sf, isUpdatedctx, inFlows, isLoaded } =
+    superfluidContext;
 
-  useEffect( () => {
+  useEffect(() => {
     getData();
-  }, [sf, isUpdatedctx]);
+  }, [sf, isUpdatedctx, payments.length]);
 
-  async function getData(){
-    if (sf) { 
-    await  listInFlows();
+  async function getData() {
+    if (sf) {
+      await getPayments();
+      await listInFlows();
     }
   }
 
@@ -108,7 +109,7 @@ function ReceivedPayments() {
                         <CircularProgress />
                       </TableCell>
                     </TableRow>
-                  )} 
+                  )}
                   {isLoaded == false && inFlows && inFlows.length == 0 && (
                     <TableRow>
                       <TableCell colSpan={3} sx={{ textAlign: "center" }}>
@@ -117,8 +118,9 @@ function ReceivedPayments() {
                     </TableRow>
                   )}
 
-                  {isLoaded == false && inFlows &&
-                    inFlows.map((flow) => { 
+                  {isLoaded == false &&
+                    inFlows &&
+                    inFlows.map((flow) => {
                       return (
                         <TableRow key={flow.id}>
                           <TableCell className="d-flex ">
@@ -137,7 +139,11 @@ function ReceivedPayments() {
                             <CopyAddress address={flow.sender} />
                           </TableCell>
                           <TableCell>
-                            <FlowingStream streamData={flow} />
+                            {flow.period == "One Time" ? (
+                              ""
+                            ) : (
+                              <FlowingStream streamData={flow} />
+                            )}
                           </TableCell>
                           <TableCell>
                             {flow.amount}/{flow.period}

@@ -32,6 +32,8 @@ import Page from "../../components/Page";
 import CreateRecurringPayments from "src/modal/CreateRecurringPayments"; 
 import { FlowingStream } from "../../components/FlowingStream";
 
+import { firebaseDataContext } from "../../context/FirebaseDataContext";
+
 import { SuperfluidContext } from "../../context/SuperFluideContext"; 
 import { shortAddress } from "src/utils/formatNumber"; 
 import CopyAddress from "src/utils/Copy";
@@ -88,6 +90,9 @@ function SentPayments() {
 
   const [isUpdated, setIsUpdated] = useState(false); 
 
+  const firebaseContext = React.useContext(firebaseDataContext);
+  const {getPayments, payments } = firebaseContext;
+
   const superfluidContext = React.useContext(SuperfluidContext);
   const { listOutFlows, sf, isUpdatedctx, outFlows, deleteFlow, updateStream ,isLoaded} =
     superfluidContext;
@@ -95,13 +100,20 @@ function SentPayments() {
  
   useEffect( () => {
     getData();
-  }, [sf, isUpdatedctx]);
+  }, [sf, isUpdatedctx, payments.length]);
 
   async function getData(){
     if (sf) { 
+      await getPayments();
      await listOutFlows();
     }
-  } 
+  };
+
+
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -180,26 +192,44 @@ function SentPayments() {
                           <CopyAddress address={flow.receiver}/>
                         </TableCell>  
                           <TableCell>
-                            <FlowingStream streamData={flow} />
+                            {flow.period == "One Time" ? (
+                              ""
+                            ) : (
+                              <FlowingStream streamData={flow} />
+                            )}
                           </TableCell>
                           <TableCell>
                             {flow.amount}/{flow.period}
                           </TableCell>
                           <TableCell className="d-flex">
-                            <div style={{ cursor: "pointer", margin:'0 10px' }}
-                              onClick={() => {
-                                setOpenUpdate(true);
-                                setAmountVal(flow.amount);
-                                setFlow(flow);
-                              }}>
-                              {getIcon("uil:edit")}
-                            </div>
-                            <div
-                              style={{ cursor: "pointer" ,margin:'0 10px'}}
-                              onClick={() => deleteFlow(flow)}
-                            >
-                              {getIcon("uil:trash")}
-                            </div>
+                            {flow.period == "One Time" ? (
+                              ""
+                            ) : (
+                              <>
+                                <div
+                                  style={{
+                                    cursor: "pointer",
+                                    margin: "0 10px",
+                                  }}
+                                  onClick={() => {
+                                    setOpenUpdate(true);
+                                    setAmountVal(flow.amount);
+                                    setFlow(flow);
+                                  }}
+                                >
+                                  {getIcon("uil:edit")}
+                                </div>
+                                <div
+                                  style={{
+                                    cursor: "pointer",
+                                    margin: "0 10px",
+                                  }}
+                                  onClick={() => deleteFlow(flow)}
+                                >
+                                  {getIcon("uil:trash")}
+                                </div>
+                              </>
+                            )}
                           </TableCell>
 
                         </TableRow>

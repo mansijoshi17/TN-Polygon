@@ -4,7 +4,6 @@ import { useMoralis } from "react-moralis";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
 
-
 import BigNumber from "bignumber.js";
 
 import { firebaseDataContext } from "./FirebaseDataContext";
@@ -20,6 +19,7 @@ import {
   deleteDoc,
   updateDoc,
 } from "../firebase";
+import { toast } from "react-toastify";
 
 export const SuperfluidContext = createContext(undefined);
 
@@ -30,7 +30,7 @@ export const SuperfluidContextProvider = (props) => {
   const [signer, setSigner] = useState();
   const [chain, setChain] = useState();
   const [isUpdatedctx, setIsUpdated] = useState(false);
-  const [ isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [inFlows, setInFlows] = useState([]);
   const [outFlows, setOutFlows] = useState([]);
@@ -67,61 +67,95 @@ export const SuperfluidContextProvider = (props) => {
     }
   }
 
+  function calFlowRateForHour(amt) {
+    if (typeof Number(amt) !== "number" || isNaN(Number(amt)) === true) {
+      throw new Error("calculate a flowRate based on a number");
+    } else if (typeof Number(amt) === "number") {
+      const monthlyAmount = ethers.utils.parseEther(amt.toString());
+
+      const calculatedFlowRate = Math.floor(monthlyAmount / 60 / 60);
+      return calculatedFlowRate;
+    }
+  }
+
   function getSeconds(dateValue) {
-    0 - 9
+    0 - 9;
     const date = new Date(dateValue.toString());
     const seconds = Math.floor(date.getTime() / 1000);
     return seconds;
   }
   let flowRate;
   async function createStream(stream) {
-    if (stream.period == "Month") {
-      flowRate = calFlowRate(stream.amount, 30);
-    } else if (stream.period == "Year") {
-      flowRate = calFlowRate(stream.amount, 365);
-    } else {
-      flowRate = calFlowRate(stream.amount, 7);
-    }
-
-    try {
-      const createFlowOperation = sf.cfaV1.createFlow({
-        receiver: stream.customerAdd,
-        flowRate: flowRate,
+    if (stream.period == "One Time") {
+      const id = Math.floor(Math.random() * 1000000000);
+      await oneTimePayment({
+        index: id,
+        subscriber: stream.customerAdd,
+        units: 1,
+        amount: stream.amount,
         superToken: stream.token,
-        // userData?: string
+        chain: stream.chain,
+        period: stream.period,
       });
-
-
-      const result = await createFlowOperation.exec(signer);
-
-      if (result) {
-        const docRef = await addDoc(collection(db, "payments"), {
-          customerAddress: stream.customerAdd,
-          sender: user?.attributes?.ethAddress,
-          token: stream.token,
-          chain: stream.chain,
-          amount: stream.amount,
-          period: stream.period,
-        });
-        await getPayments();
-        await listOutFlows();
-        setIsUpdated(!isUpdatedctx);
+    } else {
+      if (stream.period == "Monthly") {
+        flowRate = calFlowRate(stream.amount, 30);
+      } else if (stream.period == "Yearly") {
+        flowRate = calFlowRate(stream.amount, 365);
+      } else if (stream.period == "Weekly") {
+        flowRate = calFlowRate(stream.amount, 7);
+      } else if (stream.period == "Daily") {
+        flowRate = calFlowRate(stream.amount, 1);
+      } else {
+        flowRate = calFlowRateForHour(stream.amount);
       }
 
-      return result;
-    } catch (error) {
-      console.log(error);
+      try {
+        const createFlowOperation = sf.cfaV1.createFlow({
+          receiver: stream.customerAdd,
+          flowRate: flowRate,
+          superToken: stream.token,
+          // userData?: string
+        });
+
+        const createTransaction = await createFlowOperation.exec(signer);
+        const txc = await createTransaction.wait();
+
+        if (txc) {
+          const docRef = await addDoc(collection(db, "payments"), {
+            customerAddress: stream.customerAdd,
+            sender: user?.attributes?.ethAddress,
+            token: stream.token,
+            chain: stream.chain,
+            amount: stream.amount,
+            period: stream.period,
+          });
+          toast.success("Successfully created recurring payment!");
+          await getPayments();
+          await listOutFlows();
+          setIsUpdated(!isUpdatedctx);
+        }
+
+        return txc;
+      } catch (error) {
+        toast.error("Something went wrong!");
+        console.log(error);
+      }
     }
   }
 
   async function updateStream(stream, newAmount) {
     let flowRate;
-    if (stream.period == "Month") {
+    if (stream.period == "Monthly") {
       flowRate = calFlowRate(newAmount, 30);
-    } else if (stream.period == "Year") {
+    } else if (stream.period == "Yearly") {
       flowRate = calFlowRate(newAmount, 365);
-    } else {
+    } else if (stream.period == "Weekly") {
       flowRate = calFlowRate(newAmount, 7);
+    } else if (stream.period == "Daily") {
+      flowRate = calFlowRate(newAmount, 1);
+    } else {
+      flowRate = calFlowRateForHour(newAmount);
     }
 
     try {
@@ -132,7 +166,6 @@ export const SuperfluidContextProvider = (props) => {
         // userData?: string
       });
 
-
       const updateTransaction = await updateFlowOperation.exec(signer);
       const txu = await updateTransaction.wait();
 
@@ -141,14 +174,16 @@ export const SuperfluidContextProvider = (props) => {
         await updateDoc(docRef, {
           amount: newAmount,
         });
+        toast.success("Successfully updated recurring payment!");
         await getPayments();
         await listOutFlows();
         setIsUpdated(!isUpdatedctx);
       }
 
-      return result;
+      return txu;
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong!");
     }
   }
 
@@ -157,8 +192,13 @@ export const SuperfluidContextProvider = (props) => {
     return stream.toFixed(2);
   }
 
+  function calculateHourStream(flowRate) {
+    const stream = new BigNumber(flowRate * (60 * 60)).shiftedBy(-18);
+    return stream.toFixed(2);
+  }
+
   async function listOutFlows() {
-    setIsLoaded(true)
+    setIsLoaded(true);
     try {
       let outFlow = [];
 
@@ -178,14 +218,19 @@ export const SuperfluidContextProvider = (props) => {
             token: payment.token,
           });
 
-
           let amount;
-          if (payment.period == "Month") {
+          if (payment.period == "Monthly") {
             amount = calculateStream(getFlowOperation.flowRate, 30);
-          } else if (payment.period == "Year") {
+          } else if (payment.period == "Yearly") {
             amount = calculateStream(getFlowOperation.flowRate, 365);
-          } else {
+          } else if (payment.period == "Weekly") {
             amount = calculateStream(getFlowOperation.flowRate, 7);
+          } else if (payment.period == "Daily") {
+            amount = calculateStream(getFlowOperation.flowRate, 1);
+          } else if (payment.period == "One Time") {
+            amount = payment.amount;
+          } else {
+            amount = calculateHourStream(getFlowOperation.flowRate);
           }
 
           obj = {
@@ -205,17 +250,17 @@ export const SuperfluidContextProvider = (props) => {
         }
       }
       setOutFlows(outFlow);
-      setIsLoaded(false)
+      setIsLoaded(false);
     } catch (error) {
       console.log(error);
-      setIsLoaded(false)
+      setIsLoaded(false);
     }
   }
 
   async function listInFlows() {
-    setIsLoaded(true)
+    setIsLoaded(true);
+    let inFlow = [];
     try {
-      let inFlow = []; 
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
 
@@ -235,12 +280,18 @@ export const SuperfluidContextProvider = (props) => {
             token: payment.token,
           });
           let amount;
-          if (payment.period == "Month") {
+          if (payment.period == "Monthly") {
             amount = calculateStream(getFlowOperation.flowRate, 30);
-          } else if (payment.period == "Year") {
+          } else if (payment.period == "Yearly") {
             amount = calculateStream(getFlowOperation.flowRate, 365);
-          } else {
+          } else if (payment.period == "Weekly") {
             amount = calculateStream(getFlowOperation.flowRate, 7);
+          } else if (payment.period == "Daily") {
+            amount = calculateStream(getFlowOperation.flowRate, 1);
+          } else if (payment.period == "One Time") {
+            amount = payment.amount;
+          } else {
+            amount = calculateHourStream(getFlowOperation.flowRate);
           }
 
           obj = {
@@ -258,12 +309,12 @@ export const SuperfluidContextProvider = (props) => {
         } else {
           console.log("No incoming streams");
         }
+        setInFlows(inFlow);
+        setIsLoaded(false);
       }
-      setInFlows(inFlow);
-      setIsLoaded(false)
     } catch (error) {
       console.log(error);
-      setIsLoaded(false)
+      setIsLoaded(false);
     }
   }
 
@@ -275,23 +326,85 @@ export const SuperfluidContextProvider = (props) => {
         superToken: streamData.token,
         // userData?: string
       });
-      let result = await deleteFlowOperation.exec(signer);
-      if (result) {
+
+      let deleteTransaction = await deleteFlowOperation.exec(signer);
+
+      let txd = await deleteTransaction.wait();
+      if (txd) {
         const docRef = doc(db, "payments", streamData?.id?.toString());
 
         deleteDoc(docRef)
-          .then(() => {
+          .then(async () => {
+            toast.success("Successfully deleted payment!!");
+            setIsUpdated(!isUpdatedctx);
+            await getPayments();
+            await listOutFlows();
             console.log("Entire Document has been deleted successfully.");
           })
           .catch((error) => {
+            toast.error("Something went wrong!");
             console.log(error);
           });
-        setIsUpdated(!isUpdatedctx);
-        await getPayments();
-        await listOutFlows();
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.log(error);
+    }
+  }
+
+  async function oneTimePayment(formData) {
+    try {
+      // Create Index
+      const createIndexOperation = sf.idaV1.createIndex({
+        indexId: formData.index,
+        superToken: formData.superToken,
+      });
+
+      let transactionCreateIndex = await createIndexOperation.exec(signer);
+      let txci = await transactionCreateIndex.wait();
+
+      if (txci) {
+        // update subscriber
+        const updateSubscriptionOperation = sf.idaV1.updateSubscriptionUnits({
+          indexId: formData.index,
+          superToken: formData.superToken,
+          subscriber: formData.subscriber,
+          units: formData.units,
+        });
+
+        let transactionUpdateSubscriber =
+          await updateSubscriptionOperation.exec(signer);
+        let txus = await transactionUpdateSubscriber.wait();
+        if (txus) {
+          const distributeOperation = sf.idaV1.distribute({
+            indexId: formData.index,
+            superToken: formData.superToken,
+            amount: ethers.utils
+              .parseUnits(formData.amount.toString(), "ether")
+              .toString(),
+            // userData?: string
+          });
+          let transactionDistribute = await distributeOperation.exec(signer);
+          let txd = await transactionDistribute.wait();
+          if (txd) {
+            const docRef = await addDoc(collection(db, "payments"), {
+              customerAddress: formData.subscriber,
+              sender: user?.attributes?.ethAddress,
+              token: formData.superToken,
+              chain: formData.chain,
+              amount: formData.amount,
+              period: formData.period,
+            });
+            toast.success("One Time payment Created successfully");
+            await getPayments();
+            await listOutFlows();
+            setIsUpdated(!isUpdatedctx);
+          }
+        }
       }
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong!");
     }
   }
 
@@ -307,7 +420,7 @@ export const SuperfluidContextProvider = (props) => {
         isUpdatedctx,
         outFlows,
         inFlows,
-        isLoaded
+        isLoaded,
       }}
       {...props}
     >
