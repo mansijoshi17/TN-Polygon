@@ -7,21 +7,6 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const sidebarConfig = [
   {
-    title: "Escrow Agreements",
-    path: "/dashboard/agreement",
-    icon: getIcon("icon-park-outline:agreement"),
-  },
-  {
-    title: "Customers",
-    path: "/dashboard/customers",
-    icon: getIcon("eva:people-fill"),
-  },
-  {
-    title: "Invoice",
-    path: "/dashboard/invoice",
-    icon: getIcon("uil:invoice"),
-  },
-  {
     title: "Payments",
     path: "/dashboard/payments",
     icon: getIcon("fluent:wallet-credit-card-24-filled"),
@@ -38,6 +23,21 @@ const sidebarConfig = [
       }, 
     ], 
   },
+  {
+    title: "Invoice",
+    path: "/dashboard/invoice",
+    icon: getIcon("uil:invoice"),
+  },
+  {
+    title: "Escrow",
+    path: "/dashboard/agreement",
+    icon: getIcon("icon-park-outline:agreement"),
+  },
+  {
+    title: "Customers",
+    path: "/dashboard/customers",
+    icon: getIcon("eva:people-fill"),
+  }, 
   {
     title: "Analytics",
     path: "/dashboard/app",
