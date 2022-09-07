@@ -116,8 +116,8 @@ function SentPayments() {
       await getPayments();
       listOutFlows();
     }
-  }, [sf, isUpdatedctx]);
- 
+  }, [sf, isUpdatedctx, payments.length]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -209,28 +209,44 @@ function SentPayments() {
                             <CopyAddress address={flow.receiver} />
                           </TableCell>
                           <TableCell>
-                            <FlowingStream streamData={flow} />
+                            {flow.period == "One Time" ? (
+                              ""
+                            ) : (
+                              <FlowingStream streamData={flow} />
+                            )}
                           </TableCell>
                           <TableCell>
                             {flow.amount}/{flow.period}
                           </TableCell>
                           <TableCell className="d-flex">
-                            <div
-                              style={{ cursor: "pointer", margin: "0 10px" }}
-                              onClick={() => {
-                                setOpenUpdate(true);
-                                setAmountVal(flow.amount);
-                                setFlow(flow);
-                              }}
-                            >
-                              {getIcon("uil:edit")}
-                            </div>
-                            <div
-                              style={{ cursor: "pointer", margin: "0 10px" }}
-                              onClick={() => deleteFlow(flow)}
-                            >
-                              {getIcon("uil:trash")}
-                            </div>
+                            {flow.period == "One Time" ? (
+                              ""
+                            ) : (
+                              <>
+                                <div
+                                  style={{
+                                    cursor: "pointer",
+                                    margin: "0 10px",
+                                  }}
+                                  onClick={() => {
+                                    setOpenUpdate(true);
+                                    setAmountVal(flow.amount);
+                                    setFlow(flow);
+                                  }}
+                                >
+                                  {getIcon("uil:edit")}
+                                </div>
+                                <div
+                                  style={{
+                                    cursor: "pointer",
+                                    margin: "0 10px",
+                                  }}
+                                  onClick={() => deleteFlow(flow)}
+                                >
+                                  {getIcon("uil:trash")}
+                                </div>
+                              </>
+                            )}
                           </TableCell>
                         </TableRow>
                       );

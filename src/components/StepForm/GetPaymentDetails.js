@@ -1,19 +1,19 @@
-import { 
-  FormControl, 
+import {
+  FormControl,
   InputLabel,
-  MenuItem, 
+  MenuItem,
   Select,
-  Stack, 
-  TextField, 
+  Stack,
+  TextField,
 } from "@mui/material";
-import React, { useContext } from "react"; 
+import React, { useContext } from "react";
 import { MoneyStreamingContext } from "src/context/CreateMoneyStreamContext";
 
 function GetPaymentDetails() {
   const value = useContext(MoneyStreamingContext);
   const formdata = value.labelInfo.formData;
 
-  const time = ["Hourly","Daily","Weekly","Monthly","Yearly" ];
+  const time = ["Hourly", "Daily", "Weekly", "Monthly", "Yearly", "One Time"];
 
   return (
     <div>
@@ -42,7 +42,7 @@ function GetPaymentDetails() {
                 return <MenuItem value={t}>{t}</MenuItem>;
               })}
           </Select>
-        </FormControl>  
+        </FormControl>
       </Stack>
     </div>
   );

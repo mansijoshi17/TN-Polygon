@@ -129,7 +129,11 @@ function ReceivedPayments() {
                             <CopyAddress address={flow.sender} />
                           </TableCell>
                           <TableCell>
-                            <FlowingStream streamData={flow} />
+                            {flow.period == "One Time" ? (
+                              ""
+                            ) : (
+                              <FlowingStream streamData={flow} />
+                            )}
                           </TableCell>
                           <TableCell>
                             {flow.amount}/{flow.period}
