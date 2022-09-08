@@ -48,7 +48,7 @@ function Customers() {
 
 
   return (
-    <Page title="Customer |  TrustifiedNetwork">
+    <Page title="Customer |  Trustified">
       <CreateCustomerModal
         open={handleClickOpen}
         close={handleClose}

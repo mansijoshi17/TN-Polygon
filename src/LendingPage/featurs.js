@@ -44,11 +44,11 @@ const featureList = [
 
 function Featurs() {
     return (
-        <Box className='container bg-color-feature ' sx={{ marginTop: { xs: "1rem", sm: "2rem", md: '3rem', lg: '4rem' } }}>
+        <Box className='container bg-color-feature ' sx={{ marginTop: { xs: "1rem", sm: "2rem", md: '3rem', lg: '4rem' } , paddingBottom:{xs:'30px',sm:'30px'}}}>
 
             <div className="row">
                 <div className='col  text-center' >
-                    <Typography style={{ margin: '3rem 0' }} variant="h3" sx={{ color: '#fff' }} gutterBottom>
+                    <Typography sx={{ margin: {xs: '2rem 0',sm: '2rem 0',md: '3rem 0',lg: '3rem 0'} ,color: '#fff' }} variant="h3"  gutterBottom>
                         Benifits of choosing Trustified
                     </Typography>
                 </div>

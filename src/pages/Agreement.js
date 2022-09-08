@@ -109,7 +109,7 @@ function Agreement() {
   };
 
   return (
-    <Page title="Agreement |  Trustified Network">
+    <Page title="Agreement |  Trustified">
       {/* <CreateAgreementModal
         submitForm={createAgreement}
         open={handleClickOpen}

@@ -82,7 +82,7 @@ const {user}= useMoralis();
 
             </Box>
             <Featurs />
-            <Box className="container" sx={{ marginTop: { xs: "1rem", sm: "2rem", md: '3rem', lg: '4rem' } }}>
+            <Box className="container" sx={{ marginTop: { xs: "2rem", sm: "2rem", md: '3rem', lg: '4rem' } }}>
                 <div className="row"  >
                     <div className='col  text-center' >
                         <Typography variant="h3" sx={{ color: '#25353D' }} gutterBottom>
@@ -161,8 +161,8 @@ const {user}= useMoralis();
                 </div>
             </Box>
 
-            <Box className="container" sx={{ margin: { xs: "1rem 0", sm: "2rem 0", md: '3rem 0', lg: '4rem 0' } }}>
-                <div className="row justify-content-between"   >
+            <Box className="container" sx={{ margin: { xs: " 0", sm: "2rem 0", md: '3rem 0', lg: '4rem 0' } }}>
+                <div className="row justify-content-between mb-4"   >
                     <div className='col-12 col-sm-6  col-md-6 col-lg-6 mt-5 row-width' >
                         <Box >
                             <Typography variant="h2" sx={{ color: '#25353D' }} gutterBottom>

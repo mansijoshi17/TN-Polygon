@@ -106,7 +106,7 @@ function Invoices() {
   };
 
   return (
-    <Page title="Invoice |  TrustifiedNetwork">
+    <Page title="Invoice |  Trustified">
       <CreateInvoiceModal
         open={handleClickOpen}
         close={handleClose}

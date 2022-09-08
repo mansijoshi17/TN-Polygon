@@ -200,8 +200,7 @@ export const SuperfluidContextProvider = (props) => {
   async function listOutFlows() {
     setIsLoaded(true);
     try {
-      let outFlow = [];
-
+      let outFlow = []; 
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
         if (payment.sender.toLowerCase() == user?.attributes?.ethAddress) {
@@ -259,7 +258,7 @@ export const SuperfluidContextProvider = (props) => {
 
   async function listInFlows() {
     setIsLoaded(true);
-    let inFlow = [];
+    let inFlow = []; 
     try {
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
@@ -305,13 +304,13 @@ export const SuperfluidContextProvider = (props) => {
             currentFlowRate: flowData?.data[0]?.currentFlowRate,
             token: payment.token,
           };
-          inFlow.push(obj);
+          inFlow.push(obj); 
         } else {
           console.log("No incoming streams");
-        }
-        setInFlows(inFlow);
-        setIsLoaded(false);
+        }  
       }
+      setInFlows(inFlow);
+      setIsLoaded(false);
     } catch (error) {
       console.log(error);
       setIsLoaded(false);

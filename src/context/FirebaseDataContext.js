@@ -49,6 +49,7 @@ export const FirebaseDataContextProvider = (props) => {
 
   useEffect(()=>{
     getPayments();
+    getInvoices();
   },[])
 
   async function getPayments() {

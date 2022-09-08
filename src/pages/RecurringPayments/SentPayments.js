@@ -76,6 +76,13 @@ const RootStyle = styled(Page)(({ theme }) => ({
     display: "flex",
   },
 }));
+
+
+const superTokens={
+  MATICx: "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4",
+  fDAIx: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+  fUSDC: "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2",
+};
  
 
 function SentPayments() {
@@ -105,11 +112,10 @@ function SentPayments() {
   async function getData(){
     if (sf) { 
       await getPayments();
-     await listOutFlows();
+      await  listOutFlows();
     }
   };
-
-
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -122,10 +128,11 @@ function SentPayments() {
   const handleClose = () => {
     setOpen(false);
   };
+ 
 
   const getIcon = (name) => <Iconify icon={name} width={22} height={22} />; 
   return (
-    <Page title="Recurring Payment |  TrustifiedNetwork">
+    <Page title="Recurring Payment |  Trustified">
       <CreateRecurringPayments
         open={handleClickOpen}
         close={handleClose}
@@ -192,9 +199,7 @@ function SentPayments() {
                           <CopyAddress address={flow.receiver}/>
                         </TableCell>  
                           <TableCell>
-                            {flow.period == "One Time" ? (
-                              ""
-                            ) : (
+                            {flow.period == "One Time" ? <span>{flow.amount} {" "} <span className="text-primary">{superTokens.fDAIx == flow.token && "fDAIx" || superTokens.MATICx == flow.token && "MATICx" || superTokens.fUSDC == flow.token && "fUSDC" }</span> </span> : (
                               <FlowingStream streamData={flow} />
                             )}
                           </TableCell>
@@ -203,7 +208,24 @@ function SentPayments() {
                           </TableCell>
                           <TableCell className="d-flex">
                             {flow.period == "One Time" ? (
-                              ""
+                              <>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  margin: "0 10px",
+                                }} 
+                              >
+                                {getIcon("uil:edit")}
+                              </div>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  margin: "0 10px",
+                                }} 
+                              >
+                                {getIcon("uil:trash")}
+                              </div>
+                            </>
                             ) : (
                               <>
                                 <div

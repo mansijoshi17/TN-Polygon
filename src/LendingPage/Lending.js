@@ -99,7 +99,7 @@ export default function Lending() {
           <div className="col-12  ">
             <p className="network pt-4">
               Benifits of choosing
-              <span style={{ color: "black" }}> Trustified Network</span>
+              <span style={{ color: "black" }}> Trustified </span>
               <span>?</span>
             </p>
           </div>

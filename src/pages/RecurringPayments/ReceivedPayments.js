@@ -53,7 +53,7 @@ TabPanel.propTypes = {
 
 function ReceivedPayments() {
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { getPayments, payments } = firebaseContext;
+  const {getPayments, payments } = firebaseContext;
 
   const superfluidContext = React.useContext(SuperfluidContext);
   const { listInFlows, sf, isUpdatedctx, inFlows, isLoaded } =
@@ -61,14 +61,14 @@ function ReceivedPayments() {
 
   useEffect(() => {
     getData();
-  }, [sf, isUpdatedctx, payments.length]);
+  }, [sf, isUpdatedctx,payments.length]);
 
-  async function getData() {
-    if (sf) {
+ async function getData() {
+    if (sf) { 
       await getPayments();
       await listInFlows();
     }
-  }
+  } 
 
   return (
     <Page title="Recurring Payment |  Trustified">
