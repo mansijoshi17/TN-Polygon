@@ -24,21 +24,7 @@ export const InvoiceContextProvider = (props) => {
   const [updated, setUpdated] = useState(false);
 
   const firebaseContext = React.useContext(firebaseDataContext);
-  const { customers } = firebaseContext;
-
-  // window.ethereum.enable();
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const priceFeed = new ethers.Contract(
-    chainLinkPriceFeed,
-    chainlinkABI,
-    signer
-  );
-  const randomNumberCon = new ethers.Contract(
-    RandomNumberGeneratorContract,
-    chainlinkVRFABI.abi,
-    signer
-  );
+  const { customers } = firebaseContext; 
 
   const [labelInfo, setlabelInfo] = useState({
     formData: {
@@ -80,6 +66,21 @@ export const InvoiceContextProvider = (props) => {
       customers &&
       customers.filter((cus) => cus.address == labelInfo.formData.to);
 
+
+  window.ethereum.enable();
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const priceFeed = new ethers.Contract(
+    chainLinkPriceFeed,
+    chainlinkABI,
+    signer
+  );
+  const randomNumberCon = new ethers.Contract(
+    RandomNumberGeneratorContract,
+    chainlinkVRFABI.abi,
+    signer
+  );
+
     await randomNumberCon.getRandomNumber(1000);
     const randNo = await randomNumberCon.getRandom();
 
@@ -106,8 +107,7 @@ export const InvoiceContextProvider = (props) => {
       toast.success("Successfully Invoice created!!");
     } catch (error) {
       console.log(error);
-      setLoading(false);
-
+      setLoading(false); 
       toast.error("Something went wrong!");
     }
   }
