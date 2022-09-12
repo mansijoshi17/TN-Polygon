@@ -12,6 +12,11 @@
   .container-slider { 
     min-height: 450px;
   }
+  .slide img {
+    width: 100%;
+    height: 46% !important;
+    object-fit: cover;
+  }
 }
 .slide {
   width: 100%;

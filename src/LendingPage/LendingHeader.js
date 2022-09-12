@@ -46,7 +46,7 @@ export default function LendingHeader() {
     setAnchorElUser(null);
   };
 
-  useEffect(() => { }, [user]);
+  // useEffect(() => { }, [user]);
 
   const cryptoPayment = () => {
     if (isAuthenticated && user) {
@@ -75,7 +75,7 @@ export default function LendingHeader() {
 
   return (
     <AppBar position="static" color="transparent">
-      <Container  sx={{ maxWidth: { lg: 'lg', xl: 'xl', xxl: 'xxl' } }}>
+      <Container  sx={{ maxWidth: {md:'lg', lg: 'xl', xl: 'xl', xxl: 'xxl' },padding: {md:'0 4%', lg: '0 4%', xl: '0 4%', xxl: '0 4%' } }}>
         <Toolbar disableGutters>
           <Logo />
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
