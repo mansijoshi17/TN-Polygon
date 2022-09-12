@@ -91,7 +91,7 @@ export const SuperfluidContextProvider = (props) => {
       await oneTimePayment({
         index: id,
         subscriber: stream.customerAdd,
-        units: 1,
+        units: 10,
         amount: stream.amount,
         superToken: stream.token,
         chain: stream.chain,
@@ -387,18 +387,30 @@ export const SuperfluidContextProvider = (props) => {
           let transactionDistribute = await distributeOperation.exec(signer);
           let txd = await transactionDistribute.wait();
           if (txd) {
-            const docRef = await addDoc(collection(db, "payments"), {
-              customerAddress: formData.subscriber,
-              sender: user?.attributes?.ethAddress,
-              token: formData.superToken,
-              chain: formData.chain,
-              amount: formData.amount,
-              period: formData.period,
+            const claimOperation = sf.idaV1.claim({
+              indexId: formData.index,
+              superToken: formData.superToken,
+              subscriber: formData.subscriber,
+              publisher: user?.attributes?.ethAddress,
+              // userData?: string
             });
-            toast.success("One Time payment Created successfully");
-            await getPayments();
-            await listOutFlows();
-            setIsUpdated(!isUpdatedctx);
+            let transactionClaim = await claimOperation.exec(signer);
+            let txc = await transactionClaim.wait();
+            if (txc) {
+              const docRef = await addDoc(collection(db, "payments"), {
+                customerAddress: formData.subscriber,
+                sender: user?.attributes?.ethAddress,
+                token: formData.superToken,
+                chain: formData.chain,
+                amount: formData.amount,
+                period: formData.period,
+              });
+
+              toast.success("One Time payment Created successfully");
+              await getPayments();
+              await listOutFlows();
+              setIsUpdated(!isUpdatedctx);
+            }
           }
         }
       }
